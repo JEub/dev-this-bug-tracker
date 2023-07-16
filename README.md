@@ -31,3 +31,36 @@ The client has given us great liberties for the UI portion of this project. The 
 * Ticket Statuses should be: Open, In Progress, Blocked, Need More Info, Closed, Cancelled
 * Tickets should be able to be assigned to users.
 * Ticket owners/workers should be able to move ticket status. 
+
+## Additional Needs
+
+* Sorting and filter by assigned user.
+* Ticket Details! 
+  * Description
+  * Title
+  * Story Points
+  * Group Association
+  * Parents Links (to other tickets)
+  * Date Start
+  * Date Complete
+  * History of assigned users
+  * Time each user worked ticket
+  * Date Created
+  * Who created ticket
+  * Tags
+  * Status
+  * Owners (UI)
+  * Comments (UI)
+* User Deets
+  * Name
+  * Email address
+  * Password
+    * 2 Upper case
+    * 2 Lower case
+    * Minimum Length of 12
+    * 1 Symbol from: `!#^&*._`
+    * 1 Number
+  * Force Password reset (database - First login / password reset)
+  * Groups
+* Temp password created on user creation
+* Allow guests (with valid email addresses) to create tickets in a "guest" group/queue.
