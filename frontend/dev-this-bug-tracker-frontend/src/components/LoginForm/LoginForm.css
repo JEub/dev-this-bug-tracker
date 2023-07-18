@@ -1,12 +1,5 @@
 .authentication-form {
-  display: flex;
-  flex-direction: column;
   width: fit-content;
-}
-
-.authentication-information {
-  display: flex;
-  flex-direction: column;
 }
 
 .authentication-input {
@@ -19,16 +12,6 @@
   margin-left: 20px;
 }
 
-.authentication-input-headers {
-  display: flex;
-  flex-direction: column;
-}
-
-.buttons-section {
-  display: flex;
-  flex-direction: column;
-}
-
 .buttons {
   display: flex;
   margin-top: 25px;
@@ -37,6 +20,7 @@
 .button {
   width: 100px;
   height: 50px;
+  font-size: 14px;
 }
 
 .primary {
@@ -47,9 +31,6 @@
   justify-content: space-around;
 }
 
-h2 {
-  /* border-color: red;
-  border-style: solid;
-  border-width: 2px; */
-  width: 100px;
+.authentication-header {
+    width: 100px;
 }
