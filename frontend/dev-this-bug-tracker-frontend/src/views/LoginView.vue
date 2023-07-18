@@ -2,7 +2,7 @@
 <!-- All of the components needed for this page should just be a login form according to the wireframe -->
 
 <script setup>
-    import LoginForm from '../components/LoginForm/LoginForm.vue';
+import LoginForm from '../components/LoginForm/LoginForm.vue'
 </script>
 
 <template>
