@@ -1,5 +1,15 @@
 <script setup>
-    //functions in separate file to import?
+    import { ref } from 'vue';
+    
+    const title = ref('Title')
+    const description = ref('Description')
+    const storyPoints = ref('Story Points')
+    const ticketStatus = ref('Open')
+    const groups = ref('Groups')
+    const assignedUser = ref('Assigned User')
+    const parentLinks = ref('Parent Links')
+    const ticketTags = ref('Ticket Tags')
+    const ticketComments = ref('Ticket Comments')
 </script>
 
 <template>
@@ -9,10 +19,10 @@
             {# minimum required #}
             <label for="">Title</label>
             {# enter values for editing form #}
-            <input type="text"/>
+            <input v-model="title"/> {{ Title }}
             <label for="">Description</label>
             {# enter values for editing form #}
-            <input type="text"/>
+            <input v-model="description"/> {{ description }}
             <label for="">Story Points / Content</label>
             {# enter values for editing form #}
             <input/>
