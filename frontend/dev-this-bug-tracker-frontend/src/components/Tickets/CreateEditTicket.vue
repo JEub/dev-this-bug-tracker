@@ -18,24 +18,24 @@
         <div>
             <!--minimum required -->
             <div>
-                <label for="">Title: </label>
+                <label for="title">Title: </label>
                 <!-- enter values for editing form -->
-                <input v-model = "title"/> {{ Title }}
+                <input v-model = "title" id="title"/> {{ Title }}
             </div>
             <div>
-                <label for="">Description: </label>
+                <label for="description">Description: </label>
                 <!-- enter values for editing form -->
-                <input v-model = "description"/> 
+                <input v-model = "description" id="description"/> 
             </div>
             <div>
-                <label for="">Content: </label>
+                <label for="content">Content: </label>
                 <!-- enter values for editing form -->
-                <textarea v-model = "storyPoints">{{ storyPoints }}</textarea>
+                <textarea v-model = "storyPoints" id="content">{{ storyPoints }}</textarea>
             </div>
         </div>
         <div>
             <div>
-                <label for="">Ticket Status: </label>
+                <label>Ticket Status: </label>
                 <!-- stored ticket status from db? -->
                 <select v-model = "ticketStatus">
                     {{ ticketStatus }}
@@ -49,7 +49,7 @@
             </div>
             
             <div>
-                <label for="">Groups: </label>
+                <label>Groups: </label>
                 <input type="checkbox" id="retail" value="Retail" v-model="groups">
                 <label for="retail">Retail </label>
                 <input type="checkbox" id="office" value="Office" v-model="groups">
@@ -61,7 +61,7 @@
             </div>
             
             <div>
-                <label for="">Assign A User: </label>
+                <label>Assign A User: </label>
                 <!-- call users from database here. map through values conditionally render each name with new input using map and filter -->
                 <!--<select v-model="assignedUser">
                     <option>Jack</option>
@@ -78,14 +78,14 @@
                 <p>Assigned Users: <pre>{{ assignedUser }}</pre></p>
             </div>
             <div>
-                <label for="">Parent Links: </label>
+                <label for="parentLinks">Parent Links: </label>
                 <!-- link parent tickets with relationship in database -->
-                <textarea v-model = "parentLinks">{{ parentLinks }}</textarea>
+                <textarea v-model = "parentLinks" id="ticketTags">{{ parentLinks }}</textarea>
             </div>
             <div>
-                <label for="">Ticket Tags: </label>
+                <label for="ticketTags">Ticket Tags: </label>
                 <!-- call ticket labels from database -->
-                <textarea v-model = "ticketTags">{{ ticketTags }}</textarea>
+                <textarea v-model = "ticketTags" id="parentLinks">{{ ticketTags }}</textarea>
             </div>
             <div>
                 <label for="ticketComments">Ticket Comments: </label>
