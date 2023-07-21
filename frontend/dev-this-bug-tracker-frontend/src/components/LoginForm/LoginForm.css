@@ -1,0 +1,36 @@
+.authentication-form {
+  width: fit-content;
+}
+
+.authentication-input {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.authentication-input-field {
+  margin-left: 20px;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 25px;
+}
+
+.button {
+  width: 100px;
+  height: 50px;
+  font-size: 14px;
+}
+
+.primary {
+  justify-content: center;
+}
+
+.secondary {
+  justify-content: space-around;
+}
+
+.authentication-header {
+    width: 100px;
+}
