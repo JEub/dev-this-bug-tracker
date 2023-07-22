@@ -12,7 +12,7 @@
         <div class="user-section">
             <h2>Welcome, User</h2>
             <div class="user-section-details">
-                <img />
+                <img src="../../assets/logo.svg"/>
                 <a>Logout</a>
             </div>
         </div>
