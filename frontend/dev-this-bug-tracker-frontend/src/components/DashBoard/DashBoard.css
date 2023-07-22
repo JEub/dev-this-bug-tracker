@@ -1,0 +1,13 @@
+.dashboard-table {
+    margin-top: 25px;
+    width: 100%;
+    /* Temporary Border For Better Visablility */
+    border: 5px solid red;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
