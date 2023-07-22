@@ -10,7 +10,7 @@
             <button>Create User</button>
         </div>
         <div class="user-section">
-            <h2>Welcome, User</h2>
+            <h2 class="username">Welcome, User</h2>
             <div class="user-section-details">
                 <img src="../../assets/logo.svg"/>
                 <a>Logout</a>
