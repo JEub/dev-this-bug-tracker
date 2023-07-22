@@ -4,10 +4,10 @@ import NavBar from '../components/NavBar/NavBar.vue'
 </script>
 
 <template>
-  <nav>
-    <NavBar />
-  </nav>
-  <main>
-    <!-- <TheWelcome /> -->
-  </main>
+
+  <NavBar />
+
+  <!-- <main>
+    <TheWelcome />
+  </main> -->
 </template>

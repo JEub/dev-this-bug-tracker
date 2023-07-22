@@ -18,3 +18,7 @@
         </div>
     </div>
 </template>
+
+<style>
+    @import './NavBar.css';
+</style>
