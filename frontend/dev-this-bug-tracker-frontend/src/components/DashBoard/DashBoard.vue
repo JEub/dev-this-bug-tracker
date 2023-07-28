@@ -11,9 +11,19 @@ const searchTerm = ref('');
 
 <template>
     <div>
+        <div class="dashboard-header">
+            <div>
+                <button>All</button>
+                <button>Mine</button>
+            </div>
+            <div>
+                <input type='text' placeholder="Search" v-model="searchTerm"/>
+                <button>Filter</button>
+            </div>
+        </div>
         <table class="dashboard-table">
-            <tr class="dashboard-header">
-                <div>
+            <tr>
+                <!-- <div>
                     <td>
                         <button>All</button>
                     </td>
@@ -28,7 +38,7 @@ const searchTerm = ref('');
                     <td>
                         <button>Filter</button>
                     </td>
-                </div>
+                </div> -->
             </tr>
             <tr>
                 <td>
@@ -49,7 +59,9 @@ const searchTerm = ref('');
             </tr>
             <tr v-for="ticket in tickets" :key="ticket.id">
                 <DashBoard_Table_Row v-if="ticket.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="ticket" />
+
             </tr>
+
             <!-- Create a mapping function to display tickets retrieved from the database -->
         </table>
         
