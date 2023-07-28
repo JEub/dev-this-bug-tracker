@@ -1,11 +1,15 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  /* max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
 
-  font-weight: normal;
+  font-weight: normal; */
 }
 
 a,
@@ -28,8 +32,12 @@ a,
   }
 
   #app {
-    display: grid;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    padding: 0 2rem; */
   }
 }
