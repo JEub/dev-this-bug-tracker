@@ -1,8 +1,11 @@
 <script setup>
+import { ref } from 'vue';
 
 import tickets from './tickets.json';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
+
+const searchTerm = ref('');
 
 </script>
 
@@ -20,7 +23,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 </div>
                 <div>
                     <td>
-                        <input placeholder="Search"/>
+                        <input type='text' placeholder="Search" v-model="searchTerm"/>
                     </td>
                     <td>
                         <button>Filter</button>
@@ -45,7 +48,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 </td>
             </tr>
             <tr v-for="ticket in tickets" :key="ticket.id">
-                <DashBoard_Table_Row :ticketData="ticket" />
+                <DashBoard_Table_Row v-if="ticket.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="ticket" />
             </tr>
             <!-- Create a mapping function to display tickets retrieved from the database -->
         </table>
