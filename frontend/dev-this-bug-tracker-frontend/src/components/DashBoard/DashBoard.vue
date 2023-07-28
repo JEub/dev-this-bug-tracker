@@ -34,9 +34,26 @@ console.log(users);
                     </td>
                 </div>
             </tr>
-            <div v-for="ticket in tickets" :key="ticket.id">
+            <tr>
+                <td>
+                    <h2>Id</h2>
+                </td>
+                <td>
+                    <h2>Title</h2>
+                </td>
+                <td>
+                    <h2>Creator</h2>
+                </td>
+                <td>
+                    <h2>Status</h2>
+                </td>
+                <td>
+                    <h2>Creation Date</h2>
+                </td>
+            </tr>
+            <tr v-for="ticket in tickets" :key="ticket.id">
                 <DashBoard_Table_Row :ticketData="ticket" />
-            </div>
+            </tr>
             <!-- Create a mapping function to display tickets retrieved from the database -->
         </table>
         
