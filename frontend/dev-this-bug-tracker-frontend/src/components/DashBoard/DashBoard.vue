@@ -1,5 +1,15 @@
 <script setup>
 
+import tickets from './tickets.json';
+import users from './users.json';
+
+console.log(tickets);
+console.log(users);
+
+
+
+
+
 </script>
 
 <template>
