@@ -1,15 +1,8 @@
 <script setup>
 
 import tickets from './tickets.json';
-import users from './users.json';
+// import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
-
-console.log(tickets);
-console.log(users);
-
-
-
-
 
 </script>
 
@@ -42,7 +35,7 @@ console.log(users);
                     <h2>Title</h2>
                 </td>
                 <td>
-                    <h2>Creator</h2>
+                    <h2>Assigned User</h2>
                 </td>
                 <td>
                     <h2>Status</h2>
@@ -59,12 +52,6 @@ console.log(users);
         
     </div>
 </template>
-
-<!-- <script>
-    export default {
-        props: [tickets, users]
-    }
-</script> -->
 
 <style>
     @import './DashBoard.css';
