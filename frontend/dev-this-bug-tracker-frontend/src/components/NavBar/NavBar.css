@@ -1,0 +1,16 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+}
+
+.user-section {
+    display: flex;
+
+}
+
+.username {
+    padding-right: 25px;
+
+}
