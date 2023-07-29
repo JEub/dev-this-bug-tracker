@@ -12,6 +12,17 @@
     const ticketComments = ref('Ticket Comments')
 </script>
 
+<script>
+    export default {
+    name: 'CreateEditTicket',
+    methods: {
+      close() {
+        this.$emit('close');
+      },
+    },
+  };
+</script>
+
 <template>
     <!-- entire form will require prepopulate of data from database upon edit function -->  
     <form action="">

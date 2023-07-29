@@ -2,11 +2,35 @@
 import { ref } from 'vue';
 
 import tickets from './tickets.json';
+import CreateEditTicket from '../Tickets/CreateEditTicket.vue'
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
 const searchTerm = ref('');
 
+</script>
+
+<script>
+    export default {
+    name: 'DashBoard',
+    components: {
+      CreateEditTicket,
+    },
+    data() {
+      return {
+        isModalVisible: false,
+      };
+    },
+    methods: {
+      showModal() {
+        console.log('test?')
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      }
+    }
+  };
 </script>
 
 <template>
@@ -42,15 +66,25 @@ const searchTerm = ref('');
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="ticket in tickets" :key="ticket.id">
-                    <DashBoard_Table_Row v-if="ticket.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="ticket" />
+                <tr v-for="ticket in tickets" :key="ticket.id" class="ticket-data" @click="showModal">
+                    <DashBoard_Table_Row 
+                    v-if="ticket.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="ticket" 
+                    />
                 </tr>
             </tbody>
 
+
+
             <!-- Create a mapping function to display tickets retrieved from the database -->
         </table>
+
         
     </div>
+
+    <CreateEditTicket
+        v-show="isModalVisible"
+        @close="closeModal"
+    />
 </template>
 
 <style>
