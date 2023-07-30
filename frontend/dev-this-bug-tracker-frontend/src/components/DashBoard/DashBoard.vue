@@ -47,7 +47,7 @@ const searchTerm = ref('');
                 <button>Filter</button>
             </div>
         </div>
-        <table class="dashboard-table">
+        <table class="table table-dark table-striped table-hover dashboard-table">
             <thead>
                 <tr>
                     <th>
