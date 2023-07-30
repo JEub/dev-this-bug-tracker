@@ -2,39 +2,80 @@
     margin: 5px;
     padding: 5px;
 }
+#wrapper{
+    height: 100vh;
+    width: 100vw;
+    opacity: 100%;
+    background-color: rgba(238, 237, 237, 0.65);
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+}
 .body{
+    display: flex;
+    flex-direction: column;
     border-style: border-box;
     border: 1px solid red;
-    
+    min-height: 400px;
+    height: 90vh;
+    width:60vw;
+    opacity: 75%;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: rgba(0,0,0,.35) 0px 5px 15px;
+    color: black;
+    /* overflow-y: scroll; */
+}
+.content{
+    border-style: border-box;
+    border: 1px solid red;
+    height: 100%;
+    /*width: 100%; */
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    overflow-y: scroll;
+    justify-content: center;
 }
 .header{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    border: 1px solid green;
 }
 .row{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 15vh;
+    border: 1px solid blue;
+    /* width:25vw; */
     /* overflow: auto; */
 }
 .bigRow{
-    height: 40vh;
+    height: 25vh;
 }
 .hide{
     display: flex;
-    flex-direction:column-reverse;
-    justify-content: center;
-    height: 35vh;
-    overflow:auto;
-    width:50vw;
+    flex-direction: column-reverse;
+    /* flex-wrap:wrap-reverse; */
+    align-content: center;
+    height: 20vh;
+    overflow:scroll;
+    width:30vw;
     border: 1px solid green;
     padding-bottom: 5px;
 }
 .button{
-        width: 150px;
-        height: 50px;
-        border-radius: 25px;
-        font-size: 14px;
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 14px;
+}
+.exit{
+    border-radius: 50px;
+    background-color:red;
+    color: white;
 }
