@@ -24,10 +24,16 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/ticket',
-      name: 'ticket',
+      path: '/ceticket',
+      name: 'create edit ticket',
 
       component: () => import('../components/Tickets/CreateEditTicket.vue')
+    },
+    {
+      path: '/viewticket',
+      name: 'view ticket',
+
+      component: () => import('../components/Tickets/SingleTicket.vue')
     }
   ]
 })
