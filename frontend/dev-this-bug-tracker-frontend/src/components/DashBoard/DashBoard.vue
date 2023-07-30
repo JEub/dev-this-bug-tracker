@@ -18,12 +18,14 @@ const searchTerm = ref('');
     },
     data() {
       return {
+        modalData: null,
         isModalVisible: false,
       };
     },
     methods: {
-      showModal() {
+      showModal(ticketData) {
         console.log('test?')
+        this.modalData = ticketData;
         this.isModalVisible = true;
       },
       closeModal() {
@@ -45,7 +47,7 @@ const searchTerm = ref('');
                 <button>Filter</button>
             </div>
         </div>
-        <table class="dashboard-table">
+        <table class="table table-dark table-striped table-hover dashboard-table">
             <thead>
                 <tr>
                     <th>
@@ -66,7 +68,7 @@ const searchTerm = ref('');
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="ticket in tickets" :key="ticket.id" class="ticket-data" @click="showModal">
+                <tr v-for="ticket in tickets" :key="ticket.id" class="ticket-data" @click="showModal(ticket)">
                     <DashBoard_Table_Row 
                     v-if="ticket.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="ticket" 
                     />
@@ -84,6 +86,8 @@ const searchTerm = ref('');
     <CreateEditTicket
         v-show="isModalVisible"
         @close="closeModal"
+        class="modal-popup"
+        :ticket="modalData"
     />
 </template>
 
