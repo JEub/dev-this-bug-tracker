@@ -20,6 +20,20 @@
     
     onMounted(() => console.log(ticketStatus.value))
 </script>
+<script>
+    export default {
+    name: 'CreateEditTicket',
+    methods: {
+        close() {
+        this.$emit('close');
+        },
+    },
+    props: {
+        ticket: Object
+    }
+    };
+
+</script>
 
 <template>
     <!-- entire form will require prepopulate of data from database upon edit function -->  
