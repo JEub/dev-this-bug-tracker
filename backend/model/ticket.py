@@ -1,13 +1,14 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
 
-from database import Base
+from config.database import Base
+
 
 class Ticket(Base):
     __tablename__ = "ticket"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
-    description = Column(String)
+    description = Column(Text)
     start_date = Column(DateTime)
     completed_date = Column(DateTime)
     status_id = Column(Integer, ForeignKey("status.id"))
