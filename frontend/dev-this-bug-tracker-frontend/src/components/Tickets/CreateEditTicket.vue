@@ -10,9 +10,26 @@
     const parentLinks = ref('Parent Links')
     const ticketTags = ref('Ticket Tags')
     const ticketComments = ref('Ticket Comments')
+
+</script>
+
+<script>
+    export default {
+    name: 'CreateEditTicket',
+    methods: {
+      close() {
+        this.$emit('close');
+      },
+    },
+    props: {
+        ticket: Object
+    }
+  };
+
 </script>
 
 <template>
+
     <!-- entire form will require prepopulate of data from database upon edit function -->  
     <form action="">
         <div>
