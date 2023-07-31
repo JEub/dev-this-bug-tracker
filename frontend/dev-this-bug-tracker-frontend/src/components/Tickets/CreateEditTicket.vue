@@ -25,7 +25,7 @@
     name: 'CreateEditTicket',
     methods: {
         close() {
-        this.$emit('close');
+            this.$emit('close');
         },
     },
     props: {
@@ -36,6 +36,7 @@
 </script>
 
 <template>
+
     <!-- entire form will require prepopulate of data from database upon edit function -->  
     <form action="">
         <div>
