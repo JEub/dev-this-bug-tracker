@@ -19,12 +19,12 @@
     <div id="wrapper">
         <div class="body">
             <div class="header">
-                    <h3>Ticket id</h3>
-                    <h3>Creator contact email</h3>
-                    <h3>Assigned users</h3>
-                    <h3>Ticket status</h3>
-                    <button class="exit">Close</button>
-                </div>
+                <h3>Ticket id</h3>
+                <h3>Creator contact email</h3>
+                <h3>Assigned users</h3>
+                <h3>Ticket status</h3>
+                <button class="exit">Close</button>
+            </div>
             <div class="content">
                 
                 <div class="row">

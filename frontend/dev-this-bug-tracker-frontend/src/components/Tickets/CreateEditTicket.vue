@@ -1,30 +1,37 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
     
     const title = ref('Title')
     const description = ref('Description')
     const storyPoints = ref('Story Points')
-    const ticketStatus = ref('Open')
+    const ticketStatus = ref([
+        {id:0, name:'Open'},
+        {id:1, name:'In Progess'},
+        {id:2, name:'Blocked'},
+        {id:3, name:'Needs More Info'},
+        {id:4, name:'Closed'},
+        {id:5, name:'Cancelled'}
+    ])
     const groups = ref(['Retail'])
     const assignedUser = ref(['Jack'])
     const parentLinks = ref('Parent Links')
     const ticketTags = ref('Ticket Tags')
     const ticketComments = ref('Ticket Comments')
-
+    
+    onMounted(() => console.log(ticketStatus.value))
 </script>
-
 <script>
     export default {
     name: 'CreateEditTicket',
     methods: {
-      close() {
-        this.$emit('close');
-      },
+        close() {
+            this.$emit('close');
+        },
     },
     props: {
         ticket: Object
     }
-  };
+    };
 
 </script>
 
@@ -37,7 +44,7 @@
             <div>
                 <label for="title">Title: </label>
                 <!-- enter values for editing form -->
-                <input v-model = "title" id="title"/> {{ Title }}
+                <input v-model="title" id="title"/> {{ title }}
             </div>
             <div>
                 <label for="description">Description: </label>
@@ -54,14 +61,16 @@
             <div>
                 <label>Ticket Status: </label>
                 <!-- stored ticket status from db? -->
-                <select v-model = "ticketStatus">
-                    {{ ticketStatus }}
-                    <option>Open</option>
+                <!-- change up order of v-model and v-for? v-for loops over data that v-model is holding then binding back to ref -->
+                <select v-model="ticketStatus" >
+                    <option v-for="(ticketStatus, index) in ticketStatus"
+                    :key="ticketStatus.id">{{ index +1 }} : {{ ticketStatus.name }}</option>
+                    <!-- <option>Open</option> 
                     <option>In Progress</option>
                     <option>Blocked</option>
                     <option>Need More Info</option>
                     <option>Closed</option>
-                    <option>Cancelled</option>
+                    <option>Cancelled</option> -->
                 </select>
             </div>
             
@@ -117,3 +126,6 @@
     </form>
 
 </template>
+<style>
+@import './SingleTicket.css';
+</style>
