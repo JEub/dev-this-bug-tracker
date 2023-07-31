@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
 
 from config.database import Base
 
+
 class Ticket(Base):
     __tablename__ = "ticket"
 
