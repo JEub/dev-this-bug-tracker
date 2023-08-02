@@ -17,19 +17,7 @@
         "email": "ctaylor0002@develop-this.com"
       }, 
       "created_date": "2018-03-19T11:49:05 +04:00",
-      "last_update": "2020-05-12T05:46:32 +04:00",
-      "comments": [
-        {
-          "id": "64c1d67ead33e2b1e2951bfb",
-          "ticket_id": "64c1d67ef42336160cb3d028",
-          "body": "Ullamco qui amet Lorem magna laborum. Esse irure id duis elit ex aute aliquip anim irure nulla dolore et dolore. In est aute incididunt fugiat ea. Elit enim anim anim excepteur excepteur amet veniam aute enim. Ea mollit velit aliqua dolore laboris veniam dolore eu nisi minim.\r\n",
-          "creator": "64c1d67e923ec9e4449b9a13",
-          "created_date": "2019-06-20T03:55:20 +04:00",
-          "visible": true,
-          "last_update": "2016-01-01T07:49:13 +05:00",
-          "publish_date": "2015-07-21T11:06:40 +04:00"
-        }
-      ]
+      "last_update": "2020-05-12T05:46:32 +04:00"
     },
     {
       "id": "64c1d67e769930eeb14532ca",
