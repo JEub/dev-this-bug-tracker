@@ -14,25 +14,25 @@ const searchTerm = ref('');
     export default {
     name: 'DashBoard',
     components: {
-      CreateEditTicket,
+        CreateEditTicket,
     },
     data() {
-      return {
+        return {
         modalData: null,
         isModalVisible: false,
-      };
+        };
     },
     methods: {
-      showModal(ticketData) {
-        console.log('test?')
-        this.modalData = ticketData;
-        this.isModalVisible = true;
-      },
-      closeModal() {
-        this.isModalVisible = false;
-      }
+        showModal(ticketData) {
+            console.log('test?')
+            this.modalData = ticketData;
+            this.isModalVisible = true;
+        },
+        closeModal() {
+            this.isModalVisible = false;
+        }
     }
-  };
+};
 </script>
 
 <template>
@@ -82,13 +82,14 @@ const searchTerm = ref('');
 
         
     </div>
-
+    <!--@click="isModalVisable=true"-->
     <CreateEditTicket
         v-show="isModalVisible"
         @close="closeModal"
         class="modal-popup"
         :ticket="modalData"
     />
+    
 </template>
 
 <style>

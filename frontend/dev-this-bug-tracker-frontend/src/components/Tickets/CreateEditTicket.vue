@@ -36,7 +36,8 @@
 </script>
 
 <template>
-
+<div class="modal-overlay">
+    <div class="modal">
     <!-- entire form will require prepopulate of data from database upon edit function -->  
     <form action="">
         <div>
@@ -124,8 +125,13 @@
             </div>
         </div>
     </form>
-
+    </div>
+    <!--<div class="close">
+        <button class="exit">Close</button>
+    </div>-->
+</div>
 </template>
+
 <style>
 @import './SingleTicket.css';
 </style>
