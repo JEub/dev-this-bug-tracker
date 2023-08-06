@@ -19,6 +19,8 @@
     const ticketComments = ref('Ticket Comments')
     
     const isOpen = ref(false)
+    const createOpen = ref(false)
+    const isModalVisible = ref(false)
     // onMounted(() => console.log(ticketproperty.value))
 </script>
 <script>
@@ -29,6 +31,9 @@
         },
         emit: ['close'],
         methods: {
+            // close () {
+            //     emit('close');
+            // },
             close() {
             // uses Options API to emit a custom event
                 this.$emit('close');
@@ -39,7 +44,7 @@
 
 <template>
 
-    <div class="modal" v-if="createOpen=true">
+    <div class="modal" v-if="isModalVisible=true">
         
         <!-- entire form will require prepopulate of data from database upon edit function -->  
         <div id="wrapper">
@@ -125,7 +130,7 @@
                 </div>
                 <div>
                     <!-- conditionally render submit or update if "state" is either new or existing -->
-                    <button type="submit">Submit / Update</button>
+                    <button type="submit" class=" button">Submit / Update</button>
                 </div>
             </div>
         </form>

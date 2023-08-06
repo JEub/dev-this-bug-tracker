@@ -19,6 +19,6 @@ const close = () => {
         <button type="button" class="close" @click="close">Close </button>
     </div>
 </template>
-<!-- <style>
+<style>
     @import '../DashBoard/DashBoard.css';
-</style> -->
+</style>
