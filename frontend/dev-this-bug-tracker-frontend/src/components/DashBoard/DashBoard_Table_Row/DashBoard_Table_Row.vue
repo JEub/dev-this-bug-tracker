@@ -1,7 +1,7 @@
 <script>
 export default {
-    props: {
-        ticketData: {
+  props: {
+    ticketData: {
       "id": String,
       "title": String,
       "description": String,
@@ -21,7 +21,7 @@ export default {
       "created_date": Date,
       "last_update": Date,
     }
-    }
+  }
 }
 </script>
 

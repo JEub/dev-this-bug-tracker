@@ -30,6 +30,29 @@
             ticket: Object
         },
         emit: ['close'],
+        //data(){
+            //return{
+                //ticket: {
+                    //title: '',
+                    //description: '',
+                    //storyPoints: '',
+                    //groups: '',
+                    //assignedUser: '',
+                    //parentLinks: '',
+                    //ticketTags: '',
+                    //ticketComments: '',
+                //},
+                //ticketStatus: [
+                    //{text: 'Select One', value: null},
+                    //'Open',
+                    //'In Progess',
+                    //'Blocked',
+                    //'Needs More Info',
+                    //'Closed',
+                    //'Cancelled'
+                //]
+            //}
+        //}
         methods: {
             // close () {
             //     emit('close');
@@ -37,6 +60,23 @@
             close() {
             // uses Options API to emit a custom event
                 this.$emit('close');
+            },
+            onSubmit(event) {
+                event.preventDefault()
+                alert(JSON.stringify(this.form))
+            },
+            onReset(event) {
+                event.preventDefault()
+                // Reset our form values
+                this.form.email = ''
+                this.form.name = ''
+                this.form.food = null
+                this.form.checked = []
+                // Trick to reset/clear native browser form validation state
+                this.show = false
+                this.$nextTick(() => {
+                this.show = true
+                })
             },
         },
     };

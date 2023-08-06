@@ -3,12 +3,13 @@ import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
 import TicketModal from '../Tickets/TicketModal.vue';
+import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
 const searchTerm = ref('');
 const isOpen = ref(false)
-const createOpen = ref(false)
+const singleTicketOpen = ref(false)
 const isModalVisible= ref(false)
 const toggleModal = () => {
     alert( 'You toggled open modal' );
@@ -21,6 +22,10 @@ const createToggle = () => {
     isModalVisible.value = !isModalVisible.value;
     return createToggle;
 };
+const singleToggle = () => {
+    alert( 'You toggled single modal' );
+    singleTicketOpen.value = !singleTicketOpen.value;
+};
 </script>
 
 
@@ -32,6 +37,7 @@ const createToggle = () => {
         components: {
             CreateEditTicket,
             DashBoard_Table_Row,
+            SingleTicket,
             TicketModal
         },
         data () {
@@ -122,11 +128,34 @@ const createToggle = () => {
 </script>
 
 <template>
+    <!--### ADDED ###-->
+    <div class="root" >
+        <button @click="createToggle" class="btn btn-primary">Create Ticket</button>
+        <teleport to="body">
+            <div class="modal" v-if="isModalVisible">
+                <!-- note: change onclikc to on close so form input can be clocked without closing modal-->
+                <CreateEditTicket
+                    @close="createToggle"
+                    title="Create / Edit Ticket"
+                />
+            </div>
+        </teleport>
+        <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
+        <teleport to="body">
+            <div class="modal" v-if="isOpen">
+                <TicketModal
+                    @click="toggleModal"
+                    title="Does this work?"
+                    msg="I hope so"
+                />
+            </div>
+        </teleport>
+    </div>
     <div class="dashboard">
         <div class="dashboard-header">
             <div>
-                <button>All</button>
-                <button>Mine</button>
+                <button class="btn btn-outline-primary">All</button>
+                <button class="btn btn-primary">Mine</button>
             </div>
             <div>
                 <input type='text' placeholder="Search" v-model="searchTerm"/>
@@ -152,11 +181,36 @@ const createToggle = () => {
                     <th>
                         <h2>Creation Date</h2>
                     </th>
+                    <th>
+                        <h2>Actions</h2>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(ticket)">
                     <DashBoard_Table_Row :ticketData="row"/>
+                    <!--test vue bootstrap
+                    <div>
+                        <b-button v-b-modal.modal-1>Test BS Launch</b-button >
+                        <b-modal id="modal-1" title="new ticket">
+                            <SingleTicket 
+                                @close="singleToggle"
+                                title="Single Ticket"
+                            />
+                        </b-modal>
+                    </div>-->
+                    
+
+
+                    <button @click="singleToggle" class="btn btn-success">View Ticket</button>
+                    <teleport to="body">
+                        <div class="modal" v-if="singleTicketOpen">
+                            <SingleTicket 
+                                @close="singleToggle"
+                                title="Single Ticket"
+                            />
+                        </div>
+                    </teleport>
                 </tr>
             </tbody>
             
@@ -185,29 +239,7 @@ const createToggle = () => {
         v-show="isModalVisible"
         @click="toggleModal"
     />
-    <!--### ADDED ###-->
-    <div class="root" >
-        <button @click="createToggle">Create Ticket</button>
-        <teleport to="body">
-            <div class="modal" v-if="isModalVisible">
-                <!-- note: change onclikc to on close so form input can be clocked without closing modal-->
-                <CreateEditTicket
-                    @close="createToggle"
-                    title="Create / Edit Ticket"
-                />
-            </div>
-        </teleport>
-        <button @click="toggleModal">Open</button>
-        <teleport to="body">
-            <div class="modal" v-if="isOpen">
-                <TicketModal
-                    @click="toggleModal"
-                    title="Does this work?"
-                    msg="I hope so"
-                />
-            </div>
-        </teleport>
-    </div>
+    
 </template>
 
 <style>
