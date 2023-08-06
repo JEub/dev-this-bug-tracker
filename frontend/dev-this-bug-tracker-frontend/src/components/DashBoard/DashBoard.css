@@ -1,3 +1,7 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
 .dashboard {
     border: 3px solid red;
 }
@@ -39,7 +43,6 @@ tr:nth-child(n + 10) {
     height: 100vh;
 }
 
-<<<<<<< HEAD
 .root{
     position: relative;
 }
@@ -63,11 +66,3 @@ tr:nth-child(n + 10) {
     border-radius: 10px;
     border: 2px solid blue;
 }
-=======
-* {
-    margin: 0px;
-    padding: 0px;
-}
-
-
->>>>>>> 7c270c2fb2d681ec32b67b3b12055de79cbd2ae9
