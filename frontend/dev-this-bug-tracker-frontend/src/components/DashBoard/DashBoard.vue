@@ -23,7 +23,10 @@ const createToggle = () => {
 // ######
 </script>
 
+
 <script>
+    const searchTerm = ref('');
+
     export default {
         name: 'DashBoard',
         components: {
@@ -32,9 +35,25 @@ const createToggle = () => {
         },
         data () {
             return {
+                tableData: tickets,
+                rowsPerPage: 5,
+                currentPage: 1,
                 modalData: null,
                 isModalVisible: false,
             };
+        },
+        computed: {
+            totalRows() {
+                return this.tableData.length;
+            },
+            totalPages() {
+                return Math.ceil(this.totalRows / this.rowsPerPage);
+            },
+            currentPageData() {
+                const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+                const endIndex = startIndex + this.rowsPerPage;
+                return this.tableData.slice(startIndex, endIndex);
+            },
         },
         methods: {
             showModal(ticketData) {
@@ -46,6 +65,19 @@ const createToggle = () => {
             closeModal() {
                 this.isModalVisible = false;
                 alert( 'You closed the modal' );
+            },
+            prevPage() {
+                if(this.currentPage > 1) {
+                    this.currentPage--;
+                }
+            },
+            nextPage() {
+                if (this.currentPage < this.totalPages) {
+                    this.currentPage++;
+                }
+            },
+            gotoPage(pageNumber) {
+                this.currentPage = pageNumber;
             }
         },
     };
@@ -62,8 +94,9 @@ const createToggle = () => {
                 <input type='text' placeholder="Search" v-model="searchTerm"/>
                 <button>Filter</button>
             </div>
-        </div>
-        <table class="table table-dark table-striped table-hover dashboard-table">
+        </div> 
+
+        <table id="myTable" class="dashboard-table">
             <thead>
                 <tr>
                     <th>
@@ -84,19 +117,34 @@ const createToggle = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="ticket in tickets" :key="ticket.id" class="ticket-data" @click="showModal(ticket)">
+                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(ticket)">
                     <DashBoard_Table_Row 
-                    v-if="ticket.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="ticket" 
+                    v-if="row.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="row" 
                     />
                 </tr>
             </tbody>
-            <!-- Create a mapping function to display tickets retrieved from the database -->
+            
         </table>
+        <nav>
+            <div class="pagination">
+                <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
+                <button v-for="pageNumber in totalPages"
+                    :key="pageNumber"
+                    @click="gotoPage(pageNumber)"
+                    :class="{ active: currentPage === pageNumber }"
+                >
+                {{ pageNumber }}
+                </button>
+                <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
+            </div>
+        </nav>
     </div>
-    <!--@click="isModalVisable=true"
+        <!-- <CreateEditTicket
+        v-show="isModalVisible"
         @close="closeModal"
         class="modal-popup"
-        :ticket="modalData" -->
+        :ticket="modalData"
+        /> -->
     <CreateEditTicket
         v-show="isModalVisible"
         @click="toggleModal"
@@ -128,4 +176,6 @@ const createToggle = () => {
 
 <style>
     @import './DashBoard.css';
+    /* @import 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css';
+    @import 'https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'; */
 </style>
