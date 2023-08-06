@@ -10,7 +10,6 @@ const searchTerm = ref('');
 const isOpen = ref(false)
 const createOpen = ref(false)
 const isModalVisible= ref(false)
-// ##### added ######
 const toggleModal = () => {
     alert( 'You toggled open modal' );
     isOpen.value = !isOpen.value;
@@ -22,22 +21,23 @@ const createToggle = () => {
     isModalVisible.value = !isModalVisible.value;
     return createToggle;
 };
-// ######
 </script>
 
 
 <script>
     const searchTerm = ref('');
-
+    // const filteredTableData = ref([])
     export default {
         name: 'DashBoard',
         components: {
             CreateEditTicket,
+            DashBoard_Table_Row,
             TicketModal
         },
         data () {
             return {
                 tableData: tickets,
+                filteredTableData: tickets,
                 rowsPerPage: 5,
                 currentPage: 1,
                 modalData: null,
@@ -46,16 +46,48 @@ const createToggle = () => {
         },
         computed: {
             totalRows() {
-                return this.tableData.length;
+                if(searchTerm.value != '') {
+                    console.log(this.filteredTableData.length);
+                    return this.filteredTableData.length;
+                } else {
+                    return this.tableData.length;
+                }
             },
+
             totalPages() {
                 return Math.ceil(this.totalRows / this.rowsPerPage);
             },
+
             currentPageData() {
-                const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                const endIndex = startIndex + this.rowsPerPage;
-                return this.tableData.slice(startIndex, endIndex);
+                console.log(searchTerm)
+                if (searchTerm.value != ''){
+                    this.filterTableData
+                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+                    const endIndex = startIndex + this.rowsPerPage;
+                    return this.filteredTableData.slice(startIndex, endIndex);
+
+                } else {
+                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+                    const endIndex = startIndex + this.rowsPerPage;
+                    return this.tableData.slice(startIndex, endIndex);
+
+                }
             },
+
+            filterTableData() {
+                console.log('filtering')
+                let filteredTableData = [];
+                    for(let i = 0; i < this.tableData.length; i++) {
+                        if (this.tableData[i].id.includes(searchTerm.value) || this.tableData[i].title.includes(searchTerm.value) || this.tableData[i].assigned_user.username.includes(searchTerm.value) || this.tableData[i].created_date.includes(searchTerm.value)) {
+                            filteredTableData.push(this.tableData[i]);
+                        }
+                    }
+
+                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+                    const endIndex = startIndex + this.rowsPerPage;
+                    this.filteredTableData = filteredTableData;
+                    // return filteredTableData;
+            }
         },
         methods: {
             showModal(ticketData) {
@@ -124,9 +156,7 @@ const createToggle = () => {
             </thead>
             <tbody>
                 <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(ticket)">
-                    <DashBoard_Table_Row 
-                    v-if="row.id.includes(searchTerm) || ticket.title.includes(searchTerm) || ticket.assigned_user.username.includes(searchTerm) || ticket.created_date.includes(searchTerm)" :ticketData="row" 
-                    />
+                    <DashBoard_Table_Row :ticketData="row"/>
                 </tr>
             </tbody>
             
