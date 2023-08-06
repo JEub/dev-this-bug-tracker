@@ -34,6 +34,6 @@ export default {
     <td>{{ ticketData.created_date }}</td>
 </template>
 
-<style>
+<!-- <style>
     @import './DashBoard_Table_Row.css';
-</style>
+</style> -->

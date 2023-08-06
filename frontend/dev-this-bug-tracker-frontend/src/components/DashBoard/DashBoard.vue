@@ -1,14 +1,26 @@
 <script setup>
 import { ref } from 'vue';
-
 import tickets from './tickets.json';
-import CreateEditTicket from '../Tickets/CreateEditTicket.vue'
+import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
+import TicketModal from '../Tickets/TicketModal.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
-
-
-
+const searchTerm = ref('');
+const isOpen = ref(false)
+const createOpen = ref(false)
+// ##### added ######
+const toggleModal = () => {
+    alert( 'You toggled open modal' );
+    isOpen.value = !isOpen.value;
+    return toggleModal;
+};
+const createToggle = () => {
+    alert( 'You toggled create modal' );
+    createOpen.value = !createOpen.value;
+    return createToggle;
+};
+// ######
 </script>
 
 
@@ -16,56 +28,59 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
     const searchTerm = ref('');
 
     export default {
-    name: 'DashBoard',
-    components: {
-      CreateEditTicket,
-    },
-    data() {
-      return {
-        tableData: tickets,
-        rowsPerPage: 5,
-        currentPage: 1,
-        modalData: null,
-        isModalVisible: false,
-      };
-    },
-    computed: {
-        totalRows() {
-            return this.tableData.length;
+        name: 'DashBoard',
+        components: {
+            CreateEditTicket,
+            TicketModal
         },
-        totalPages() {
-            return Math.ceil(this.totalRows / this.rowsPerPage);
+        data () {
+            return {
+                tableData: tickets,
+                rowsPerPage: 5,
+                currentPage: 1,
+                modalData: null,
+                isModalVisible: false,
+            };
         },
-        currentPageData() {
-            const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-            const endIndex = startIndex + this.rowsPerPage;
-            return this.tableData.slice(startIndex, endIndex);
+        computed: {
+            totalRows() {
+                return this.tableData.length;
+            },
+            totalPages() {
+                return Math.ceil(this.totalRows / this.rowsPerPage);
+            },
+            currentPageData() {
+                const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+                const endIndex = startIndex + this.rowsPerPage;
+                return this.tableData.slice(startIndex, endIndex);
+            },
         },
-    },
-    methods: {
-      showModal(ticketData) {
-        console.log('test?')
-        this.modalData = ticketData;
-        this.isModalVisible = true;
-      },
-      closeModal() {
-        this.isModalVisible = false;
-      },
-      prevPage() {
-        if(this.currentPage > 1) {
-            this.currentPage--;
-        }
-      },
-      nextPage() {
-        if (this.currentPage < this.totalPages) {
-            this.currentPage++;
-        }
-      },
-      gotoPage(pageNumber) {
-        this.currentPage = pageNumber;
-      }
-    }
-  };
+        methods: {
+            showModal(ticketData) {
+                console.log('test?');
+                alert( 'You opened the modal from dashboard' );
+                this.modalData = ticketData;
+                this.isModalVisible = true;
+            },
+            closeModal() {
+                this.isModalVisible = false;
+                alert( 'You closed the modal' );
+            },
+            prevPage() {
+                if(this.currentPage > 1) {
+                    this.currentPage--;
+                }
+            },
+            nextPage() {
+                if (this.currentPage < this.totalPages) {
+                    this.currentPage++;
+                }
+            },
+            gotoPage(pageNumber) {
+                this.currentPage = pageNumber;
+            }
+        },
+    };
 </script>
 
 <template>
@@ -124,12 +139,39 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             </div>
         </nav>
     </div>
-        <CreateEditTicket
+        <!-- <CreateEditTicket
         v-show="isModalVisible"
         @close="closeModal"
         class="modal-popup"
         :ticket="modalData"
+        /> -->
+    <CreateEditTicket
+        v-show="isModalVisible"
+        @click="toggleModal"
     />
+    <!--### ADDED ###-->
+    <div class="root" >
+        <button @click="createToggle">Create Ticket</button>
+        <teleport to="body">
+            <div class="modal" v-if="createOpen">
+                <!-- note: change onclikc to on close so form input can be clocked without closing modal-->
+                <CreateEditTicket
+                    @click="createToggle"
+                    title="Create / Edit Ticket"
+                />
+            </div>
+        </teleport>
+        <button @click="toggleModal">Open</button>
+        <teleport to="body">
+            <div class="modal" v-if="isOpen">
+                <TicketModal
+                    @click="toggleModal"
+                    title="Does this work?"
+                    msg="I hope so"
+                />
+            </div>
+        </teleport>
+    </div>
 </template>
 
 <style>
