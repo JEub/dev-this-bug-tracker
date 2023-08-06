@@ -16,9 +16,9 @@
     width: 100%;
 }
 
-tr:nth-child(n + 10) {
+/* tr:nth-child(n + 10) {
     visibility: collapse;
-}
+} */
 
 .ticket-data {
     line-height: 50px;
