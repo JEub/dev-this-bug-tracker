@@ -4,11 +4,12 @@
 }
 .dashboard {
     border: 3px solid red;
+    margin: 5px 5px;
 }
 
 .dashboard-table {
     margin: 0px 0px;
-    width: 100%;
+    width: 100vw;
     /* Temporary Border For Better Visablility */
     border-collapse: collapse;
 
