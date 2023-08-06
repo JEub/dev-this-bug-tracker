@@ -9,6 +9,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 const searchTerm = ref('');
 const isOpen = ref(false)
 const createOpen = ref(false)
+const isModalVisible= ref(false)
 // ##### added ######
 const toggleModal = () => {
     alert( 'You toggled open modal' );
@@ -17,7 +18,8 @@ const toggleModal = () => {
 };
 const createToggle = () => {
     alert( 'You toggled create modal' );
-    createOpen.value = !createOpen.value;
+    // createOpen.value = !createOpen.value;
+    isModalVisible.value = !isModalVisible.value;
     return createToggle;
 };
 // ######
@@ -78,7 +80,11 @@ const createToggle = () => {
             },
             gotoPage(pageNumber) {
                 this.currentPage = pageNumber;
-            }
+            },
+            close() {
+            // uses Options API to emit a custom event
+                this.$emit('close');
+            },
         },
     };
 </script>
@@ -153,10 +159,10 @@ const createToggle = () => {
     <div class="root" >
         <button @click="createToggle">Create Ticket</button>
         <teleport to="body">
-            <div class="modal" v-if="createOpen">
+            <div class="modal" v-if="isModalVisible">
                 <!-- note: change onclikc to on close so form input can be clocked without closing modal-->
                 <CreateEditTicket
-                    @click="createToggle"
+                    @close="createToggle"
                     title="Create / Edit Ticket"
                 />
             </div>
