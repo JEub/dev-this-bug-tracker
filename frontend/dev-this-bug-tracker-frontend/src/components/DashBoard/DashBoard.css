@@ -1,13 +1,23 @@
+.dashboard {
+    border: 3px solid red;
+}
+
 .dashboard-table {
-    margin-top: 25px;
+    margin: 0px 0px;
     width: 100%;
     /* Temporary Border For Better Visablility */
     border-collapse: collapse;
+
+
 }
 .dashboard-header {
     display: flex;
     justify-content: space-around;
     width: 100%;
+}
+
+tr:nth-child(n + 10) {
+    visibility: collapse;
 }
 
 .ticket-data {
@@ -29,6 +39,7 @@
     height: 100vh;
 }
 
+<<<<<<< HEAD
 .root{
     position: relative;
 }
@@ -52,3 +63,11 @@
     border-radius: 10px;
     border: 2px solid blue;
 }
+=======
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+>>>>>>> 7c270c2fb2d681ec32b67b3b12055de79cbd2ae9

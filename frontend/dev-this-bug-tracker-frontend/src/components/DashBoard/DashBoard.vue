@@ -52,8 +52,7 @@ const createToggle = () => {
 </script>
 
 <template>
-    
-    <div>
+    <div class="dashboard">
         <div class="dashboard-header">
             <div>
                 <button>All</button>
