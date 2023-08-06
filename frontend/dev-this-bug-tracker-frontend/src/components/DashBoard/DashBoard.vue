@@ -61,7 +61,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             this.currentPage++;
         }
       },
-      gottoPage(pageNumber) {
+      gotoPage(pageNumber) {
         this.currentPage = pageNumber;
       }
     }
@@ -111,17 +111,17 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             
         </table>
         <nav>
-            <ul class="pagination">
-                <li @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</li>
-                <li v-for="pageNumber in totalPages"
+            <div class="pagination">
+                <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
+                <button v-for="pageNumber in totalPages"
                     :key="pageNumber"
                     @click="gotoPage(pageNumber)"
                     :class="{ active: currentPage === pageNumber }"
                 >
                 {{ pageNumber }}
-                </li>
-                <li @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</li>
-            </ul>
+                </button>
+                <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
+            </div>
         </nav>
     </div>
         <CreateEditTicket
