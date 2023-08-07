@@ -42,12 +42,12 @@ const singleToggle = () => {
         },
         data () {
             return {
+                modalData: null,
+                isModalVisible: false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
                 currentPage: 1,
-                modalData: null,
-                isModalVisible: false,
             };
         },
         computed: {
@@ -97,7 +97,6 @@ const singleToggle = () => {
         },
         methods: {
             showModal(ticketData) {
-                console.log('test?');
                 alert( 'You opened the modal from dashboard' );
                 this.modalData = ticketData;
                 this.isModalVisible = true;
@@ -129,17 +128,17 @@ const singleToggle = () => {
 
 <template>
     <!--### ADDED ###-->
-    <div class="root" >
+    <!-- <div class="root" >
         <button @click="createToggle" class="btn btn-primary">Create Ticket</button>
         <teleport to="body">
             <div class="modal" v-if="isModalVisible">
-                <!-- note: change onclikc to on close so form input can be clocked without closing modal-->
+                note: change onclikc to on close so form input can be clocked without closing modal
                 <CreateEditTicket
                     @close="createToggle"
                     title="Create / Edit Ticket"
                     
                 />
-                <!--:ticket="modalData"-->
+                :ticket="modalData" 
             </div>
         </teleport>
         <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
@@ -152,7 +151,7 @@ const singleToggle = () => {
                 />
             </div>
         </teleport>
-    </div>
+    </div> -->
     <div class="dashboard">
         <div class="dashboard-header">
             <div>
@@ -191,6 +190,7 @@ const singleToggle = () => {
             <tbody>
                 <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(row)">
                     <DashBoard_Table_Row :ticketData="row"/>
+                    
                     <!--test vue bootstrap
                     <div>
                         <b-button v-b-modal.modal-1>Test BS Launch</b-button >
@@ -203,8 +203,8 @@ const singleToggle = () => {
                     </div>-->
                     
 
-                    <!--pull this out of teleport and display at end of template-->
-                    <button @click="singleToggle" class="btn btn-success">View Ticket</button>
+
+                    <!-- <button @click="singleToggle" class="btn btn-success">View Ticket</button>
                     <teleport to="body">
                         <div class="modal" v-if="singleTicketOpen">
                             <SingleTicket 
@@ -212,37 +212,39 @@ const singleToggle = () => {
                                 title="Single Ticket"
                             />
                         </div>
-                    </teleport>
+                    </teleport> -->
                 </tr>
             </tbody>
             
         </table>
+
+        
         <nav>
             <div class="pagination">
                 <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in totalPages"
                     :key="pageNumber"
                     @click="gotoPage(pageNumber)"
-                    :class="{ active: currentPage === pageNumber }"
-                >
+                    :class="{ active: currentPage === pageNumber }">
                 {{ pageNumber }}
                 </button>
                 <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
             </div>
         </nav>
     </div>
-        <!-- <CreateEditTicket
+    <CreateEditTicket
         v-show="isModalVisible"
         @close="closeModal"
         class="modal-popup"
         :ticket="modalData"
         /> 
-    <CreateEditTicket
-        v-show="isModalVisible"
-        @click="toggleModal"
-    /> -->
-    
-</template>
+        <!--<CreateEditTicket
+            v-show="isModalVisible"
+            @click="toggleModal"
+        />-->
+        
+        <SingleTicket v-if="isModalVisible" @close="closeModal"/>
+    </template>
 
 <style>
     @import './DashBoard.css';
