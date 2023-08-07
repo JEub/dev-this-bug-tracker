@@ -7,10 +7,10 @@ import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
-const searchTerm = ref('');
-const isOpen = ref(false)
-const singleTicketOpen = ref(false)
-const isModalVisible= ref(false)
+// const searchTerm = ref('');
+// const isOpen = ref(false)
+// const singleTicketOpen = ref(false)
+// const isModalVisible= ref(false)
 const toggleModal = () => {
     alert( 'You toggled open modal' );
     isOpen.value = !isOpen.value;
@@ -137,7 +137,9 @@ const singleToggle = () => {
                 <CreateEditTicket
                     @close="createToggle"
                     title="Create / Edit Ticket"
+                    
                 />
+                <!--:ticket="modalData"-->
             </div>
         </teleport>
         <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
@@ -187,7 +189,7 @@ const singleToggle = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(ticket)">
+                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(row)">
                     <DashBoard_Table_Row :ticketData="row"/>
                     <!--test vue bootstrap
                     <div>
@@ -201,12 +203,12 @@ const singleToggle = () => {
                     </div>-->
                     
 
-
+                    <!--pull this out of teleport and display at end of template-->
                     <button @click="singleToggle" class="btn btn-success">View Ticket</button>
                     <teleport to="body">
                         <div class="modal" v-if="singleTicketOpen">
                             <SingleTicket 
-                                @close="singleToggle"
+                                @close="closeModal"
                                 title="Single Ticket"
                             />
                         </div>
@@ -234,11 +236,11 @@ const singleToggle = () => {
         @close="closeModal"
         class="modal-popup"
         :ticket="modalData"
-        /> -->
+        /> 
     <CreateEditTicket
         v-show="isModalVisible"
         @click="toggleModal"
-    />
+    /> -->
     
 </template>
 

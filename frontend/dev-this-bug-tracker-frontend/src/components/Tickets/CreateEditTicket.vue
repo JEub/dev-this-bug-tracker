@@ -17,7 +17,6 @@
     const parentLinks = ref('Parent Links')
     const ticketTags = ref('Ticket Tags')
     const ticketComments = ref('Ticket Comments')
-    
     const isOpen = ref(false)
     const createOpen = ref(false)
     const isModalVisible = ref(false)
@@ -27,7 +26,7 @@
     export default {
         name: 'CreateEditTicket',
         props: {
-            ticket: Object
+            ticketData : Object
         },
         emit: ['close'],
         //data(){

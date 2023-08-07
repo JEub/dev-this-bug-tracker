@@ -20,8 +20,9 @@
     export default {
         name: 'SingleTicket',
         props: {
-            tickets: Object
+            ticketData: Object
         },
+        
         emit: ['close'],
         methods: {
             // close () {
@@ -32,7 +33,9 @@
                 this.$emit('close');
             },
         },
+        
     };
+    // console.log(ticket);
 </script>
 <template>
     <!--<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >-->
@@ -43,7 +46,7 @@
                         <h3>Creator contact email</h3>
                         <h3>Assigned users</h3>
                         <h3>Ticket status</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
                     </div>
                     <div class="modal-body">
                         <div class="row">
