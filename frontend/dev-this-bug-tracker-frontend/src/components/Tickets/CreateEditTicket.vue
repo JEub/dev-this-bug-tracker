@@ -26,7 +26,7 @@
 <script>
     export default {
         name: 'CreateEditTicket',
-        props: {
+        props: {    
             ticket: Object
         },
         emit: ['close'],
