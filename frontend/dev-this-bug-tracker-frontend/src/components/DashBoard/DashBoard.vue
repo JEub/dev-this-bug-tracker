@@ -242,7 +242,7 @@ const singleToggle = () => {
         @click="toggleModal"
         /> -->
         
-        <SingleTicket v-if="isModalVisible" @close="closeModal"/>
+        <SingleTicket v-if="isModalVisible" @close="closeModal" :ticketData="modalData"/>
     </template>
 
 <style>
