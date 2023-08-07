@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
     import tickets from '../DashBoard/tickets.json';
 
     const title = ref('Title')
@@ -20,9 +20,9 @@
     export default {
         name: 'SingleTicket',
         props: {
-            tickets: Object
+            ticketData: Object
         },
-        emit: ['close'],
+        // emit: ['close'],
         methods: {
             // close () {
             //     emit('close');
@@ -33,6 +33,7 @@
             },
         },
     };
+    onMounted(() => console.log(ticketData.value));
 </script>
 <template>
     <!--<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >-->
