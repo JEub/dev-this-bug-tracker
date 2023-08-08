@@ -18,9 +18,12 @@
 <script>
     export default {
         name: 'SingleTicket',
-        props: [
-            "ticketData"
-        ],
+        props: {
+            "ticketData": Object,
+            openEditTicket: {
+                type: Function
+            },
+        },
 
         // emit: ['close'],
         methods: {
@@ -89,7 +92,7 @@
                     </div>
                     <div class="modal-footer">
                         <!--Set up this edit ticket to open edit modal-->
-                        <button class="btn btn-success">Edit Ticket</button>
+                        <button class="btn btn-success" @click="openEditTicket('editTicket', ticketData)">Edit Ticket</button>
                         <!--bootstrap close
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
                         <!--emit close button-->
