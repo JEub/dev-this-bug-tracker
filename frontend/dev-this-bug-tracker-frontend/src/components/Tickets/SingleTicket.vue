@@ -13,15 +13,15 @@
     const ticketComments = ref('Ticket Comments')
     // add user to ticket
     // add comment button for view
-    
 </script>
 <!-- Add change here to incluide ticket data on single ticket view -->
 <script>
     export default {
         name: 'SingleTicket',
-        props: {
-            ticketData: Object
-        },
+        props: [
+            "ticketData"
+        ],
+
         // emit: ['close'],
         methods: {
             // close () {
@@ -34,26 +34,27 @@
         },
         
     };
-    onMounted(() => console.log(ticketData.value));
+    // onMounted(() => console.log(this.ticket));
 </script>
 <template>
     <!--<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >-->
             <div id="modal-dialog" v-if="isModalVisible=true">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 id="singleTicketLabel">Ticket id </h3>
-                        <h3>Creator contact email</h3>
-                        <h3>Assigned users</h3>
-                        <h3>Ticket status</h3>
-                        <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                        <h3 id="singleTicketLabel">{{ ticketData.id }}</h3>
+                        <h3>{{ ticketData.creator.email }}</h3>
+                        <h3>{{ ticketData.assigned_user.username }}</h3>
+                        <h3>{{ ticketData.status_id }}</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <p>Date opened / closed</p>
+                            <!-- This was created / completed but we have 3 dates established in a ticket -->
+                            <p>{{ ticketData.start_date }} / {{ ticketData.completed_date }}</p> 
                         </div>
                         <div class="header">
-                            <p>Title</p>
-                            <p>Description</p>
+                            <p>{{ ticketData.title }}</p>
+                            <p>{{ ticketData.description }}</p>
                         </div>
                         <div class="row">Groups</div>
                         <div class="row">Story points</div>
