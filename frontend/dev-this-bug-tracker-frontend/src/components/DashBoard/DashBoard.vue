@@ -11,26 +11,27 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 // const isOpen = ref(false)
 // const singleTicketOpen = ref(false)
 // const isModalVisible= ref(false)
-const toggleModal = () => {
-    alert( 'You toggled open modal' );
-    isOpen.value = !isOpen.value;
-    return toggleModal;
-};
-const createToggle = () => {
-    alert( 'You toggled create modal' );
-    // createOpen.value = !createOpen.value;
-    isModalVisible.value = !isModalVisible.value;
-    return createToggle;
-};
-const singleToggle = () => {
-    alert( 'You toggled single modal' );
-    singleTicketOpen.value = !singleTicketOpen.value;
-};
+// const toggleModal = () => {
+//     alert( 'You toggled open modal' );
+//     isOpen.value = !isOpen.value;
+//     return toggleModal;
+// };
+// const createToggle = () => {
+//     alert( 'You toggled create modal' );
+//     // createOpen.value = !createOpen.value;
+//     isModalVisible.value = !isModalVisible.value;
+//     return createToggle;
+// };
+// const singleToggle = () => {
+//     alert( 'You toggled single modal' );
+//     singleTicketOpen.value = !singleTicketOpen.value;
+// };
 </script>
 
 
 <script>
     const searchTerm = ref('');
+    
     // const filteredTableData = ref([])
     export default {
         name: 'DashBoard',
@@ -43,11 +44,33 @@ const singleToggle = () => {
         data () {
             return {
                 modalData: null,
-                isModalVisible: false,
+                singleTicketVisable: false,
+                createVisable: false,
+                editVisable: false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
                 currentPage: 1,
+                dummyData:{
+                    id: null,
+                    title: null,
+                    description: null,
+                    start_date: null,
+                    completed_date: null,
+                    status_id: null,
+                    creator: {
+                        id: null,
+                        username: null,
+                        email: null,
+                    },
+                    assigned_user: {
+                        id: null,
+                        username: null,
+                        email: null,
+                    }, 
+                    created_date: null,
+                    last_update: null
+                }
             };
         },
         computed: {
@@ -90,20 +113,53 @@ const singleToggle = () => {
                     }
 
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                    const endIndex = startIndex + this.rowsPerPage;
+                    // const endIndex = startIndex + this.rowsPerPage;
                     this.filteredTableData = filteredTableData;
                     // return filteredTableData;
             }
         },
         methods: {
-            showModal(ticketData) {
-                alert( 'You opened the modal from dashboard' );
-                this.modalData = ticketData;
-                this.isModalVisible = true;
+            showModal(modalType, ticketData) {
+                // alert( 'You opened the modal from dashboard' );
+                // clicking to open closes other refs
+                switch(modalType) {
+                    case 'createTicket':
+                        console.log('Opening Create ticket modal!');
+                        this.createVisable = true;
+                        this.singleTicketVisable = false;
+                        this.editVisable = false;
+                        break;
+                    case 'singleTicket':
+                        console.log("Opening single ticket modal!");
+                        this.modalData = ticketData;
+                        this.singleTicketVisable = true;
+                        this.createVisable = false;
+                        this.editVisable = false;
+                        break;
+                    case 'editTicket':
+                        console.log('Opening Edit ticket modal!');
+                        this.modalData = ticketData;
+                        this.editVisable = true;
+                        this.createVisable = false;
+                        this.singleTicketVisable = false;
+                        break;
+                    }
             },
-            closeModal() {
-                this.isModalVisible = false;
-                alert( 'You closed the modal' );
+            closeModal(modalType) {
+                switch(modalType) {
+                    case 'createTicket':
+                        console.log('Closing Create ticket modal!');
+                        this.createVisable = false;
+                        break;
+                    case 'singleTicket':
+                        console.log("Closing single ticket modal!");
+                        this.singleTicketVisable = false;
+                        break;
+                    case 'editTicket':
+                        console.log('Closing Edit ticket modal!');
+                        this.editVisable = false;
+                        break;
+                    }
             },
             prevPage() {
                 if(this.currentPage > 1) {
@@ -128,17 +184,21 @@ const singleToggle = () => {
 
 <template>
     <!--### ADDED ###-->
-    <!-- <div class="root" >
-        <button @click="createToggle" class="btn btn-primary">Create Ticket</button>
-        <teleport to="body">
-            <div class="modal" v-if="isModalVisible">
-                note: change onclikc to on close so form input can be clocked without closing modal
-                <CreateEditTicket
+    <div  >
+        <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
+        <!-- <teleport to="body">
+            <div class="modal" v-if="singleTicketVisable">
+                note: change onclikc to on close so form input can be clocked without closing modal -->
+                <!-- <CreateEditTicket
                     @close="createToggle"
                     title="Create / Edit Ticket"
-                />
+                    
+                /> -->
+                <!-- :ticket="modalData"  
             </div>
-        </teleport>
+        </teleport> #}-->
+    </div>
+        <!-- 
         <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
         <teleport to="body">
             <div class="modal" v-if="isOpen">
@@ -186,7 +246,8 @@ const singleToggle = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" @click="showModal(row)">
+                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                    @click="showModal('singleTicket', row)">
                     <DashBoard_Table_Row :ticketData="row"/>
                     
                     <!--test vue bootstrap
@@ -206,7 +267,7 @@ const singleToggle = () => {
                     <teleport to="body">
                         <div class="modal" v-if="singleTicketOpen">
                             <SingleTicket 
-                                @close="singleToggle"
+                                @close="closeModal"
                                 title="Single Ticket"
                             />
                         </div>
@@ -221,28 +282,35 @@ const singleToggle = () => {
             <div class="pagination">
                 <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in totalPages"
-                :key="pageNumber"
-                @click="gotoPage(pageNumber)"
-                :class="{ active: currentPage === pageNumber }"
-                >
+                    :key="pageNumber"
+                    @click="gotoPage(pageNumber)"
+                    :class="{ active: currentPage === pageNumber }">
                 {{ pageNumber }}
-            </button>
-            <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
-        </div>
-    </nav>
-</div>
-<!-- <CreateEditTicket
-    v-show="isModalVisible"
-    @close="closeModal"
-    class="modal-popup"
-    :ticket="modalData"
-    /> -->
-    <!-- <CreateEditTicket
-        v-show="isModalVisible"
-        @click="toggleModal"
-        /> -->
-        
-        <SingleTicket v-if="isModalVisible" @close="closeModal" :ticketData="modalData"/>
+                </button>
+                <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
+            </div>
+        </nav>
+    </div>
+        <!-- Opens Edit Ticket Component -->
+        <CreateEditTicket
+            v-if="editVisable"
+            @close="closeModal('editTicket')"
+            class="modal-popup"
+            :ticketData="modalData"
+        /> 
+        <!-- Opens Create Ticket Component -->
+        <CreateEditTicket
+            v-if="createVisable"
+            @close="closeModal('createTicket')"
+            class="modal-popup"
+            :ticketData="dummyData"
+        /> 
+        <!--edit ticket to close modal and open edit modal-->
+        <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
+        <!--<CreateEditTicket
+            v-show="singleTicketVisable"
+            @click="toggleModal"
+        />-->
     </template>
 
 <style>

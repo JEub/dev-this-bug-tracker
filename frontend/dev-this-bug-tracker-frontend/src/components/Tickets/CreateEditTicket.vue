@@ -1,10 +1,12 @@
 <script setup>
     import { ref, onMounted} from 'vue';
     // refactor into one piece with key value relationships
-    const title = ref('Title')
-    const description = ref('Description')
-    const storyPoints = ref('Story Points')
-    const ticketStatus = ref([
+
+
+    // const title = ref(this.ticketData.title)
+    // const description = ref(this.ticketData.description)
+    // const storyPoints = ref(this.ticketData.storyPoints)
+    const ticketStatus = ref([ 
         {id:0, name:'Open'},
         {id:1, name:'In Progess'},
         {id:2, name:'Blocked'},
@@ -12,47 +14,66 @@
         {id:4, name:'Closed'},
         {id:5, name:'Cancelled'}
     ])
-    const groups = ref(['Retail'])
-    const assignedUser = ref(['Jack'])
-    const parentLinks = ref('Parent Links')
-    const ticketTags = ref('Ticket Tags')
-    const ticketComments = ref('Ticket Comments')
+    // // const groups = ref([this.ticketData.groups])
+    // const assignedUser = ref([this.ticketData.asignedUser])
+    // const parentLinks = ref(this.ticketData.parentLinks)
+    // const ticketTags = ref(this.ticketData.ticketTags)
+    // const ticketComments = ref(this.ticketData.ticketComments)
     
-    const isOpen = ref(false)
-    const createOpen = ref(false)
-    const isModalVisible = ref(false)
+
+    // {id:0, name:'Open'},
+    //     {id:1, name:'In Progess'},
+    //     {id:2, name:'Blocked'},
+    //     {id:3, name:'Needs More Info'},
+    //     {id:4, name:'Closed'},
+    //     {id:5, name:'Cancelled'}
+    // const isOpen = ref(false)
+    // const createOpen = ref(false)
+    // const isModalVisible = ref(false)
     // onMounted(() => console.log(ticketproperty.value))
+
+    
 </script>
 <script>
+    // const title = ref(null);
+    // const description = ref(this.ticketData.description);
+    // const storyPoints = ref(this.ticketData.storyPoints);
+    // const ticketStatus = ref([this.ticketData.ticketStatus]);
+    // const groups = ref([this.ticketData.groups]);
+    // const assignedUser = ref([this.ticketData.asignedUser]);
+    // const parentLinks = ref(this.ticketData.parentLinks);
+    // const ticketTags = ref(this.ticketData.ticketTags);
+    // const ticketComments = ref(this.ticketData.ticketComments);
     export default {
         name: 'CreateEditTicket',
         props: {    
-            ticket: Object
+            ticketData: {
+                "id": String,
+                "title": String,
+                "description": String,
+                "start_date": Date,
+                "completed_date": Date,
+                "status_id": Number,
+                "creator": {
+                    "id": String,
+                    "username": String,
+                    "email": String
+                },
+                "assigned_user": {
+                    "id": Number,
+                    "username": String,
+                    "email": String
+                }, 
+                "created_date": Date,
+                "last_update": Date,
+            },
+            newData: {
+                "title": String,
+                "description": String,
+                "storyPoints": String,
+                "ticketStatus": String
+            },
         },
-        emit: ['close'],
-        //data(){
-            //return{
-                //ticket: {
-                    //title: '',
-                    //description: '',
-                    //storyPoints: '',
-                    //groups: '',
-                    //assignedUser: '',
-                    //parentLinks: '',
-                    //ticketTags: '',
-                    //ticketComments: '',
-                //},
-                //ticketStatus: [
-                    //{text: 'Select One', value: null},
-                    //'Open',
-                    //'In Progess',
-                    //'Blocked',
-                    //'Needs More Info',
-                    //'Closed',
-                    //'Cancelled'
-                //]
-            //}
-        //}
         methods: {
             // close () {
             //     emit('close');
@@ -80,11 +101,12 @@
             },
         },
     };
+
 </script>
 
 <template>
-
-    <div class="modal" v-if="isModalVisible=true">
+    <!-- v-if="isModalVisible=true" -->
+    <div class="modal">
         
         <!-- entire form will require prepopulate of data from database upon edit function -->  
         <div id="wrapper">
@@ -94,12 +116,13 @@
                 <div class="row">
                     <label for="title">Title: </label>
                     <!-- enter values for editing form -->
-                    <input v-model="title" id="title"/> 
+                    <!-- ="title" -->
+                    <input id="title" v-model="ticketData.title" /> 
                 </div>
                 <div class="row">
                     <label for="description">Description: </label>
                     <!-- enter values for editing form -->
-                    <input v-model = "description" id="description"/> 
+                    <input v-model = "ticketData.description" id="description"/> 
                 </div>
                 <div class="row">
                     <label for="content">Content: </label>
@@ -112,7 +135,7 @@
                     <label>Ticket Status: </label>
                     <!-- stored ticket status from db? -->
                     <!-- change up order of v-model and v-for? v-for loops over data that v-model is holding then binding back to ref -->
-                    <select v-model="ticketStatus" >
+                    <select v-model=" ticketData.status_id" >
                         <option v-for="(ticketStatus, index) in ticketStatus"
                         :key="ticketStatus.id">{{ index +1 }} : {{ ticketStatus.name }}</option>
                         <!-- <option>Open</option> 
@@ -135,7 +158,7 @@
                     <p>Current Groups: <pre>{{ groups }}</pre></p>
                     
                 </div>
-                
+                <!-- ####### ADD CALLBACK TO DATABASE HERE WITH V-FOR TO ITERATE THROUGH USERS IN DATABASE #########-->
                 <div class="row">
                     <label>Assign A User: </label>
                     <!-- call users from database here. map through values conditionally render each name with new input using map and filter -->
@@ -145,12 +168,9 @@
                         <option>Jenkins</option>
                     </select>
                     <span>Assigned Users: {{ assignedUser }}</span> -->
-                    <input type="checkbox" id="jack" value="Jack" v-model="assignedUser">
+                    <input type="checkbox" id="jack" value="Jack" v-model="ticketData.assigned_user.username">
                     <label for="jack">Jack </label>
-                    <input type="checkbox" id="jill" value="Jill" v-model="assignedUser">
-                    <label for="jill">Jill </label>
-                    <input type="checkbox" id="jenkins" value="Jenkins" v-model="assignedUser">
-                    <label for="jenkins">Jenkins </label>
+                    
                     <p>Assigned Users: <pre>{{ assignedUser }}</pre></p>
                 </div>
                 <div class="row">
