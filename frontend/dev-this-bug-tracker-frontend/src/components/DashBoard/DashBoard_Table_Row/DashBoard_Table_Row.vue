@@ -1,8 +1,27 @@
 <script>
 export default {
-    props: {
-        ticketData: Object
+  props: {
+    ticketData: {
+      "id": String,
+      "title": String,
+      "description": String,
+      "start_date": Date,
+      "completed_date": Date,
+      "status_id": Number,
+      "creator": {
+        "id": String,
+        "username": String,
+        "email": String
+      },
+      "assigned_user": {
+        "id": Number,
+        "username": String,
+        "email": String
+      }, 
+      "created_date": Date,
+      "last_update": Date,
     }
+  }
 }
 </script>
 
@@ -15,6 +34,6 @@ export default {
     <td>{{ ticketData.created_date }}</td>
 </template>
 
-<style>
+<!-- <style>
     @import './DashBoard_Table_Row.css';
-</style>
+</style> -->

@@ -13,3 +13,13 @@ Getting started
 land page not reg guest
 
 Create a ticket protected route with registered email
+
+
+
+update wireframe to add admin and group management
+
+add admin page - user management / group management
+
+FIGURE OUT
+pagination for total tickets per query, 30 tickets per page example
+

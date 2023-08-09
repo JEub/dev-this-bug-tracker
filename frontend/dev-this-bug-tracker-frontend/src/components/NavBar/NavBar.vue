@@ -1,7 +1,24 @@
 <script setup>
-
+// ##### added ######
+// import { ref } from 'vue';
+// import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
+// const isOpen = ref(false)
+// const toggleModal = () => {
+//     isOpen.value = !isOpen.value;
+//     alert( 'You opened the modal from navbar' );
+//     return toggleModal;
+// };
 </script>
-
+<!-- <script>
+    export default {
+        name: 'NavBar',
+        components: {
+            CreateEditTicket
+        },
+        props: [],
+        emit: ['close'],
+    };
+</script> -->
 <template>
     <!-- Temporary -->
     <div class="navbar">

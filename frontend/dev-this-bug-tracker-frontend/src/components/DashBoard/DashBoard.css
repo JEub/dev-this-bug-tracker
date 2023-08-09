@@ -1,8 +1,19 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+.dashboard {
+    border: 3px solid red;
+    margin: 5px 5px;
+}
+
 .dashboard-table {
-    margin-top: 25px;
-    width: 100%;
+    margin: 0px 0px;
+    width: 100vw;
     /* Temporary Border For Better Visablility */
     border-collapse: collapse;
+
+
 }
 .dashboard-header {
     display: flex;
@@ -10,8 +21,12 @@
     width: 100%;
 }
 
+/* tr:nth-child(n + 10) {
+    visibility: collapse;
+} */
+
 .ticket-data {
-    height: 50px;
+    line-height: 50px;
 }
 
 /* .ticket-data:hover {
@@ -29,4 +44,26 @@
     height: 100vh;
 }
 
-
+.root{
+    position: relative;
+}
+.modal{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+}
+.modal > div {
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 10px;
+    border: 2px solid blue;
+}
