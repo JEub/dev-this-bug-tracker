@@ -276,16 +276,17 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
         </div>
 
         
-        <nav>
+        <nav class="pagination-container">
             <div class="pagination">
-                <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
+                <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in totalPages"
                     :key="pageNumber"
                     @click="gotoPage(pageNumber)"
-                    :class="{ active: currentPage === pageNumber }">
+                    :class="{ active: currentPage === pageNumber }"
+                    class="pagination-button" >
                 {{ pageNumber }}
                 </button>
-                <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
+                <button @click="nextPage" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
             </div>
         </nav>
     </div>

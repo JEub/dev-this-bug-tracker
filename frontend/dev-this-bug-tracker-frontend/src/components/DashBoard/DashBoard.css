@@ -9,6 +9,7 @@ body {
 
 .dashboard {
     border: 3px solid red;
+    min-height: 400px;
     /* margin: 5px 5px; */
     /* display: flex;
     flex-direction: column;
@@ -44,10 +45,38 @@ body {
     line-height: 50px;
 }
 
-/* .ticket-data:hover {
-    background-color: rgb(238, 236, 236);
+.pagination-container {
+    width: 90%;
+    display: flex;
+    margin: auto;
+    justify-content: flex-end;
+}
+
+
+.pagination-button {
+    padding: 0px 5px;
+    margin: 5px 2px;
+    display: inline-block;
+    outline: 0; 
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    font-size: 13px;
+    height: 30px;
+    background-color: #9147ff;
+    color: white;
+    padding: 0 10px;
+}
+
+.active {
+    background-color: rgb(255,0,219);
+}
+
+.pagination button:hover {
+    background-color: rgb(255,0,219);
     transition: 1s;
-} */
+}
 
 .modal-popup {
     position: absolute;
