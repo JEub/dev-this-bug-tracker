@@ -81,56 +81,42 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
         computed: {
             totalRows() {
                 if(searchTerm.value != '') {
-                    console.log(this.filteredTableData.length);
                     return this.filteredTableData.length;
                 } else {
                     return this.tableData.length;
                 }
             },
-
             totalPages() {
                 return Math.ceil(this.totalRows / this.rowsPerPage);
             },
 
             currentPageData() {
                 this.paginationButton();
-                console.log('94:', this.paginationRange)
-                console.log(searchTerm)
                 if (searchTerm.value != ''){
                     this.filterTableData
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
-
                     return this.filteredTableData.slice(startIndex, endIndex);
-
                 } else {
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
-                    this.paginationButton();
                     return this.tableData.slice(startIndex, endIndex);
-
                 }
             },
-
             filterTableData() {
                 console.log('filtering')
                 let filteredTableData = [];
+                this.currentPage = 1;
                     for(let i = 0; i < this.tableData.length; i++) {
                         if (this.tableData[i].id.includes(searchTerm.value) || this.tableData[i].title.includes(searchTerm.value) || this.tableData[i].assigned_user.username.includes(searchTerm.value) || this.tableData[i].created_date.includes(searchTerm.value)) {
                             filteredTableData.push(this.tableData[i]);
                         }
                     }
-
-                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                    // const endIndex = startIndex + this.rowsPerPage;
                     this.filteredTableData = filteredTableData;
-                    // return filteredTableData;
             }
         },
         methods: {
             showModal(modalType, ticketData) {
-                // alert( 'You opened the modal from dashboard' );
-                // clicking to open closes other refs
                 switch(modalType) {
                     case 'createTicket':
                         console.log('Opening Create ticket modal!');
@@ -188,7 +174,6 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                         maxLeft = 1;
                     }
                 }
-                // let sendData = (maxLeft, maxRight); 
                 this.paginationRange = {
                     'maxLeft': maxLeft,
                     'maxRight': maxRight
