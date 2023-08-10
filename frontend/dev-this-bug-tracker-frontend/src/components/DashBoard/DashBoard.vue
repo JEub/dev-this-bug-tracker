@@ -92,15 +92,15 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
             currentPageData() {
                 this.paginationButton();
+                this.filterTableData
                 if (searchTerm.value != ''){
-                    this.filterTableData
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
                     return this.filteredTableData.slice(startIndex, endIndex);
                 } else {
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
-                    return this.tableData.slice(startIndex, endIndex);
+                    return this.filteredTableData.slice(startIndex, endIndex);
                 }
             },
             filterTableData() {
