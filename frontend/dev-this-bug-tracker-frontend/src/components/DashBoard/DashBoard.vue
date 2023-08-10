@@ -51,6 +51,11 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 filteredTableData: tickets,
                 rowsPerPage: 5,
                 currentPage: 1,
+                maxPaginationButtons: 5,
+                paginationRange: {
+                    maxLeft: 1,
+                    maxRight: 5,
+                },
                 dummyData:{
                     id: null,
                     title: null,
@@ -88,16 +93,20 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             },
 
             currentPageData() {
+                this.paginationButton();
+                console.log('94:', this.paginationRange)
                 console.log(searchTerm)
                 if (searchTerm.value != ''){
                     this.filterTableData
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
+
                     return this.filteredTableData.slice(startIndex, endIndex);
 
                 } else {
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
+                    this.paginationButton();
                     return this.tableData.slice(startIndex, endIndex);
 
                 }
@@ -161,6 +170,33 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                         break;
                     }
             },
+            paginationButton() {
+                let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
+                let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
+                console.log('176', maxLeft, maxRight)
+                if (maxLeft < 1) {
+                    maxLeft = 1;
+                    maxRight = this.maxPaginationButtons
+                }
+
+                if (maxRight > this.totalPages) {
+                    maxLeft = this.totalPages - (this.maxPaginationButtons - 1);
+                    maxRight = this.totalPages
+
+                    console.log('186', maxLeft, maxRight)
+                    if (maxLeft < 1) {
+                        maxLeft = 1;
+                    }
+                }
+                // let sendData = (maxLeft, maxRight); 
+                this.paginationRange = {
+                    'maxLeft': maxLeft,
+                    'maxRight': maxRight
+                }
+            },
+            range(start, end) {
+                return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+            },
             prevPage() {
                 if(this.currentPage > 1) {
                     this.currentPage--;
@@ -183,33 +219,9 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 </script>
 
 <template>
-    <!--### ADDED ###-->
     <div  >
         <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
-        <!-- <teleport to="body">
-            <div class="modal" v-if="singleTicketVisable">
-                note: change onclikc to on close so form input can be clocked without closing modal -->
-                <!-- <CreateEditTicket
-                    @close="createToggle"
-                    title="Create / Edit Ticket"
-                    
-                /> -->
-                <!-- :ticket="modalData"  
-            </div>
-        </teleport> #}-->
     </div>
-        <!-- 
-        <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
-        <teleport to="body">
-            <div class="modal" v-if="isOpen">
-                <TicketModal
-                    @click="toggleModal"
-                    title="Does this work?"
-                    msg="I hope so"
-                />
-            </div>
-        </teleport>
-    </div> -->
     <div class="dashboard">
         <div class="dashboard-header">
             <div>
@@ -246,29 +258,6 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                     <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
                         @click="showModal('singleTicket', row)">
                         <DashBoard_Table_Row :ticketData="row"/>
-                        
-                        <!--test vue bootstrap
-                        <div>
-                            <b-button v-b-modal.modal-1>Test BS Launch</b-button >
-                            <b-modal id="modal-1" title="new ticket">
-                                <SingleTicket 
-                                    @close="singleToggle"
-                                    title="Single Ticket"
-                                />
-                            </b-modal>
-                        </div>-->
-                        
-    
-    
-                        <!-- <button @click="singleToggle" class="btn btn-success">View Ticket</button>
-                        <teleport to="body">
-                            <div class="modal" v-if="singleTicketOpen">
-                                <SingleTicket 
-                                    @close="closeModal"
-                                    title="Single Ticket"
-                                />
-                            </div>
-                        </teleport> -->
                     </tr>
                 </tbody>
                 
@@ -279,7 +268,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
         <nav class="pagination-container">
             <div class="pagination">
                 <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
-                <button v-for="pageNumber in totalPages"
+                <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
                     :key="pageNumber"
                     @click="gotoPage(pageNumber)"
                     :class="{ active: currentPage === pageNumber }"

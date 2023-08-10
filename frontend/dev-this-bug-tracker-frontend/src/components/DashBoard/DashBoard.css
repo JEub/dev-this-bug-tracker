@@ -75,7 +75,7 @@ body {
 
 .pagination button:hover {
     background-color: rgb(255,0,219);
-    transition: 1s;
+    transition: .5s;
 }
 
 .modal-popup {
