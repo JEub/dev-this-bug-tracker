@@ -2,19 +2,34 @@
     margin: 0px;
     padding: 0px;
 }
+
+body {
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(81,9,121,1) 32%, rgba(255,0,219,1) 100%);
+}
+
 .dashboard {
     border: 3px solid red;
-    margin: 5px 5px;
+    /* margin: 5px 5px; */
+    /* display: flex;
+    flex-direction: column;
+    width: 75%; */
 }
 
 .dashboard-table {
     margin: 0px 0px;
-    width: 100vw;
+    width: 90%;
     /* Temporary Border For Better Visablility */
     border-collapse: collapse;
+    border: 1px solid;
 
 
 }
+
+.table-data-container {
+    display: flex;
+    justify-content: center;
+}
+
 .dashboard-header {
     display: flex;
     justify-content: space-around;

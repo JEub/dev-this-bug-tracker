@@ -221,61 +221,59 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 <button>Filter</button>
             </div>
         </div> 
-
-        <table id="myTable" class="dashboard-table">
-            <thead>
-                <tr>
-                    <th>
-                        <h2>Id</h2>
-                    </th>
-                    <th>
-                        <h2>Title</h2>
-                    </th>
-                    <th>
-                        <h2>Assigned User</h2>
-                    </th>
-                    <th>
-                        <h2>Status</h2>
-                    </th>
-                    <th>
-                        <h2>Creation Date</h2>
-                    </th>
-                    <th>
-                        <h2>Actions</h2>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
-                    @click="showModal('singleTicket', row)">
-                    <DashBoard_Table_Row :ticketData="row"/>
-                    
-                    <!--test vue bootstrap
-                    <div>
-                        <b-button v-b-modal.modal-1>Test BS Launch</b-button >
-                        <b-modal id="modal-1" title="new ticket">
-                            <SingleTicket 
-                                @close="singleToggle"
-                                title="Single Ticket"
-                            />
-                        </b-modal>
-                    </div>-->
-                    
-
-
-                    <!-- <button @click="singleToggle" class="btn btn-success">View Ticket</button>
-                    <teleport to="body">
-                        <div class="modal" v-if="singleTicketOpen">
-                            <SingleTicket 
-                                @close="closeModal"
-                                title="Single Ticket"
-                            />
-                        </div>
-                    </teleport> -->
-                </tr>
-            </tbody>
-            
-        </table>
+        <div class="table-data-container">
+            <table id="myTable" class="table table-striped table-hover dashboard-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <h2>Id</h2>
+                        </th>
+                        <th>
+                            <h2>Title</h2>
+                        </th>
+                        <th>
+                            <h2>Assigned User</h2>
+                        </th>
+                        <th>
+                            <h2>Status</h2>
+                        </th>
+                        <th>
+                            <h2>Creation Date</h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                        @click="showModal('singleTicket', row)">
+                        <DashBoard_Table_Row :ticketData="row"/>
+                        
+                        <!--test vue bootstrap
+                        <div>
+                            <b-button v-b-modal.modal-1>Test BS Launch</b-button >
+                            <b-modal id="modal-1" title="new ticket">
+                                <SingleTicket 
+                                    @close="singleToggle"
+                                    title="Single Ticket"
+                                />
+                            </b-modal>
+                        </div>-->
+                        
+    
+    
+                        <!-- <button @click="singleToggle" class="btn btn-success">View Ticket</button>
+                        <teleport to="body">
+                            <div class="modal" v-if="singleTicketOpen">
+                                <SingleTicket 
+                                    @close="closeModal"
+                                    title="Single Ticket"
+                                />
+                            </div>
+                        </teleport> -->
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
 
         
         <nav>
@@ -315,6 +313,4 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
 <style>
     @import './DashBoard.css';
-    /* @import 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css';
-    @import 'https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'; */
 </style>
