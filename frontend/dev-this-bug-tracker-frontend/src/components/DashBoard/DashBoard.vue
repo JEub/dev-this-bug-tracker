@@ -6,32 +6,10 @@ import TicketModal from '../Tickets/TicketModal.vue';
 import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
-
-// const searchTerm = ref('');
-// const isOpen = ref(false)
-// const singleTicketOpen = ref(false)
-// const isModalVisible= ref(false)
-// const toggleModal = () => {
-//     alert( 'You toggled open modal' );
-//     isOpen.value = !isOpen.value;
-//     return toggleModal;
-// };
-// const createToggle = () => {
-//     alert( 'You toggled create modal' );
-//     // createOpen.value = !createOpen.value;
-//     isModalVisible.value = !isModalVisible.value;
-//     return createToggle;
-// };
-// const singleToggle = () => {
-//     alert( 'You toggled single modal' );
-//     singleTicketOpen.value = !singleTicketOpen.value;
-// };
 </script>
-
 
 <script>
     const searchTerm = ref('');
-    
     // const filteredTableData = ref([])
     export default {
         name: 'DashBoard',
@@ -73,6 +51,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 }
             };
         },
+        // enter notes about what computed does in regards to data
         computed: {
             totalRows() {
                 if(searchTerm.value != '') {
@@ -82,11 +61,9 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                     return this.tableData.length;
                 }
             },
-
             totalPages() {
                 return Math.ceil(this.totalRows / this.rowsPerPage);
             },
-
             currentPageData() {
                 console.log(searchTerm)
                 if (searchTerm.value != ''){
@@ -94,24 +71,25 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
                     return this.filteredTableData.slice(startIndex, endIndex);
-
                 } else {
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
                     return this.tableData.slice(startIndex, endIndex);
-
                 }
             },
-
             filterTableData() {
                 console.log('filtering')
                 let filteredTableData = [];
                     for(let i = 0; i < this.tableData.length; i++) {
-                        if (this.tableData[i].id.includes(searchTerm.value) || this.tableData[i].title.includes(searchTerm.value) || this.tableData[i].assigned_user.username.includes(searchTerm.value) || this.tableData[i].created_date.includes(searchTerm.value)) {
-                            filteredTableData.push(this.tableData[i]);
+                        // can this all be condensed to switch case or create additional if statements?
+                        if (
+                            this.tableData[i].id.includes(searchTerm.value) || 
+                            this.tableData[i].title.includes(searchTerm.value) || 
+                            this.tableData[i].assigned_user.username.includes(searchTerm.value) || 
+                            this.tableData[i].created_date.includes(searchTerm.value)) {
+                                filteredTableData.push(this.tableData[i]);
                         }
                     }
-
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     // const endIndex = startIndex + this.rowsPerPage;
                     this.filteredTableData = filteredTableData;
@@ -184,35 +162,14 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 
 <template>
     <!--### ADDED ###-->
-    <div  >
+    <div>
         <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
-        <!-- <teleport to="body">
-            <div class="modal" v-if="singleTicketVisable">
-                note: change onclikc to on close so form input can be clocked without closing modal -->
-                <!-- <CreateEditTicket
-                    @close="createToggle"
-                    title="Create / Edit Ticket"
-                    
-                /> -->
-                <!-- :ticket="modalData"  
-            </div>
-        </teleport> #}-->
+        <button @click="showModal()" class="btn btn-outline-secondary">Create User</button>
     </div>
-        <!-- 
-        <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
-        <teleport to="body">
-            <div class="modal" v-if="isOpen">
-                <TicketModal
-                    @click="toggleModal"
-                    title="Does this work?"
-                    msg="I hope so"
-                />
-            </div>
-        </teleport>
-    </div> -->
     <div class="dashboard">
         <div class="dashboard-header">
-            <div>
+            <div >
+                <!--Add filter option here for user specific settings; groups, ticket status queues, assigned to user-->
                 <button class="btn btn-outline-primary">All</button>
                 <button class="btn btn-primary">Mine</button>
             </div>
@@ -221,7 +178,6 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 <button>Filter</button>
             </div>
         </div> 
-
         <table id="myTable" class="dashboard-table">
             <thead>
                 <tr>

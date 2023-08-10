@@ -1,8 +1,6 @@
 <script setup>
     import { ref, onMounted} from 'vue';
     // refactor into one piece with key value relationships
-
-
     // const title = ref(this.ticketData.title)
     // const description = ref(this.ticketData.description)
     // const storyPoints = ref(this.ticketData.storyPoints)
@@ -82,23 +80,23 @@
             // uses Options API to emit a custom event
                 this.$emit('close');
             },
-            onSubmit(event) {
-                event.preventDefault()
-                alert(JSON.stringify(this.form))
-            },
-            onReset(event) {
-                event.preventDefault()
-                // Reset our form values
-                this.form.email = ''
-                this.form.name = ''
-                this.form.food = null
-                this.form.checked = []
-                // Trick to reset/clear native browser form validation state
-                this.show = false
-                this.$nextTick(() => {
-                this.show = true
-                })
-            },
+            // onSubmit(event) {
+            //     event.preventDefault()
+            //     alert(JSON.stringify(this.form))
+            // },
+            // onReset(event) {
+            //     event.preventDefault()
+            //     // Reset our form values
+            //     this.form.email = ''
+            //     this.form.name = ''
+            //     this.form.food = null
+            //     this.form.checked = []
+            //     // Trick to reset/clear native browser form validation state
+            //     this.show = false
+            //     this.$nextTick(() => {
+            //     this.show = true
+            //     })
+            // },
         },
     };
 
@@ -107,12 +105,12 @@
 <template>
     <!-- v-if="isModalVisible=true" -->
     <div class="modal">
-        
         <!-- entire form will require prepopulate of data from database upon edit function -->  
         <div id="wrapper">
         <form action="" class="body">
             <div>
                 <!--minimum required -->
+                <!--fix ref or vmodel to stop saving this on close-->
                 <div class="row">
                     <label for="title">Title: </label>
                     <!-- enter values for editing form -->
