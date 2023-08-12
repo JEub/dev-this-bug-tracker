@@ -14,7 +14,7 @@
     // add user to ticket
     // add comment button for view
 </script>
-<!-- Add change here to incluide ticket data on single ticket view -->
+<!-- Add change here to include ticket data on single ticket view -->
 <script>
     export default {
         name: 'SingleTicket',
@@ -24,12 +24,7 @@
                 type: Function
             },
         },
-
-        // emit: ['close'],
         methods: {
-            // close () {
-            //     emit('close');
-            // },
             close() {
             // uses Options API to emit a custom event
                 this.$emit('close');
@@ -44,6 +39,7 @@
         <div class="modal-content">
             <div class="dismiss-row">
                 <div class="modal-row">
+                    <h3>Single Ticket View</h3>
                     <h3 id="singleTicketLabel">Id: {{ ticketData.id }}</h3>
                     <h3>Created By: {{ ticketData.creator.email }}</h3>
                     <h3>Assigned User: {{ ticketData.assigned_user.username }}</h3>
@@ -104,17 +100,12 @@
                 </div>
             </div>
             <div class="dismiss-row">
-                <!--Set up this edit ticket to open edit modal-->
                 <button class="btn btn-success" @click="openEditTicket('editTicket', ticketData)">Edit Ticket</button>
-                <!--bootstrap close
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-                <!--emit close button-->
                 <button type="button" class="btn btn-danger" @click="close">Close</button>
             </div>
             
         </div>
     </div>
-    <!--</div>-->
 </template>
 
 <style>

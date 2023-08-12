@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
-import TicketModal from '../Tickets/TicketModal.vue';
 import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
@@ -16,19 +15,18 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
     export default {
         name: 'DashBoard',
         components: {
-    CreateEditTicket,
-    DashBoard_Table_Row,
-    SingleTicket,
-    TicketModal,
-    CreateEditUser
-},
+            CreateEditTicket,
+            DashBoard_Table_Row,
+            SingleTicket,
+            CreateEditUser
+        },
         data () {
             return {
                 modalData: null,
                 singleTicketVisable: false,
                 createVisable: false,
                 editVisable: false,
-                userForm: false,
+                userFormVisable: false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
@@ -126,9 +124,9 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                         this.singleTicketVisable = false;
                         break;
                     case 'userForm':
-                        console.log('Opening user form modal!');
+                        console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
                         this.userFormVisable = true;
-                        break;
                     }
             },
             closeModal(modalType) {
@@ -146,9 +144,9 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                         this.editVisable = false;
                         break;
                     case 'userForm':
-                        console.log('Closing user form modal!');
+                        console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
                         this.userFormVisable = false;
-                        break;
                     }
             },
             paginationButton() {
@@ -216,39 +214,37 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                 <button>Filter</button>
             </div>
         </div> 
-        <div class="table-data-container">
-            <table id="myTable" class="table table-striped table-hover dashboard-table">
-                <thead>
-                    <tr>
-                        <th>
-                            <h2>Id</h2>
-                        </th>
-                        <th>
-                            <h2>Title</h2>
-                        </th>
-                        <th>
-                            <h2>Assigned User</h2>
-                        </th>
-                        <th>
-                            <h2>Status</h2>
-                        </th>
-                        <th>
-                            <h2>Creation Date</h2>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
-                        @click="showModal('singleTicket', row)">
-                        <DashBoard_Table_Row :ticketData="row"/>
-                    </tr>
-                </tbody>
-                
-            </table>
-        </div>
-
-        
-        <nav class="pagination-container">
+        <table id="myTable" class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>
+                        <h2>Id</h2>
+                    </th>
+                    <th>
+                        <h2>Title</h2>
+                    </th>
+                    <th>
+                        <h2>Assigned User</h2>
+                    </th>
+                    <th>
+                        <h2>Status</h2>
+                    </th>
+                    <th>
+                        <h2>Creation Date</h2>
+                    </th>
+                    <th>
+                        <h2>Actions</h2>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                    @click="showModal('singleTicket', row)">
+                    <DashBoard_Table_Row :ticketData="row"/>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
             <div class="pagination">
                 <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
