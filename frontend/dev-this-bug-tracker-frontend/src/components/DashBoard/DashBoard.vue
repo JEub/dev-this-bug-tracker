@@ -8,6 +8,7 @@ import SingleTicket from '../Tickets/SingleTicket.vue';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 import CreateEditUser from '../Users/CreateEditUser.vue';
 </script>
+import CreateEditUser from '../Users/CreateEditUser.vue';
 
 <script>
     const searchTerm = ref('');
@@ -15,11 +16,12 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
     export default {
         name: 'DashBoard',
         components: {
-            CreateEditTicket,
-            DashBoard_Table_Row,
-            SingleTicket,
-            TicketModal
-        },
+    CreateEditTicket,
+    DashBoard_Table_Row,
+    SingleTicket,
+    TicketModal,
+    CreateEditUser
+},
         data () {
             return {
                 modalData: null,
@@ -282,7 +284,7 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
             :openEditTicket="showModal"
         />
         <CreateEditUser
-            v-if="singleTicketVisable" 
+            v-if="userForm" 
             @close="closeModal('userForm')"
         />
     </template>
