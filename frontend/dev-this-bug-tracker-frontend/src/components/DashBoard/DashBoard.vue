@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
-import TicketModal from '../Tickets/TicketModal.vue';
+
 import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
@@ -16,8 +16,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
         components: {
             CreateEditTicket,
             DashBoard_Table_Row,
-            SingleTicket,
-            TicketModal
+            SingleTicket
         },
         data () {
             return {
