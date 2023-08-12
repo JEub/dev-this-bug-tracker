@@ -7,6 +7,7 @@ import SingleTicket from '../Tickets/SingleTicket.vue';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 import CreateEditUser from '../Users/CreateEditUser.vue';
 </script>
+import CreateEditUser from '../Users/CreateEditUser.vue';
 
 <script>
     const searchTerm = ref('');
@@ -16,7 +17,8 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
         components: {
             CreateEditTicket,
             DashBoard_Table_Row,
-            SingleTicket
+            SingleTicket,
+            CreateEditUser
         },
         data () {
             return {
@@ -29,6 +31,11 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                 filteredTableData: tickets,
                 rowsPerPage: 5,
                 currentPage: 1,
+                maxPaginationButtons: 5,
+                paginationRange: {
+                    maxLeft: 1,
+                    maxRight: 5,
+                },
                 dummyData:{
                     id: null,
                     title: null,
@@ -55,7 +62,6 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
         computed: {
             totalRows() {
                 if(searchTerm.value != '') {
-                    console.log(this.filteredTableData.length);
                     return this.filteredTableData.length;
                 } else {
                     return this.tableData.length;
@@ -65,21 +71,22 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                 return Math.ceil(this.totalRows / this.rowsPerPage);
             },
             currentPageData() {
-                console.log(searchTerm)
+                this.paginationButton();
+                this.filterTableData
                 if (searchTerm.value != ''){
-                    this.filterTableData
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
                     return this.filteredTableData.slice(startIndex, endIndex);
                 } else {
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
-                    return this.tableData.slice(startIndex, endIndex);
+                    return this.filteredTableData.slice(startIndex, endIndex);
                 }
             },
             filterTableData() {
                 console.log('filtering')
                 let filteredTableData = [];
+                this.currentPage = 1;
                     for(let i = 0; i < this.tableData.length; i++) {
                         // can this all be condensed to switch case or create additional if statements?
                         if (
@@ -90,16 +97,11 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                                 filteredTableData.push(this.tableData[i]);
                         }
                     }
-                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                    // const endIndex = startIndex + this.rowsPerPage;
                     this.filteredTableData = filteredTableData;
-                    // return filteredTableData;
             }
         },
         methods: {
             showModal(modalType, ticketData) {
-                // alert( 'You opened the modal from dashboard' );
-                // clicking to open closes other refs
                 switch(modalType) {
                     case 'createTicket':
                         console.log('Opening Create ticket modal!');
@@ -146,6 +148,32 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                         // this.modalData = ticketData;
                         this.userFormVisable = false;
                     }
+            },
+            paginationButton() {
+                let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
+                let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
+                console.log('176', maxLeft, maxRight)
+                if (maxLeft < 1) {
+                    maxLeft = 1;
+                    maxRight = this.maxPaginationButtons
+                }
+
+                if (maxRight > this.totalPages) {
+                    maxLeft = this.totalPages - (this.maxPaginationButtons - 1);
+                    maxRight = this.totalPages
+
+                    console.log('186', maxLeft, maxRight)
+                    if (maxLeft < 1) {
+                        maxLeft = 1;
+                    }
+                }
+                this.paginationRange = {
+                    'maxLeft': maxLeft,
+                    'maxRight': maxRight
+                }
+            },
+            range(start, end) {
+                return Array.from({ length: end - start + 1 }, (_, index) => start + index);
             },
             prevPage() {
                 if(this.currentPage > 1) {
@@ -218,14 +246,15 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
         </table>
         <nav>
             <div class="pagination">
-                <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
-                <button v-for="pageNumber in totalPages"
+                <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
+                <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
                     :key="pageNumber"
                     @click="gotoPage(pageNumber)"
-                    :class="{ active: currentPage === pageNumber }">
+                    :class="{ active: currentPage === pageNumber }"
+                    class="pagination-button" >
                 {{ pageNumber }}
                 </button>
-                <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
+                <button @click="nextPage" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
             </div>
         </nav>
     </div>
@@ -244,15 +273,18 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
             :ticketData="dummyData"
         /> 
         <!--edit ticket to close modal and open edit modal-->
-        <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
+        <SingleTicket 
+            v-if="singleTicketVisable" 
+            @close="closeModal('singleTicket')" 
+            :ticketData="modalData" 
+            :openEditTicket="showModal"
+        />
         <CreateEditUser
-            v-if="userFormVisable" 
+            v-if="userForm" 
             @close="closeModal('userForm')"
         />
     </template>
 
 <style>
     @import './DashBoard.css';
-    /* @import 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css';
-    @import 'https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'; */
 </style>
