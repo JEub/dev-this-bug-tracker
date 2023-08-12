@@ -24,12 +24,7 @@
                 type: Function
             },
         },
-
-        // emit: ['close'],
         methods: {
-            // close () {
-            //     emit('close');
-            // },
             close() {
             // uses Options API to emit a custom event
                 this.$emit('close');
@@ -105,17 +100,12 @@
                 </div>
             </div>
             <div class="dismiss-row">
-                <!--Set up this edit ticket to open edit modal-->
                 <button class="btn btn-success" @click="openEditTicket('editTicket', ticketData)">Edit Ticket</button>
-                <!--bootstrap close
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-                <!--emit close button-->
                 <button type="button" class="btn btn-danger" @click="close">Close</button>
             </div>
             
         </div>
     </div>
-    <!--</div>-->
 </template>
 
 <style>

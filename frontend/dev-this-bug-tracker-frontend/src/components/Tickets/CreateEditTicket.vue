@@ -41,6 +41,8 @@
                 "storyPoints": String,
                 "ticketStatus": String
             },
+            // createVisable: false,
+            // editVisable: false,
         },
         methods: {
             // uses Options API to emit a custom event
@@ -133,25 +135,25 @@
                 <div class="row">
                     <label for="parentLinks">Parent Links: </label>
                     <!-- link parent tickets with relationship in database -->
-                    <textarea v-model = "parentLinks" id="ticketTags">{{ parentLinks }}</textarea>
+                    <textarea id="ticketTags"></textarea>
                 </div>
                 <div class="row">
                     <label for="ticketTags">Ticket Tags: </label>
                     <!-- call ticket labels from database -->
-                    <textarea v-model = "ticketTags" id="parentLinks">{{ ticketTags }}</textarea>
+                    <textarea  id="parentLinks"></textarea>
                 </div>
                 <div class="row">
                     <label for="ticketComments">Ticket Comments: </label>
                     <!-- call ticket comments from database -->
-                    <textarea v-model = "ticketComments" id="ticketComments" cols="30" rows="10" class="scroll"></textarea>
+                    <textarea  id="ticketComments" cols="30" rows="10" class="scroll"></textarea>
                 </div>
                 <div class="dismiss-row">
                     <!-- conditionally render submit or update if "state" is either new or existing -->
-                    <div v-if="createVisable=true">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                    <div >
+                        <button v-if="createVisable=true" type="submit" class="btn btn-success">Submit</button>
                     </div>
-                    <div v-if="editVisable=true">
-                        <button type="submit" class="btn btn-success">Update</button>
+                    <div >
+                        <button v-if="editVisable=true" type="submit" class="btn btn-success">Update</button>
                     </div>
                     <button type="button" class="btn btn-danger" @click="close">Close</button>
                 </div>

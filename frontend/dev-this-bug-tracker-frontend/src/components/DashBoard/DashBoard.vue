@@ -2,10 +2,10 @@
 import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
-
 import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
+import CreateEditUser from '../Users/CreateEditUser.vue';
 </script>
 
 <script>
@@ -24,6 +24,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 singleTicketVisable: false,
                 createVisable: false,
                 editVisable: false,
+                userFormVisable: false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
@@ -120,6 +121,10 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                         this.createVisable = false;
                         this.singleTicketVisable = false;
                         break;
+                    case 'userForm':
+                        console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
+                        this.userFormVisable = true;
                     }
             },
             closeModal(modalType) {
@@ -136,6 +141,10 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                         console.log('Closing Edit ticket modal!');
                         this.editVisable = false;
                         break;
+                    case 'userForm':
+                        console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
+                        this.userFormVisable = false;
                     }
             },
             prevPage() {
@@ -163,7 +172,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
     <!--### ADDED ###-->
     <div>
         <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
-        <button @click="showModal()" class="btn btn-outline-secondary">Create User</button>
+        <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
     </div>
     <div class="dashboard">
         <div class="dashboard-header">
@@ -204,35 +213,9 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
                     @click="showModal('singleTicket', row)">
                     <DashBoard_Table_Row :ticketData="row"/>
-                    
-                    <!--test vue bootstrap
-                    <div>
-                        <b-button v-b-modal.modal-1>Test BS Launch</b-button >
-                        <b-modal id="modal-1" title="new ticket">
-                            <SingleTicket 
-                                @close="singleToggle"
-                                title="Single Ticket"
-                            />
-                        </b-modal>
-                    </div>-->
-                    
-
-
-                    <!-- <button @click="singleToggle" class="btn btn-success">View Ticket</button>
-                    <teleport to="body">
-                        <div class="modal" v-if="singleTicketOpen">
-                            <SingleTicket 
-                                @close="closeModal"
-                                title="Single Ticket"
-                            />
-                        </div>
-                    </teleport> -->
                 </tr>
             </tbody>
-            
         </table>
-
-        
         <nav>
             <div class="pagination">
                 <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
@@ -262,10 +245,10 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
         /> 
         <!--edit ticket to close modal and open edit modal-->
         <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
-        <!--<CreateEditTicket
-            v-show="singleTicketVisable"
-            @click="toggleModal"
-        />-->
+        <CreateEditUser
+            v-if="userFormVisable" 
+            @close="closeModal('userForm')"
+        />
     </template>
 
 <style>
