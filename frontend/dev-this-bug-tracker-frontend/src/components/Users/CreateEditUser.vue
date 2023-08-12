@@ -15,9 +15,9 @@
 </script>
 
 <template>
-    <div id="wrapper">
-        <form action="" class="body">
-            <div id="header">
+    <div id="modal-dialog">
+        <form action="" class="modal-content">
+            <div class="dismiss-row">
                 <h3>Create / Edit User</h3>
             </div>
             <div class="row">

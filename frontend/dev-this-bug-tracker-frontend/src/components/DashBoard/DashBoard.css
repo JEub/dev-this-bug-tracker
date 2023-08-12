@@ -19,17 +19,12 @@ body {
 
 .dashboard-table {
     margin: 0px 0px;
-<<<<<<< HEAD
-    width: 100vw;
-    border-collapse: collapse;
-=======
     width: 90%;
     /* Temporary Border For Better Visablility */
     border-collapse: collapse;
     border: 1px solid;
 
 
->>>>>>> 6fc6c48f96055d6b94c52b67ed7be898ae7afd8d
 }
 
 .table-data-container {
