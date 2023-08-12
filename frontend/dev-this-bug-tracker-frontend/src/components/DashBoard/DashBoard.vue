@@ -2,36 +2,15 @@
 import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
-import TicketModal from '../Tickets/TicketModal.vue';
 import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
-
-// const searchTerm = ref('');
-// const isOpen = ref(false)
-// const singleTicketOpen = ref(false)
-// const isModalVisible= ref(false)
-// const toggleModal = () => {
-//     alert( 'You toggled open modal' );
-//     isOpen.value = !isOpen.value;
-//     return toggleModal;
-// };
-// const createToggle = () => {
-//     alert( 'You toggled create modal' );
-//     // createOpen.value = !createOpen.value;
-//     isModalVisible.value = !isModalVisible.value;
-//     return createToggle;
-// };
-// const singleToggle = () => {
-//     alert( 'You toggled single modal' );
-//     singleTicketOpen.value = !singleTicketOpen.value;
-// };
+import CreateEditUser from '../Users/CreateEditUser.vue';
 </script>
-
+import CreateEditUser from '../Users/CreateEditUser.vue';
 
 <script>
     const searchTerm = ref('');
-    
     // const filteredTableData = ref([])
     export default {
         name: 'DashBoard',
@@ -39,7 +18,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             CreateEditTicket,
             DashBoard_Table_Row,
             SingleTicket,
-            TicketModal
+            CreateEditUser
         },
         data () {
             return {
@@ -47,6 +26,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 singleTicketVisable: false,
                 createVisable: false,
                 editVisable: false,
+                userFormVisable: false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
@@ -78,6 +58,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 }
             };
         },
+        // enter notes about what computed does in regards to data
         computed: {
             totalRows() {
                 if(searchTerm.value != '') {
@@ -89,7 +70,6 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             totalPages() {
                 return Math.ceil(this.totalRows / this.rowsPerPage);
             },
-
             currentPageData() {
                 this.paginationButton();
                 this.filterTableData
@@ -108,8 +88,13 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 let filteredTableData = [];
                 this.currentPage = 1;
                     for(let i = 0; i < this.tableData.length; i++) {
-                        if (this.tableData[i].id.includes(searchTerm.value) || this.tableData[i].title.includes(searchTerm.value) || this.tableData[i].assigned_user.username.includes(searchTerm.value) || this.tableData[i].created_date.includes(searchTerm.value)) {
-                            filteredTableData.push(this.tableData[i]);
+                        // can this all be condensed to switch case or create additional if statements?
+                        if (
+                            this.tableData[i].id.includes(searchTerm.value) || 
+                            this.tableData[i].title.includes(searchTerm.value) || 
+                            this.tableData[i].assigned_user.username.includes(searchTerm.value) || 
+                            this.tableData[i].created_date.includes(searchTerm.value)) {
+                                filteredTableData.push(this.tableData[i]);
                         }
                     }
                     this.filteredTableData = filteredTableData;
@@ -138,6 +123,10 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                         this.createVisable = false;
                         this.singleTicketVisable = false;
                         break;
+                    case 'userForm':
+                        console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
+                        this.userFormVisable = true;
                     }
             },
             closeModal(modalType) {
@@ -154,6 +143,10 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                         console.log('Closing Edit ticket modal!');
                         this.editVisable = false;
                         break;
+                    case 'userForm':
+                        console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
+                        this.userFormVisable = false;
                     }
             },
             paginationButton() {
@@ -204,12 +197,15 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 </script>
 
 <template>
-    <div  >
+    <!--### ADDED ###-->
+    <div>
         <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
+        <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
     </div>
     <div class="dashboard">
         <div class="dashboard-header">
-            <div>
+            <div >
+                <!--Add filter option here for user specific settings; groups, ticket status queues, assigned to user-->
                 <button class="btn btn-outline-primary">All</button>
                 <button class="btn btn-primary">Mine</button>
             </div>
@@ -218,39 +214,37 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 <button>Filter</button>
             </div>
         </div> 
-        <div class="table-data-container">
-            <table id="myTable" class="table table-striped table-hover dashboard-table">
-                <thead>
-                    <tr>
-                        <th>
-                            <h2>Id</h2>
-                        </th>
-                        <th>
-                            <h2>Title</h2>
-                        </th>
-                        <th>
-                            <h2>Assigned User</h2>
-                        </th>
-                        <th>
-                            <h2>Status</h2>
-                        </th>
-                        <th>
-                            <h2>Creation Date</h2>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
-                        @click="showModal('singleTicket', row)">
-                        <DashBoard_Table_Row :ticketData="row"/>
-                    </tr>
-                </tbody>
-                
-            </table>
-        </div>
-
-        
-        <nav class="pagination-container">
+        <table id="myTable" class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>
+                        <h2>Id</h2>
+                    </th>
+                    <th>
+                        <h2>Title</h2>
+                    </th>
+                    <th>
+                        <h2>Assigned User</h2>
+                    </th>
+                    <th>
+                        <h2>Status</h2>
+                    </th>
+                    <th>
+                        <h2>Creation Date</h2>
+                    </th>
+                    <th>
+                        <h2>Actions</h2>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                    @click="showModal('singleTicket', row)">
+                    <DashBoard_Table_Row :ticketData="row"/>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
             <div class="pagination">
                 <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
@@ -279,11 +273,16 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             :ticketData="dummyData"
         /> 
         <!--edit ticket to close modal and open edit modal-->
-        <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
-        <!--<CreateEditTicket
-            v-show="singleTicketVisable"
-            @click="toggleModal"
-        />-->
+        <SingleTicket 
+            v-if="singleTicketVisable" 
+            @close="closeModal('singleTicket')" 
+            :ticketData="modalData" 
+            :openEditTicket="showModal"
+        />
+        <CreateEditUser
+            v-if="userForm" 
+            @close="closeModal('userForm')"
+        />
     </template>
 
 <style>

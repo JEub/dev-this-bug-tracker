@@ -2,7 +2,7 @@
     margin: 5px;
     padding: 5px;
 }
-#wrapper{
+/* #wrapper{
     height: 100vh;
     width: 100vw;
     opacity: 100%;
@@ -33,9 +33,9 @@
     border-style: border-box;
     border: 1px solid red;
     height: 100%;
-    /*width: 100%; */
+    /*width: 100%; 
     display: flex;
-    /* flex-wrap: wrap; */
+    /* flex-wrap: wrap; 
     flex-direction: column;
     overflow-y: scroll;
     justify-content: center;
@@ -46,68 +46,112 @@
     justify-content: space-around;
     border: 1px solid green;
 }
-.row{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border: 1px solid blue;
-    /* width:25vw; */
-    /* overflow: auto; */
-}
+
 .bigRow{
     height: 25vh;
 }
 .hide{
     display: flex;
     flex-direction: column-reverse;
-    /* flex-wrap:wrap-reverse; */
+    /* flex-wrap:wrap-reverse; 
     align-content: center;
     height: 20vh;
     overflow:scroll;
     width:30vw;
     border: 1px solid green;
     padding-bottom: 5px;
-}
-/* .button{
-    width: 150px;
-    height: 50px;
-    border-radius: 25px;
-    font-size: 14px;
-}
-.exit{
-    border-radius: 50px;
-    background-color:red;
-    color: white;
 } */
 .root{
     position: relative;
 }
+/* space around modal */
 #modal-dialog{
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(128, 4, 120, 0.507);
     width: 100vw;
     height: 100vh;
     display: flex;
-    
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-top: 10px;
+    gap:10px;
 }
-
+/* actual modal */
 .modal-content {
-    background-color: #fff;
+    background-color: rgb(77, 76, 76);
     padding: 50px;
     border-radius: 10px;
-    border: 2px solid blue;
+    border: 5px solid rebeccapurple;
+    height:95vh;
     width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-items: left;
+    align-items: center;
+    overflow-y: scroll;
+    color: white;
 }
-
-/* .modal > div {
-    background-color: #fff;
-    padding: 50px;
-    border-radius: 10px;
-    border: 2px solid blue;
-} */
+.modal-row{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+.dismiss-row{
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: space-around;
+    width: 100%;
+}
+.header-row{
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    gap: 55%;
+}
+.row{
+    display: flex;
+    justify-content: center;
+    border-right: 2px solid purple;
+    border-bottom: 2px solid purple;
+    width:100%;
+    height:20vh;
+    margin-bottom: 10px;
+}
+#big{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:100%;
+    height:40vh;
+}
+/* use scroll on child elements of row class */
+.scroll{
+    height: 85%;
+    overflow-y: scroll;
+}
+/* Create Edit Only */
+#box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height:20vh;
+    margin-bottom: 10px;
+    border-right: 2px solid purple;
+    border-bottom: 2px solid purple;
+    /* overflow-y: scroll; */
+}
+#box > div{
+    display: flex;
+    flex-direction: column;
+}
