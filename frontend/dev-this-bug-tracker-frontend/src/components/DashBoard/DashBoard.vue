@@ -17,12 +17,12 @@ import UserProfile from '../Users/UserProfile.vue';
     export default {
         name: 'DashBoard',
         components: {
-    CreateEditTicket,
-    DashBoard_Table_Row,
-    SingleTicket,
-    CreateEditUser,
-    UserProfile
-},
+            CreateEditTicket,
+            DashBoard_Table_Row,
+            SingleTicket,
+            CreateEditUser,
+            UserProfile
+        },
         data () {
             return {
                 modalData: null,
