@@ -16,6 +16,9 @@
                 "security_question": String,
                 "security_answer": String,
             },
+            openUserProfile: {
+                type: Function
+            },
         },
         methods: {
             // uses Options API to emit a custom event
@@ -98,7 +101,9 @@
                     <input  type="text">
                 </div>
                 <div class="dismiss-row">
-                    <button  type="submit" class="btn btn-success">Submit!</button>
+                    <!--Submit button should save data. close edit user modal and open user profile modal-->
+                    <button  type="submit" class="btn btn-success"
+                    @click="openUserProfile('userProfile')">Submit!</button>
                     <button type="button" class="btn btn-danger" @click="close">Close</button>
                 </div>
             </form>

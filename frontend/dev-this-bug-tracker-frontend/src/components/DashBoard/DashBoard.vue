@@ -6,8 +6,10 @@ import SingleTicket from '../Tickets/SingleTicket.vue';
 // import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 import CreateEditUser from '../Users/CreateEditUser.vue';
+import UserProfile from '../Users/UserProfile.vue';
 </script>
-import CreateEditUser from '../Users/CreateEditUser.vue';
+
+
 
 <script>
     const searchTerm = ref('');
@@ -15,11 +17,12 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
     export default {
         name: 'DashBoard',
         components: {
-            CreateEditTicket,
-            DashBoard_Table_Row,
-            SingleTicket,
-            CreateEditUser
-        },
+    CreateEditTicket,
+    DashBoard_Table_Row,
+    SingleTicket,
+    CreateEditUser,
+    UserProfile
+},
         data () {
             return {
                 modalData: null,
@@ -27,6 +30,7 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                 createVisable: false,
                 editVisable: false,
                 userFormVisable: false,
+                userProfileVisable:false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
@@ -101,6 +105,7 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
             }
         },
         methods: {
+            // OPEN MODAL WITH ARGUEMENT
             showModal(modalType, ticketData) {
                 switch(modalType) {
                     case 'createTicket':
@@ -127,8 +132,18 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                         console.log('Opening User Form modal!');
                         // this.modalData = ticketData;
                         this.userFormVisable = true;
+                        this.userProfileVisable = false;
+                        break;
+                    case 'userProfile':
+                        console.log('Opening User Profile modal!');
+                        // this.modalData = userData;
+                        this.userProfileVisable = true;
+                        this.userFormVisable = false;
+                        break;
                     }
+                    
             },
+            // CLOSE MODAL WITH ARGUEMENT
             closeModal(modalType) {
                 switch(modalType) {
                     case 'createTicket':
@@ -147,8 +162,14 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
                         console.log('Opening User Form modal!');
                         // this.modalData = ticketData;
                         this.userFormVisable = false;
+                    case 'userProfile':
+                        console.log('Closing User Profile modal!');
+                        // this.modalData = userData;
+                        this.userProfileVisable = false;
+                        break;
                     }
             },
+            // PAGINATION
             paginationButton() {
                 let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
                 let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
@@ -188,6 +209,7 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
             gotoPage(pageNumber) {
                 this.currentPage = pageNumber;
             },
+            // CLOSE MODAL
             close() {
             // uses Options API to emit a custom event
                 this.$emit('close');
@@ -201,6 +223,9 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
     <div>
         <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
         <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
+        <button @click="showModal('userProfile')"
+        class="btn btn-outline-success"
+        >Profile</button>
     </div>
     <div class="dashboard">
         <div class="dashboard-header">
@@ -279,9 +304,17 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
             :ticketData="modalData" 
             :openEditTicket="showModal"
         />
+        <!--Opens User Create Modal-->
         <CreateEditUser
-            v-if="userForm" 
+            v-if="userFormVisable" 
             @close="closeModal('userForm')"
+            :openUserProfile="showModal"
+        />
+        <!--Opens user profile-->
+        <UserProfile
+            v-if="userProfileVisable"
+            @close="closeModal('userProfile')"
+            :openEditUser="showModal"
         />
     </template>
 
