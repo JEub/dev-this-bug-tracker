@@ -269,7 +269,7 @@ import UserProfile from '../Users/UserProfile.vue';
                 <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
                     :key="pageNumber"
-                    @click="gotoPage(pageNumber)"
+                    @click="gotoPage(pageNumber)" 
                     :class="{ active: currentPage === pageNumber }"
                     class="pagination-button" >
                 {{ pageNumber }}
