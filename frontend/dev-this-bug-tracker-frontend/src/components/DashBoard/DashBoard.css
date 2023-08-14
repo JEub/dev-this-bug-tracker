@@ -8,6 +8,7 @@ body {
 }
 
 .dashboard {
+    /* Temporary Border For Better Visablility */
     border: 3px solid red;
     min-height: 400px;
     /* margin: 5px 5px; */
