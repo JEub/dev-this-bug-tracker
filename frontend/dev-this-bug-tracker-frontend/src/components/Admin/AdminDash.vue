@@ -1,9 +1,12 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import CreateEditUser from '../Users/CreateEditUser.vue';
 import UserProfile from '../Users/UserProfile.vue';
+// const users = ref([null]);
 </script>
 <script>
+    
     export default {
         name: 'AdminDashboard',
         components: {
@@ -14,6 +17,8 @@ import UserProfile from '../Users/UserProfile.vue';
             return {
                 userFormVisable: false,
                 userProfileVisable:false,
+                users: [],
+                error: false,
             }
         },
         methods: {
@@ -46,13 +51,33 @@ import UserProfile from '../Users/UserProfile.vue';
                         break;
                 }
             },
+            getAllUsers() {
+                axios
+                    .get('http://127.0.0.1:8000/user/')
+                    .then(response => {
+                        console.log(response);
+                        const usersData = response.data;
+                        console.log(usersData);
+                        this.users = usersData;
+                        console.log("Success!" + this.users);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        console.log('Try again');
+                        this.error = true;
+                    })
+
+            }
         },
+        // created: () => {
+        //     this.getAllUsers();
+        //     }
     };
 </script>
 <template>
     <div>
         <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
-        <button @click="showModal('userProfile')"
+        <button @click="getAllUsers()"
         class="btn btn-outline-success"
         >Profile</button>
     </div>
@@ -67,6 +92,7 @@ import UserProfile from '../Users/UserProfile.vue';
                         <h2>Username</h2>
                     </th>
                     <th>
+                        <!--Sub table when clicked for all tickets assigned to this user-->
                         <h2>Assigned ticket count</h2>
                     </th>
                     <th>
@@ -79,7 +105,8 @@ import UserProfile from '../Users/UserProfile.vue';
             </thead>
             <tbody>
                 <tr>
-                    <td>Populated data here</td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </tbody>
             <nav>
