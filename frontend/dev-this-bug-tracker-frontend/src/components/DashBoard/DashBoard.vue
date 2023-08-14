@@ -104,7 +104,6 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 }
             },
             filterTableData() {
-                console.log('filtering')
                 let filteredTableData = [];
                 this.currentPage = 1;
                     for(let i = 0; i < this.tableData.length; i++) {
@@ -159,17 +158,13 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             paginationButton() {
                 let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
                 let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
-                console.log('176', maxLeft, maxRight)
                 if (maxLeft < 1) {
                     maxLeft = 1;
                     maxRight = this.maxPaginationButtons
                 }
-
                 if (maxRight > this.totalPages) {
                     maxLeft = this.totalPages - (this.maxPaginationButtons - 1);
                     maxRight = this.totalPages
-
-                    console.log('186', maxLeft, maxRight)
                     if (maxLeft < 1) {
                         maxLeft = 1;
                     }
@@ -284,6 +279,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             v-show="singleTicketVisable"
             @click="toggleModal"
         />-->
+        
     </template>
 
 <style>
