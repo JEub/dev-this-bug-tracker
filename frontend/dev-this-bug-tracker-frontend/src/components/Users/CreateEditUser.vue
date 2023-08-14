@@ -49,7 +49,7 @@
 <template>
     <div id="modal-dialog" >
         <div class="modal-content">
-            <form action="" class="modal-row">
+            <form action="http://127.0.0.1:8000/user/create" class="modal-row">
                 <div class="header-row">
                     <h3>Create / Edit User</h3>
                     <button type="button" class="btn btn-danger" @click="close">Close</button>
