@@ -1,14 +1,18 @@
 from datetime import datetime
 from typing import Optional
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from config.database import get_db
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from model.ticket import Ticket
+from model.user import User
+from jose import JWTError, jwt
+from fastapi.security import OAuth2PasswordBearer
+import logging
 
 router = APIRouter()
 
-
+## postgreSQL로 변경할것
 class RequestBody(BaseModel):
     title: str
     description: Optional[str]
@@ -65,10 +69,39 @@ class TicketBuilder:
             created_date=self.created_date,
         )
 
+SECRET_KEY = "secret" ## change to env variable later
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+ALGORITHM = "HS256"
 
+class Token(BaseModel):
+    username: str
+
+def getUserFromToken(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"}
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        token_data = Token(username=username)
+        user = db.query(User).filter(User.username == token_data.username).first()
+        if user is None:
+            raise credentials_exception
+        return user.username
+    except JWTError:
+        return None
+
+# get ticket list by user id
 @router.get("/")
-def getAllTickets(db: Session = Depends(get_db)):
-    ticketList = db.query(Ticket).all()
+def getAllTickets(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    ## get user data from token and get user id
+    ## user_id = get_user_id_from_token(token)
+    user = getUserFromToken(db, token)
+    ticketList = db.query(Ticket).filter(Ticket.creator == User.id).all()
     return ticketList
 
 
@@ -96,7 +129,7 @@ def updateTicket(id: int, ticket: RequestBody, db: Session = Depends(get_db)):
     return model
 
 
-@router.delete("delete/{id}")
+@router.delete("/delete/{id}")
 def deleteTicket(id: int, db: Session = Depends(get_db)):
     ticket = db.query(Ticket).filter(Ticket.id == id).first()
     db.delete(ticket)
