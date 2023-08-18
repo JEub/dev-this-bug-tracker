@@ -3,13 +3,10 @@ import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
 import SingleTicket from '../Tickets/SingleTicket.vue';
-// import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 import CreateEditUser from '../Users/CreateEditUser.vue';
 import UserProfile from '../Users/UserProfile.vue';
 </script>
-
-
 
 <script>
     const searchTerm = ref('');
@@ -108,33 +105,33 @@ import UserProfile from '../Users/UserProfile.vue';
             showModal(modalType, ticketData) {
                 switch(modalType) {
                     case 'createTicket':
-                        console.log('Opening Create ticket modal!');
+                        // console.log('Opening Create ticket modal!');
                         this.createVisable = true;
                         this.singleTicketVisable = false;
                         this.editVisable = false;
                         break;
                     case 'singleTicket':
-                        console.log("Opening single ticket modal!");
+                        // console.log("Opening single ticket modal!");
                         this.modalData = ticketData;
                         this.singleTicketVisable = true;
                         this.createVisable = false;
                         this.editVisable = false;
                         break;
                     case 'editTicket':
-                        console.log('Opening Edit ticket modal!');
+                        // console.log('Opening Edit ticket modal!');
                         this.modalData = ticketData;
                         this.editVisable = true;
                         this.createVisable = false;
                         this.singleTicketVisable = false;
                         break;
                     case 'userForm':
-                        console.log('Opening User Form modal!');
+                        // console.log('Opening User Form modal!');
                         // this.modalData = ticketData;
                         this.userFormVisable = true;
                         this.userProfileVisable = false;
                         break;
                     case 'userProfile':
-                        console.log('Opening User Profile modal!');
+                        // console.log('Opening User Profile modal!');
                         // this.modalData = userData;
                         this.userProfileVisable = true;
                         this.userFormVisable = false;
@@ -146,23 +143,23 @@ import UserProfile from '../Users/UserProfile.vue';
             closeModal(modalType) {
                 switch(modalType) {
                     case 'createTicket':
-                        console.log('Closing Create ticket modal!');
+                        // console.log('Closing Create ticket modal!');
                         this.createVisable = false;
                         break;
                     case 'singleTicket':
-                        console.log("Closing single ticket modal!");
+                        // console.log("Closing single ticket modal!");
                         this.singleTicketVisable = false;
                         break;
                     case 'editTicket':
-                        console.log('Closing Edit ticket modal!');
+                        // console.log('Closing Edit ticket modal!');
                         this.editVisable = false;
                         break;
                     case 'userForm':
-                        console.log('Opening User Form modal!');
+                        // console.log('Opening User Form modal!');
                         // this.modalData = ticketData;
                         this.userFormVisable = false;
                     case 'userProfile':
-                        console.log('Closing User Profile modal!');
+                        // console.log('Closing User Profile modal!');
                         // this.modalData = userData;
                         this.userProfileVisable = false;
                         break;
@@ -240,7 +237,6 @@ import UserProfile from '../Users/UserProfile.vue';
                 </div>
             </div>
             <div class="table-data-container">
-
                 <table id="myTable" class="table table-striped table-hover dashboard-table">
                     <thead>
                         <tr>
@@ -298,7 +294,6 @@ import UserProfile from '../Users/UserProfile.vue';
             class="modal-popup"
             :ticketData="dummyData"
         /> 
-        <!--edit ticket to close modal and open edit modal-->
         <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
         <!--Opens User Create Modal-->
         <CreateEditUser

@@ -25,13 +25,13 @@ import UserProfile from '../Users/UserProfile.vue';
             showModal(modalType) {
                 switch(modalType) {
                     case 'userForm':
-                        console.log('Opening User Form modal!');
+                        // console.log('Opening User Form modal!');
                         // this.modalData = ticketData;
                         this.userFormVisable = true;
                         this.userProfileVisable = false;
                         break;
                     case 'userProfile':
-                        console.log('Opening User Profile modal!');
+                        // console.log('Opening User Profile modal!');
                         // this.modalData = userData;
                         this.userProfileVisable = true;
                         this.userFormVisable = false;
@@ -41,11 +41,11 @@ import UserProfile from '../Users/UserProfile.vue';
             closeModal(modalType) {
                 switch(modalType) {
                     case 'userForm':
-                        console.log('Opening User Form modal!');
+                        // console.log('Opening User Form modal!');
                         // this.modalData = ticketData;
                         this.userFormVisable = false;
                     case 'userProfile':
-                        console.log('Closing User Profile modal!');
+                        // console.log('Closing User Profile modal!');
                         // this.modalData = userData;
                         this.userProfileVisable = false;
                         break;
