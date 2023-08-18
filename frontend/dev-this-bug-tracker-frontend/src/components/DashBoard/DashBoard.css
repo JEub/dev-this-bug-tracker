@@ -2,19 +2,71 @@
     margin: 0px;
     padding: 0px;
 }
+
+body {
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(81,9,121,1) 32%, rgba(255,0,219,1) 100%);
+}
+
+#container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    width: 100vw;
+    gap: 15px;
+}
+#admin{
+    color: white;
+}
+
+#nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 15px;
+    width: 15%;
+    height: 50%;
+    color: white;
+}
+#nav > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#nav > div > a {
+    color:red;
+}
+img{
+    height: 30px;
+    border: 1px solid red;
+    border-radius:25px;
+}
 .dashboard {
+    /* Temporary Border For Better Visablility */
     border: 3px solid red;
-    margin: 5px 5px;
+    min-height: 400px;
+    /* margin: 5px 5px; */
+    /* display: flex;
+    flex-direction: column;*/
+    width: 80%; 
 }
 
 .dashboard-table {
     margin: 0px 0px;
-    width: 100vw;
+    width: 90%;
     /* Temporary Border For Better Visablility */
     border-collapse: collapse;
+    border: 1px solid;
 
 
 }
+
+.table-data-container {
+    display: flex;
+    justify-content: center;
+}
+
 .dashboard-header {
     display: flex;
     justify-content: space-around;
@@ -29,10 +81,38 @@
     line-height: 50px;
 }
 
-/* .ticket-data:hover {
-    background-color: rgb(238, 236, 236);
-    transition: 1s;
-} */
+.pagination-container {
+    width: 90%;
+    display: flex;
+    margin: auto;
+    justify-content: flex-end;
+}
+
+
+.pagination-button {
+    padding: 0px 5px;
+    margin: 5px 2px;
+    display: inline-block;
+    outline: 0; 
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+    font-size: 13px;
+    height: 30px;
+    background-color: #9147ff;
+    color: white;
+    padding: 0 10px;
+}
+
+.active {
+    background-color: rgb(255,0,219);
+}
+
+.pagination button:hover {
+    background-color: rgb(255,0,219);
+    transition: .5s;
+}
 
 .modal-popup {
     position: absolute;

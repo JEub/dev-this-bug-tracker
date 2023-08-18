@@ -2,36 +2,14 @@
 import { ref } from 'vue';
 import tickets from './tickets.json';
 import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
-import TicketModal from '../Tickets/TicketModal.vue';
 import SingleTicket from '../Tickets/SingleTicket.vue';
-// import users from './users.json';
 import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
-
-// const searchTerm = ref('');
-// const isOpen = ref(false)
-// const singleTicketOpen = ref(false)
-// const isModalVisible= ref(false)
-// const toggleModal = () => {
-//     alert( 'You toggled open modal' );
-//     isOpen.value = !isOpen.value;
-//     return toggleModal;
-// };
-// const createToggle = () => {
-//     alert( 'You toggled create modal' );
-//     // createOpen.value = !createOpen.value;
-//     isModalVisible.value = !isModalVisible.value;
-//     return createToggle;
-// };
-// const singleToggle = () => {
-//     alert( 'You toggled single modal' );
-//     singleTicketOpen.value = !singleTicketOpen.value;
-// };
+import CreateEditUser from '../Users/CreateEditUser.vue';
+import UserProfile from '../Users/UserProfile.vue';
 </script>
-
 
 <script>
     const searchTerm = ref('');
-    
     // const filteredTableData = ref([])
     export default {
         name: 'DashBoard',
@@ -39,7 +17,8 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             CreateEditTicket,
             DashBoard_Table_Row,
             SingleTicket,
-            TicketModal
+            CreateEditUser,
+            UserProfile
         },
         data () {
             return {
@@ -47,10 +26,17 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 singleTicketVisable: false,
                 createVisable: false,
                 editVisable: false,
+                userFormVisable: false,
+                userProfileVisable:false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
                 currentPage: 1,
+                maxPaginationButtons: 5,
+                paginationRange: {
+                    maxLeft: 1,
+                    maxRight: 5,
+                },
                 dummyData:{
                     id: null,
                     title: null,
@@ -73,93 +59,134 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
                 }
             };
         },
+        // enter notes about what computed does in regards to data
         computed: {
             totalRows() {
                 if(searchTerm.value != '') {
-                    console.log(this.filteredTableData.length);
                     return this.filteredTableData.length;
                 } else {
                     return this.tableData.length;
                 }
             },
-
             totalPages() {
                 return Math.ceil(this.totalRows / this.rowsPerPage);
             },
-
             currentPageData() {
-                console.log(searchTerm)
+                this.paginationButton();
+                this.filterTableData
                 if (searchTerm.value != ''){
-                    this.filterTableData
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
                     return this.filteredTableData.slice(startIndex, endIndex);
-
                 } else {
                     const startIndex = (this.currentPage - 1) * this.rowsPerPage;
                     const endIndex = startIndex + this.rowsPerPage;
-                    return this.tableData.slice(startIndex, endIndex);
-
+                    return this.filteredTableData.slice(startIndex, endIndex);
                 }
             },
-
             filterTableData() {
-                console.log('filtering')
                 let filteredTableData = [];
+                this.currentPage = 1;
                     for(let i = 0; i < this.tableData.length; i++) {
-                        if (this.tableData[i].id.includes(searchTerm.value) || this.tableData[i].title.includes(searchTerm.value) || this.tableData[i].assigned_user.username.includes(searchTerm.value) || this.tableData[i].created_date.includes(searchTerm.value)) {
-                            filteredTableData.push(this.tableData[i]);
+                        // can this all be condensed to switch case or create additional if statements?
+                        if (
+                            this.tableData[i].id.includes(searchTerm.value) || 
+                            this.tableData[i].title.includes(searchTerm.value) || 
+                            this.tableData[i].assigned_user.username.includes(searchTerm.value) || 
+                            this.tableData[i].created_date.includes(searchTerm.value)) {
+                                filteredTableData.push(this.tableData[i]);
                         }
                     }
-
-                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                    // const endIndex = startIndex + this.rowsPerPage;
                     this.filteredTableData = filteredTableData;
-                    // return filteredTableData;
             }
         },
         methods: {
+            // OPEN MODAL WITH ARGUEMENT
             showModal(modalType, ticketData) {
-                // alert( 'You opened the modal from dashboard' );
-                // clicking to open closes other refs
                 switch(modalType) {
                     case 'createTicket':
-                        console.log('Opening Create ticket modal!');
+                        // console.log('Opening Create ticket modal!');
                         this.createVisable = true;
                         this.singleTicketVisable = false;
                         this.editVisable = false;
                         break;
                     case 'singleTicket':
-                        console.log("Opening single ticket modal!");
+                        // console.log("Opening single ticket modal!");
                         this.modalData = ticketData;
                         this.singleTicketVisable = true;
                         this.createVisable = false;
                         this.editVisable = false;
                         break;
                     case 'editTicket':
-                        console.log('Opening Edit ticket modal!');
+                        // console.log('Opening Edit ticket modal!');
                         this.modalData = ticketData;
                         this.editVisable = true;
                         this.createVisable = false;
                         this.singleTicketVisable = false;
                         break;
+                    case 'userForm':
+                        // console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
+                        this.userFormVisable = true;
+                        this.userProfileVisable = false;
+                        break;
+                    case 'userProfile':
+                        // console.log('Opening User Profile modal!');
+                        // this.modalData = userData;
+                        this.userProfileVisable = true;
+                        this.userFormVisable = false;
+                        break;
                     }
+                    
             },
+            // CLOSE MODAL WITH ARGUEMENT
             closeModal(modalType) {
                 switch(modalType) {
                     case 'createTicket':
-                        console.log('Closing Create ticket modal!');
+                        // console.log('Closing Create ticket modal!');
                         this.createVisable = false;
                         break;
                     case 'singleTicket':
-                        console.log("Closing single ticket modal!");
+                        // console.log("Closing single ticket modal!");
                         this.singleTicketVisable = false;
                         break;
                     case 'editTicket':
-                        console.log('Closing Edit ticket modal!');
+                        // console.log('Closing Edit ticket modal!');
                         this.editVisable = false;
                         break;
+                    case 'userForm':
+                        // console.log('Opening User Form modal!');
+                        // this.modalData = ticketData;
+                        this.userFormVisable = false;
+                    case 'userProfile':
+                        // console.log('Closing User Profile modal!');
+                        // this.modalData = userData;
+                        this.userProfileVisable = false;
+                        break;
                     }
+            },
+            // PAGINATION
+            paginationButton() {
+                let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
+                let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
+                if (maxLeft < 1) {
+                    maxLeft = 1;
+                    maxRight = this.maxPaginationButtons
+                }
+                if (maxRight > this.totalPages) {
+                    maxLeft = this.totalPages - (this.maxPaginationButtons - 1);
+                    maxRight = this.totalPages
+                    if (maxLeft < 1) {
+                        maxLeft = 1;
+                    }
+                }
+                this.paginationRange = {
+                    'maxLeft': maxLeft,
+                    'maxRight': maxRight
+                }
+            },
+            range(start, end) {
+                return Array.from({ length: end - start + 1 }, (_, index) => start + index);
             },
             prevPage() {
                 if(this.currentPage > 1) {
@@ -174,6 +201,7 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             gotoPage(pageNumber) {
                 this.currentPage = pageNumber;
             },
+            // CLOSE MODAL
             close() {
             // uses Options API to emit a custom event
                 this.$emit('close');
@@ -183,113 +211,74 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
 </script>
 
 <template>
-    <!--### ADDED ###-->
-    <div  >
-        <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
-        <!-- <teleport to="body">
-            <div class="modal" v-if="singleTicketVisable">
-                note: change onclikc to on close so form input can be clocked without closing modal -->
-                <!-- <CreateEditTicket
-                    @close="createToggle"
-                    title="Create / Edit Ticket"
-                    
-                /> -->
-                <!-- :ticket="modalData"  
-            </div>
-        </teleport> #}-->
-    </div>
-        <!-- 
-        <button @click="toggleModal" class="btn btn-warning">Test Modal</button>
-        <teleport to="body">
-            <div class="modal" v-if="isOpen">
-                <TicketModal
-                    @click="toggleModal"
-                    title="Does this work?"
-                    msg="I hope so"
-                />
-            </div>
-        </teleport>
-    </div> -->
-    <div class="dashboard">
-        <div class="dashboard-header">
+    <div id="container">
+        <div id="nav">
+            <h2>Welcome, User</h2>
             <div>
-                <button class="btn btn-outline-primary">All</button>
-                <button class="btn btn-primary">Mine</button>
+                <img src="../../assets/userProfile.svg"/> 
+                <a>Logout</a>
             </div>
-            <div>
-                <input type='text' placeholder="Search" v-model="searchTerm"/>
-                <button>Filter</button>
+            <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
+            <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
+            <button @click="showModal('userProfile')"
+            class="btn btn-outline-success"
+            >Profile</button>
+        </div>
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <div >
+                    <!--Add filter option here for user specific settings; groups, ticket status queues, assigned to user-->
+                    <button class="btn btn-outline-primary">All</button>
+                    <button class="btn btn-primary">Mine</button>
+                </div>
+                <div>
+                    <input type='text' placeholder="Search" v-model="searchTerm"/>
+                    <button>Filter</button>
+                </div>
             </div>
-        </div> 
-
-        <table id="myTable" class="dashboard-table">
-            <thead>
-                <tr>
-                    <th>
-                        <h2>Id</h2>
-                    </th>
-                    <th>
-                        <h2>Title</h2>
-                    </th>
-                    <th>
-                        <h2>Assigned User</h2>
-                    </th>
-                    <th>
-                        <h2>Status</h2>
-                    </th>
-                    <th>
-                        <h2>Creation Date</h2>
-                    </th>
-                    <th>
-                        <h2>Actions</h2>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
-                    @click="showModal('singleTicket', row)">
-                    <DashBoard_Table_Row :ticketData="row"/>
-                    
-                    <!--test vue bootstrap
-                    <div>
-                        <b-button v-b-modal.modal-1>Test BS Launch</b-button >
-                        <b-modal id="modal-1" title="new ticket">
-                            <SingleTicket 
-                                @close="singleToggle"
-                                title="Single Ticket"
-                            />
-                        </b-modal>
-                    </div>-->
-                    
-
-
-                    <!-- <button @click="singleToggle" class="btn btn-success">View Ticket</button>
-                    <teleport to="body">
-                        <div class="modal" v-if="singleTicketOpen">
-                            <SingleTicket 
-                                @close="closeModal"
-                                title="Single Ticket"
-                            />
-                        </div>
-                    </teleport> -->
-                </tr>
-            </tbody>
-            
-        </table>
-
-        
-        <nav>
-            <div class="pagination">
-                <button @click="prevPage" :class="{ disabled: currentPage === 1 }">Previous</button>
-                <button v-for="pageNumber in totalPages"
-                    :key="pageNumber"
-                    @click="gotoPage(pageNumber)"
-                    :class="{ active: currentPage === pageNumber }">
-                {{ pageNumber }}
-                </button>
-                <button @click="nextPage" :class="{ disabled: currentPage === totalPages }">Next</button>
+            <div class="table-data-container">
+                <table id="myTable" class="table table-striped table-hover dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <h2>Id</h2>
+                            </th>
+                            <th>
+                                <h2>Title</h2>
+                            </th>
+                            <th>
+                                <h2>Assigned User</h2>
+                            </th>
+                            <th>
+                                <h2>Status</h2>
+                            </th>
+                            <th>
+                                <h2>Creation Date</h2>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                            @click="showModal('singleTicket', row)">
+                            <DashBoard_Table_Row :ticketData="row"/>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </nav>
+            <nav class="pagination-container">
+                <div class="pagination">
+                    <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
+                    <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
+                        :key="pageNumber"
+                        @click="gotoPage(pageNumber)" 
+                        :class="{ active: currentPage === pageNumber }"
+                        class="pagination-button" >
+                    {{ pageNumber }}
+                    </button>
+                    <button @click="nextPage" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
+                </div>
+            </nav>
+        </div>
     </div>
         <!-- Opens Edit Ticket Component -->
         <CreateEditTicket
@@ -305,16 +294,21 @@ import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
             class="modal-popup"
             :ticketData="dummyData"
         /> 
-        <!--edit ticket to close modal and open edit modal-->
         <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
-        <!--<CreateEditTicket
-            v-show="singleTicketVisable"
-            @click="toggleModal"
-        />-->
+        <!--Opens User Create Modal-->
+        <CreateEditUser
+            v-if="userFormVisable" 
+            @close="closeModal('userForm')"
+            :openUserProfile="showModal"
+        />
+        <!--Opens user profile-->
+        <UserProfile
+            v-if="userProfileVisable"
+            @close="closeModal('userProfile')"
+            :openEditUser="showModal"
+        />
     </template>
 
 <style>
     @import './DashBoard.css';
-    /* @import 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css';
-    @import 'https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'; */
 </style>
