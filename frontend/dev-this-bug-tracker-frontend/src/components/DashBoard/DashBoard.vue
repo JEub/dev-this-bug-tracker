@@ -88,7 +88,6 @@ import UserProfile from '../Users/UserProfile.vue';
                 }
             },
             filterTableData() {
-                console.log('filtering')
                 let filteredTableData = [];
                 this.currentPage = 1;
                     for(let i = 0; i < this.tableData.length; i++) {
@@ -173,17 +172,13 @@ import UserProfile from '../Users/UserProfile.vue';
             paginationButton() {
                 let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
                 let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
-                console.log('176', maxLeft, maxRight)
                 if (maxLeft < 1) {
                     maxLeft = 1;
                     maxRight = this.maxPaginationButtons
                 }
-
                 if (maxRight > this.totalPages) {
                     maxLeft = this.totalPages - (this.maxPaginationButtons - 1);
                     maxRight = this.totalPages
-
-                    console.log('186', maxLeft, maxRight)
                     if (maxLeft < 1) {
                         maxLeft = 1;
                     }
@@ -238,43 +233,43 @@ import UserProfile from '../Users/UserProfile.vue';
                 <input type='text' placeholder="Search" v-model="searchTerm"/>
                 <button>Filter</button>
             </div>
-        </div> 
-        <table id="myTable" class="dashboard-table">
-            <thead>
-                <tr>
-                    <th>
-                        <h2>Id</h2>
-                    </th>
-                    <th>
-                        <h2>Title</h2>
-                    </th>
-                    <th>
-                        <h2>Assigned User</h2>
-                    </th>
-                    <th>
-                        <h2>Status</h2>
-                    </th>
-                    <th>
-                        <h2>Creation Date</h2>
-                    </th>
-                    <th>
-                        <h2>Actions</h2>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
-                    @click="showModal('singleTicket', row)">
-                    <DashBoard_Table_Row :ticketData="row"/>
-                </tr>
-            </tbody>
-        </table>
-        <nav>
+        </div>
+        <div class="table-data-container">
+
+            <table id="myTable" class="table table-striped table-hover dashboard-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <h2>Id</h2>
+                        </th>
+                        <th>
+                            <h2>Title</h2>
+                        </th>
+                        <th>
+                            <h2>Assigned User</h2>
+                        </th>
+                        <th>
+                            <h2>Status</h2>
+                        </th>
+                        <th>
+                            <h2>Creation Date</h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                        @click="showModal('singleTicket', row)">
+                        <DashBoard_Table_Row :ticketData="row"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav class="pagination-container">
             <div class="pagination">
                 <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
                 <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
                     :key="pageNumber"
-                    @click="gotoPage(pageNumber)"
+                    @click="gotoPage(pageNumber)" 
                     :class="{ active: currentPage === pageNumber }"
                     class="pagination-button" >
                 {{ pageNumber }}
@@ -298,24 +293,11 @@ import UserProfile from '../Users/UserProfile.vue';
             :ticketData="dummyData"
         /> 
         <!--edit ticket to close modal and open edit modal-->
-        <SingleTicket 
-            v-if="singleTicketVisable" 
-            @close="closeModal('singleTicket')" 
-            :ticketData="modalData" 
-            :openEditTicket="showModal"
-        />
-        <!--Opens User Create Modal-->
-        <CreateEditUser
-            v-if="userFormVisable" 
-            @close="closeModal('userForm')"
-            :openUserProfile="showModal"
-        />
-        <!--Opens user profile-->
-        <UserProfile
-            v-if="userProfileVisable"
-            @close="closeModal('userProfile')"
-            :openEditUser="showModal"
-        />
+        <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
+        <!--<CreateEditTicket
+            v-show="singleTicketVisable"
+            @click="toggleModal"
+        />-->
     </template>
 
 <style>
