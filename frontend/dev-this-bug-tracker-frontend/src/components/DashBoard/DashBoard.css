@@ -11,17 +11,36 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    margin-top: 5%;
     width: 100vw;
-    gap: 5px;
+    gap: 15px;
+}
+#admin{
+    color: white;
 }
 
 #nav {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    gap: 10px;
+    gap: 15px;
     width: 15%;
     height: 50%;
+    color: white;
+}
+#nav > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#nav > div > a {
+    color:red;
+}
+img{
+    height: 30px;
+    border: 1px solid red;
+    border-radius:25px;
 }
 .dashboard {
     /* Temporary Border For Better Visablility */
