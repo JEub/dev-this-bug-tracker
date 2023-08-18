@@ -8,8 +8,6 @@ import CreateEditUser from '../Users/CreateEditUser.vue';
 import UserProfile from '../Users/UserProfile.vue';
 </script>
 
-
-
 <script>
     const searchTerm = ref('');
     // const filteredTableData = ref([])
