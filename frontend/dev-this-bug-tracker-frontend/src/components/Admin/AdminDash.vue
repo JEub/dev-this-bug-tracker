@@ -75,46 +75,48 @@ import UserProfile from '../Users/UserProfile.vue';
     };
 </script>
 <template>
-    <div>
-        <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
-        <button @click="showModal('userProfile')"
-        class="btn btn-outline-success"
-        >Profile</button>
-    </div>
-    <div class="dashboard">
-        <div class="dashboard-header">
-            <p>Do we need some kind of filter for users here</p>
+    <div id="container">
+        <div id="nav">
+            <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
+            <button @click="showModal('userProfile')"
+            class="btn btn-outline-success"
+            >Profile</button>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <h2>Username</h2>
-                    </th>
-                    <th>
-                        <!--Sub table when clicked for all tickets assigned to this user-->
-                        <h2>Assigned ticket count</h2>
-                    </th>
-                    <th>
-                        <h2>More details</h2>
-                    </th>
-                    <th>
-                        <h2>and more details</h2>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-            <nav>
-                <div>
-                    <p>Pagination here too?</p>
-                </div>
-            </nav>
-        </table>
+        <div class="dashboard" id="admin">
+            <div class="dashboard-header">
+                <p>Do we need some kind of filter for users here</p>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <h2>Username</h2>
+                        </th>
+                        <th>
+                            <!--Sub table when clicked for all tickets assigned to this user-->
+                            <h2>Assigned ticket count</h2>
+                        </th>
+                        <th>
+                            <h2>More details</h2>
+                        </th>
+                        <th>
+                            <h2>and more details</h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <nav>
+                    <div>
+                        <p>Pagination here too?</p>
+                    </div>
+                </nav>
+            </table>
+        </div>
     </div>
     <!--Opens User Create Modal-->
     <CreateEditUser

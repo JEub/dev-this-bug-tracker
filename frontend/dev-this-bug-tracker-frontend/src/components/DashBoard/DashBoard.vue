@@ -30,7 +30,7 @@ import UserProfile from '../Users/UserProfile.vue';
                 createVisable: false,
                 editVisable: false,
                 userFormVisable: false,
-                userProfileVisable:true,
+                userProfileVisable:false,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
@@ -216,6 +216,11 @@ import UserProfile from '../Users/UserProfile.vue';
 <template>
     <div id="container">
         <div id="nav">
+            <h2>Welcome, User</h2>
+            <div>
+                <img src="../../assets/userProfile.svg"/> 
+                <a>Logout</a>
+            </div>
             <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
             <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
             <button @click="showModal('userProfile')"
