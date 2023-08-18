@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, onMounted} from 'vue';
+    import { ref } from 'vue';
     const ticketStatus = ref([ 
         {id:0, name:'Open'},
         {id:1, name:'In Progess'},
@@ -9,7 +9,6 @@
         {id:5, name:'Cancelled'}
     ])
     const groups = ref(['Retail'])
-    // onMounted(() => console.log(ticketproperty.value))
 </script>
 <script>
     export default {
@@ -41,8 +40,6 @@
                 "storyPoints": String,
                 "ticketStatus": String
             },
-            // createVisable: false,
-            // editVisable: false,
         },
         methods: {
             // uses Options API to emit a custom event
@@ -73,7 +70,6 @@
 </script>
 
 <template>
-    <!-- v-if="isModalVisible=true" -->
     <div id="modal-dialog" > 
         <div class="modal-content">
             <form action="" class="modal-row">
@@ -84,24 +80,18 @@
                     <!--fix ref or vmodel to stop saving this on close-->
                 <div class="row">
                     <label for="title">Title: </label>
-                    <!-- enter values for editing form -->
-                    <!-- ="title" -->
                     <input id="title" v-model="ticketData.title" /> 
                 </div>
                 <div class="row">
                     <label for="description">Description: </label>
-                    <!-- enter values for editing form -->
                     <input v-model = "ticketData.description" id="description"/> 
                 </div>
                 <div class="row">
                     <label for="content">Content: </label>
-                    <!-- enter values for editing form -->
                     <textarea v-model = "storyPoints" id="content">{{ storyPoints }}</textarea>
                 </div>
                 <div class="row">
                     <label>Ticket Status: </label>
-                    <!-- stored ticket status from db? -->
-                    <!-- change up order of v-model and v-for? v-for loops over data that v-model is holding then binding back to ref -->
                     <select v-model=" ticketData.status_id" >
                         <option v-for="(ticketStatus, index) in ticketStatus"
                         :key="ticketStatus.id">{{ index +1 }} : {{ ticketStatus.name }}</option>
