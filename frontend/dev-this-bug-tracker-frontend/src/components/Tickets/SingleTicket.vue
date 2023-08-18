@@ -11,10 +11,7 @@
     const parentLinks = ref('Parent Links')
     const ticketTags = ref('Ticket Tags')
     const ticketComments = ref('Ticket Comments')
-    // add user to ticket
-    // add comment button for view
 </script>
-<!-- Add change here to include ticket data on single ticket view -->
 <script>
     export default {
         name: 'SingleTicket',
