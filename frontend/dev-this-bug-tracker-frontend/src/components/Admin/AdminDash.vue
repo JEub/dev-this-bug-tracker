@@ -77,7 +77,7 @@ import UserProfile from '../Users/UserProfile.vue';
 <template>
     <div>
         <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
-        <button @click="getAllUsers()"
+        <button @click="showModal('userProfile')"
         class="btn btn-outline-success"
         >Profile</button>
     </div>

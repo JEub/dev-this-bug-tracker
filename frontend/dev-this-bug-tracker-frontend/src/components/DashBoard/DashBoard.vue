@@ -30,7 +30,7 @@ import UserProfile from '../Users/UserProfile.vue';
                 createVisable: false,
                 editVisable: false,
                 userFormVisable: false,
-                userProfileVisable:false,
+                userProfileVisable:true,
                 tableData: tickets,
                 filteredTableData: tickets,
                 rowsPerPage: 5,
@@ -214,69 +214,70 @@ import UserProfile from '../Users/UserProfile.vue';
 </script>
 
 <template>
-    <!--### ADDED ###-->
-    <div>
-        <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
-        <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
-        <button @click="showModal('userProfile')"
-        class="btn btn-outline-success"
-        >Profile</button>
-    </div>
-    <div class="dashboard">
-        <div class="dashboard-header">
-            <div >
-                <!--Add filter option here for user specific settings; groups, ticket status queues, assigned to user-->
-                <button class="btn btn-outline-primary">All</button>
-                <button class="btn btn-primary">Mine</button>
-            </div>
-            <div>
-                <input type='text' placeholder="Search" v-model="searchTerm"/>
-                <button>Filter</button>
-            </div>
+    <div id="container">
+        <div id="nav">
+            <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
+            <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
+            <button @click="showModal('userProfile')"
+            class="btn btn-outline-success"
+            >Profile</button>
         </div>
-        <div class="table-data-container">
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <div >
+                    <!--Add filter option here for user specific settings; groups, ticket status queues, assigned to user-->
+                    <button class="btn btn-outline-primary">All</button>
+                    <button class="btn btn-primary">Mine</button>
+                </div>
+                <div>
+                    <input type='text' placeholder="Search" v-model="searchTerm"/>
+                    <button>Filter</button>
+                </div>
+            </div>
+            <div class="table-data-container">
 
-            <table id="myTable" class="table table-striped table-hover dashboard-table">
-                <thead>
-                    <tr>
-                        <th>
-                            <h2>Id</h2>
-                        </th>
-                        <th>
-                            <h2>Title</h2>
-                        </th>
-                        <th>
-                            <h2>Assigned User</h2>
-                        </th>
-                        <th>
-                            <h2>Status</h2>
-                        </th>
-                        <th>
-                            <h2>Creation Date</h2>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
-                        @click="showModal('singleTicket', row)">
-                        <DashBoard_Table_Row :ticketData="row"/>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <nav class="pagination-container">
-            <div class="pagination">
-                <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
-                <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
-                    :key="pageNumber"
-                    @click="gotoPage(pageNumber)" 
-                    :class="{ active: currentPage === pageNumber }"
-                    class="pagination-button" >
-                {{ pageNumber }}
-                </button>
-                <button @click="nextPage" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
+                <table id="myTable" class="table table-striped table-hover dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <h2>Id</h2>
+                            </th>
+                            <th>
+                                <h2>Title</h2>
+                            </th>
+                            <th>
+                                <h2>Assigned User</h2>
+                            </th>
+                            <th>
+                                <h2>Status</h2>
+                            </th>
+                            <th>
+                                <h2>Creation Date</h2>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                            @click="showModal('singleTicket', row)">
+                            <DashBoard_Table_Row :ticketData="row"/>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </nav>
+            <nav class="pagination-container">
+                <div class="pagination">
+                    <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
+                    <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
+                        :key="pageNumber"
+                        @click="gotoPage(pageNumber)" 
+                        :class="{ active: currentPage === pageNumber }"
+                        class="pagination-button" >
+                    {{ pageNumber }}
+                    </button>
+                    <button @click="nextPage" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
+                </div>
+            </nav>
+        </div>
     </div>
         <!-- Opens Edit Ticket Component -->
         <CreateEditTicket
@@ -294,10 +295,18 @@ import UserProfile from '../Users/UserProfile.vue';
         /> 
         <!--edit ticket to close modal and open edit modal-->
         <SingleTicket v-if="singleTicketVisable" @close="closeModal('singleTicket')" :ticketData="modalData" :openEditTicket="showModal"/>
-        <!--<CreateEditTicket
-            v-show="singleTicketVisable"
-            @click="toggleModal"
-        />-->
+        <!--Opens User Create Modal-->
+        <CreateEditUser
+            v-if="userFormVisable" 
+            @close="closeModal('userForm')"
+            :openUserProfile="showModal"
+        />
+        <!--Opens user profile-->
+        <UserProfile
+            v-if="userProfileVisable"
+            @close="closeModal('userProfile')"
+            :openEditUser="showModal"
+        />
     </template>
 
 <style>
