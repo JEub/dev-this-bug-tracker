@@ -1,43 +1,30 @@
 <script setup>
-import { ref } from 'vue';
-import tickets from './tickets.json';
-import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
-import SingleTicket from '../Tickets/SingleTicket.vue';
-import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
-import CreateEditUser from '../Users/CreateEditUser.vue';
-import UserProfile from '../Users/UserProfile.vue';
-</script>
+    import { ref, reactive, onMounted, computed } from 'vue';
+    import tickets from './tickets.json';
+    import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
+    import SingleTicket from '../Tickets/SingleTicket.vue';
+    import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
+    import CreateEditUser from '../Users/CreateEditUser.vue';
+    import UserProfile from '../Users/UserProfile.vue';
 
-<script>
+    const modalData = ref();
     const searchTerm = ref('');
-    // const filteredTableData = ref([])
-    export default {
-        name: 'DashBoard',
-        components: {
-            CreateEditTicket,
-            DashBoard_Table_Row,
-            SingleTicket,
-            CreateEditUser,
-            UserProfile
-        },
-        data () {
-            return {
-                modalData: null,
-                singleTicketVisable: false,
-                createVisable: false,
-                editVisable: false,
-                userFormVisable: false,
-                userProfileVisable:false,
-                tableData: tickets,
-                filteredTableData: tickets,
-                rowsPerPage: 5,
-                currentPage: 1,
-                maxPaginationButtons: 5,
-                paginationRange: {
-                    maxLeft: 1,
-                    maxRight: 5,
-                },
-                dummyData:{
+    const singleTicketVisable = ref(false);
+    const createVisable = ref(false);
+    const editVisable = ref(false);
+    const userFormVisable = ref(false);
+    const userProfileVisable = ref(false);
+    const tableData = ref(tickets);
+    const filteredTableData = ref(tickets);
+    const rowsPerPage = 5;
+    const currentPage = ref(1);
+    const maxPaginationButtons = 5;
+    const currentPageDisplayData = ref();
+    const paginationRange = ref({
+        maxLeft : 1,
+        maxRight : 5
+    })
+    const dummyData = {
                     id: null,
                     title: null,
                     description: null,
@@ -56,158 +43,210 @@ import UserProfile from '../Users/UserProfile.vue';
                     }, 
                     created_date: null,
                     last_update: null
-                }
-            };
-        },
-        // enter notes about what computed does in regards to data
-        computed: {
-            totalRows() {
-                if(searchTerm.value != '') {
-                    return this.filteredTableData.length;
-                } else {
-                    return this.tableData.length;
-                }
-            },
-            totalPages() {
-                return Math.ceil(this.totalRows / this.rowsPerPage);
-            },
-            currentPageData() {
-                this.paginationButton();
-                this.filterTableData
-                if (searchTerm.value != ''){
-                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                    const endIndex = startIndex + this.rowsPerPage;
-                    return this.filteredTableData.slice(startIndex, endIndex);
-                } else {
-                    const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-                    const endIndex = startIndex + this.rowsPerPage;
-                    return this.filteredTableData.slice(startIndex, endIndex);
-                }
-            },
-            filterTableData() {
-                let filteredTableData = [];
-                this.currentPage = 1;
-                    for(let i = 0; i < this.tableData.length; i++) {
-                        // can this all be condensed to switch case or create additional if statements?
-                        if (
-                            this.tableData[i].id.includes(searchTerm.value) || 
-                            this.tableData[i].title.includes(searchTerm.value) || 
-                            this.tableData[i].assigned_user.username.includes(searchTerm.value) || 
-                            this.tableData[i].created_date.includes(searchTerm.value)) {
-                                filteredTableData.push(this.tableData[i]);
-                        }
-                    }
-                    this.filteredTableData = filteredTableData;
-            }
-        },
-        methods: {
-            // OPEN MODAL WITH ARGUEMENT
-            showModal(modalType, ticketData) {
-                switch(modalType) {
-                    case 'createTicket':
-                        // console.log('Opening Create ticket modal!');
-                        this.createVisable = true;
-                        this.singleTicketVisable = false;
-                        this.editVisable = false;
-                        break;
-                    case 'singleTicket':
-                        // console.log("Opening single ticket modal!");
-                        this.modalData = ticketData;
-                        this.singleTicketVisable = true;
-                        this.createVisable = false;
-                        this.editVisable = false;
-                        break;
-                    case 'editTicket':
-                        // console.log('Opening Edit ticket modal!');
-                        this.modalData = ticketData;
-                        this.editVisable = true;
-                        this.createVisable = false;
-                        this.singleTicketVisable = false;
-                        break;
-                    case 'userForm':
-                        // console.log('Opening User Form modal!');
-                        // this.modalData = ticketData;
-                        this.userFormVisable = true;
-                        this.userProfileVisable = false;
-                        break;
-                    case 'userProfile':
-                        // console.log('Opening User Profile modal!');
-                        // this.modalData = userData;
-                        this.userProfileVisable = true;
-                        this.userFormVisable = false;
-                        break;
-                    }
-                    
-            },
-            // CLOSE MODAL WITH ARGUEMENT
-            closeModal(modalType) {
-                switch(modalType) {
-                    case 'createTicket':
-                        // console.log('Closing Create ticket modal!');
-                        this.createVisable = false;
-                        break;
-                    case 'singleTicket':
-                        // console.log("Closing single ticket modal!");
-                        this.singleTicketVisable = false;
-                        break;
-                    case 'editTicket':
-                        // console.log('Closing Edit ticket modal!');
-                        this.editVisable = false;
-                        break;
-                    case 'userForm':
-                        // console.log('Opening User Form modal!');
-                        // this.modalData = ticketData;
-                        this.userFormVisable = false;
-                    case 'userProfile':
-                        // console.log('Closing User Profile modal!');
-                        // this.modalData = userData;
-                        this.userProfileVisable = false;
-                        break;
-                    }
-            },
-            // PAGINATION
-            paginationButton() {
-                let maxLeft = (this.currentPage - Math.floor(this.maxPaginationButtons /2));
-                let maxRight = (this.currentPage + Math.floor(this.maxPaginationButtons /2));
-                if (maxLeft < 1) {
-                    maxLeft = 1;
-                    maxRight = this.maxPaginationButtons
-                }
-                if (maxRight > this.totalPages) {
-                    maxLeft = this.totalPages - (this.maxPaginationButtons - 1);
-                    maxRight = this.totalPages
-                    if (maxLeft < 1) {
-                        maxLeft = 1;
-                    }
-                }
-                this.paginationRange = {
-                    'maxLeft': maxLeft,
-                    'maxRight': maxRight
-                }
-            },
-            range(start, end) {
-                return Array.from({ length: end - start + 1 }, (_, index) => start + index);
-            },
-            prevPage() {
-                if(this.currentPage > 1) {
-                    this.currentPage--;
-                }
-            },
-            nextPage() {
-                if (this.currentPage < this.totalPages) {
-                    this.currentPage++;
-                }
-            },
-            gotoPage(pageNumber) {
-                this.currentPage = pageNumber;
-            },
-            // CLOSE MODAL
-            close() {
-            // uses Options API to emit a custom event
-                this.$emit('close');
-            },
-        },
+                }    
+
+    function totalRows() {
+        if(searchTerm.value != '') {
+            return filteredTableData.value.length;
+        } else {
+            return tableData.value.length;
+        }
     };
+            
+    function totalPages() {
+        return Math.ceil(totalRows() / rowsPerPage);
+    };
+    
+    const currentPageDataInfo = computed(() => {
+        console.log(currentPage.value)
+        // paginationButton();
+        // filterTableData();
+        const startIndex = (currentPage.value - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        console.log('Start Index, ', startIndex)
+        console.log('End Index, ', endIndex)
+        console.log(filteredTableData.value.slice(startIndex, endIndex))
+        return filteredTableData.value.slice(startIndex, endIndex);
+        
+    })
+    // function currentPageData() {
+    //     console.log(currentPage.value)
+    //     // paginationButton();
+    //     // filterTableData();
+    //     const startIndex = (currentPage.value - 1) * rowsPerPage;
+    //     const endIndex = startIndex + rowsPerPage;
+    //     console.log('Start Index, ', startIndex)
+    //     console.log('End Index, ', endIndex)
+    //     console.log(filteredTableData.value.slice(startIndex, endIndex))
+    //     return filteredTableData.value.slice(startIndex, endIndex);
+        
+    // };
+
+    function filterTableData() {
+        console.log('Calling Filter Table Data Function')
+        let tempFilteredTableData = [];
+        currentPage.value = 1;
+        for(let i = 0; i < tableData.value.length; i++) {
+            // can this all be condensed to switch case or create additional if statements?
+            if (
+                tableData.value[i].id.includes(searchTerm.value) || 
+                tableData.value[i].title.includes(searchTerm.value) || 
+                tableData.value[i].assigned_user.username.includes(searchTerm.value) || 
+                tableData.value[i].created_date.includes(searchTerm.value)) {
+                    tempFilteredTableData.push(tableData.value[i]);
+                }
+        }
+        filteredTableData.value = tempFilteredTableData;
+    }
+    
+
+    function showModal(modalType, ticketData) {
+        switch(modalType) {
+            case 'createTicket':
+                // console.log('Opening Create ticket modal!');
+                createVisable.value = true;
+                singleTicketVisable.value = false;
+                editVisable.value = false;
+                break;
+            case 'singleTicket':
+                // console.log("Opening single ticket modal!");
+                modalData.value = ticketData;
+                singleTicketVisable.value = true;
+                createVisable.value = false;
+                editVisable.value = false;
+                break;
+            case 'editTicket':
+                // console.log('Opening Edit ticket modal!');
+                modalData.value = ticketData;
+                editVisable.value = true;
+                createVisable.value = false;
+                singleTicketVisable.value = false;
+                break;
+            case 'userForm':
+                // console.log('Opening User Form modal!');
+                // this.modalData = ticketData;
+                userFormVisable.value = true;
+                userProfileVisable.value = false;
+                break;
+            case 'userProfile':
+                // console.log('Opening User Profile modal!');
+                // this.modalData = userData;
+                userProfileVisable.value = true;
+                userFormVisable.value = false;
+                break;
+        }
+                    
+    }
+            // CLOSE MODAL WITH ARGUEMENT
+    function closeModal(modalType) {
+        switch(modalType) {
+            case 'createTicket':
+                // console.log('Closing Create ticket modal!');
+                createVisable.value = false;
+                break;
+            case 'singleTicket':
+                // console.log("Closing single ticket modal!");
+                singleTicketVisable.value = false;
+                break;
+            case 'editTicket':
+                // console.log('Closing Edit ticket modal!');
+                editVisable.value = false;
+                break;
+            case 'userForm':
+                // console.log('Opening User Form modal!');
+                // this.modalData = ticketData;
+                userFormVisable.value = false;
+            case 'userProfile':
+                // console.log('Closing User Profile modal!');
+                // this.modalData = userData;
+                userProfileVisable.value = false;
+                break;
+        }
+    }
+            // PAGINATION
+    function paginationButton() {
+        console.log('Calling Pagination Buttons Function');
+        // console.log(currentPage.value - Math.floor(maxPaginationButtons /2))
+        let maxLeft = (currentPage.value - Math.floor(maxPaginationButtons /2));
+        let maxRight = (currentPage.value + Math.floor(maxPaginationButtons /2));
+        // console.log(maxLeft)
+        // console.log(maxRight)
+        if (maxLeft < 1) {
+            // console.log('test one')
+            maxLeft = 1;
+            maxRight = maxPaginationButtons
+            // console.log(maxLeft)
+            // console.log(maxRight)
+        }
+        console.log(maxRight > totalPages())
+        console.log('test 2')
+        if (maxRight > totalPages()) {
+            console.log('test 3')
+            maxLeft = totalPages() - (maxPaginationButtons - 1);
+            maxRight = totalPages()
+            if (maxLeft < 1) {
+                console.log('test four')
+                maxLeft = 1;
+            }
+        }
+        paginationRange.value = {
+            maxLeft: maxLeft,
+            maxRight: maxRight
+        }
+        console.log(paginationRange.value)
+    }
+
+    function range(start, end) {
+        return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+    }
+
+    function prevPage() {
+        if(currentPage.value > 1) {
+            console.log(currentPage.value)
+            currentPage.value--;
+            console.log(currentPage.value)
+            paginationButton()
+            currentPageDataInfo
+            // currentPageDisplayData.value = currentPageData();
+        }
+    }
+
+    function nextPage() {
+        if (currentPage.value < totalPages()) {
+            console.log(currentPage.value)
+            currentPage.value++;
+            console.log(currentPage.value)
+            paginationButton()
+            currentPageDataInfo
+            // currentPageDisplayData.value = currentPageData();
+        }
+    }
+            
+    function gotoPage(pageNumber) {
+        // console.log(currentPage.value)
+        // currentPageDisplayData.value = currentPageData();
+        console.log(currentPage.value)
+        currentPage.value = pageNumber;
+        console.log(currentPage.value)
+        paginationButton()
+        currentPageDataInfo
+    }
+
+    // CLOSE MODAL
+    function close() {
+    // uses Options API to emit a custom event
+        this.$emit('close');
+    }
+        
+    //Temp Function
+    
+              
+    // onMounted(() => 
+    //     currentPageDisplayData.value = currentPageDataInfo,
+    //     console.log(currentPageDataInfo)
+    // )
+
+    
 </script>
 
 <template>
@@ -258,7 +297,7 @@ import UserProfile from '../Users/UserProfile.vue';
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(row, index) in currentPageData" :key="index" class="ticket-data" 
+                        <tr v-for="(row, index) in currentPageDataInfo" :key="index" class="ticket-data" 
                             @click="showModal('singleTicket', row)">
                             <DashBoard_Table_Row :ticketData="row"/>
                         </tr>
@@ -267,15 +306,15 @@ import UserProfile from '../Users/UserProfile.vue';
             </div>
             <nav class="pagination-container">
                 <div class="pagination">
-                    <button @click="prevPage" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
-                    <button v-for="pageNumber in range(this.paginationRange.maxLeft, this.paginationRange.maxRight)"
+                    <button @click="prevPage()" class="pagination-button" :class="{ disabled: currentPage === 1 }">Previous</button>
+                    <button v-for="pageNumber in range(paginationRange.maxLeft, paginationRange.maxRight)"
                         :key="pageNumber"
                         @click="gotoPage(pageNumber)" 
                         :class="{ active: currentPage === pageNumber }"
                         class="pagination-button" >
                     {{ pageNumber }}
                     </button>
-                    <button @click="nextPage" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
+                    <button @click="nextPage()" class="pagination-button" :class="{ disabled: currentPage === totalPages }">Next</button>
                 </div>
             </nav>
         </div>
