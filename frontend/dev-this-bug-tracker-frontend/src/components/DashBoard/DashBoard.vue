@@ -65,15 +65,12 @@
         paginationButton();
         const startIndex = (currentPage.value - 1) * rowsPerPage;
         const endIndex = startIndex + rowsPerPage;
-        console.log(filteredTableData)
         return filteredTableData.value.slice(startIndex, endIndex);
     })
 
     function filterTableData() {
         let tempFilteredTableData = [];
         currentPage.value = 1;
-        console.log(currentPage.value)
-        
         for(let i = 0; i < tableData.value.length; i++) {
             // can this all be condensed to switch case or create additional if statements?
             if (
@@ -85,7 +82,6 @@
 
                 }
         }
-
         searchTermCheck.value = searchTerm.value
         filteredTableData.value = tempFilteredTableData;
     }
@@ -208,11 +204,6 @@
         </div>
         <div class="dashboard">
             <div class="dashboard-header">
-                <div >
-                    <!--Add filter option here for user specific settings; groups, ticket status queues, assigned to user-->
-                    <button class="btn btn-outline-primary">All</button>
-                    <button class="btn btn-primary">Mine</button>
-                </div>
                 <div>
                     <input type='text' placeholder="Search" v-model="searchTerm"/>
                     <button>Filter</button>
