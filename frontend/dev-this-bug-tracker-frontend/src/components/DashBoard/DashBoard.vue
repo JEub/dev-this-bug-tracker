@@ -9,6 +9,7 @@
 
     const modalData = ref();
     const searchTerm = ref('');
+    const searchTermCheck = ref('');
     const singleTicketVisable = ref(false);
     const createVisable = ref(false);
     const editVisable = ref(false);
@@ -58,33 +59,19 @@
     };
     
     const currentPageDataInfo = computed(() => {
-        console.log(currentPage.value)
-        // filterTableData();
-        // paginationButton();
-        // filterTableData();
+        if (searchTerm.value != searchTermCheck.value) {
+            filterTableData();
+        }
+        paginationButton();
         const startIndex = (currentPage.value - 1) * rowsPerPage;
         const endIndex = startIndex + rowsPerPage;
-        // console.log('Start Index, ', startIndex)
-        // console.log('End Index, ', endIndex)
-        // console.log(filteredTableData.value.slice(startIndex, endIndex))
+        console.log(filteredTableData)
         return filteredTableData.value.slice(startIndex, endIndex);
-        
     })
-    // function currentPageData() {
-    //     console.log(currentPage.value)
-    //     // paginationButton();
-    //     // filterTableData();
-    //     const startIndex = (currentPage.value - 1) * rowsPerPage;
-    //     const endIndex = startIndex + rowsPerPage;
-    //     console.log('Start Index, ', startIndex)
-    //     console.log('End Index, ', endIndex)
-    //     console.log(filteredTableData.value.slice(startIndex, endIndex))
-    //     return filteredTableData.value.slice(startIndex, endIndex);
-        
-    // };
 
     function filterTableData() {
         let tempFilteredTableData = [];
+        currentPage.value = 1;
         console.log(currentPage.value)
         
         for(let i = 0; i < tableData.value.length; i++) {
@@ -95,14 +82,12 @@
                 tableData.value[i].assigned_user.username.includes(searchTerm.value) || 
                 tableData.value[i].created_date.includes(searchTerm.value)) {
                     tempFilteredTableData.push(tableData.value[i]);
+
                 }
         }
 
-        // if (currentPage.value != 1) {
-        //     currentPage.value = 1;
-        // }
-            filteredTableData.value = tempFilteredTableData;
-            currentPageDataInfo;
+        searchTermCheck.value = searchTerm.value
+        filteredTableData.value = tempFilteredTableData;
     }
     
 
@@ -183,8 +168,6 @@
     function prevPage() {
         if(currentPage.value > 1) {
             currentPage.value--;
-            paginationButton();
-            filterTableData();
             // currentPageDataInfo;
         }
     }
@@ -192,16 +175,12 @@
     function nextPage() {
         if (currentPage.value < totalPages()) {
             currentPage.value++;
-            paginationButton();
-            filterTableData();
             // currentPageDataInfo;
         }
     }
             
     function gotoPage(pageNumber) {
         currentPage.value = pageNumber;
-        paginationButton();
-        filterTableData();
         // currentPageDataInfo;
     }
 
