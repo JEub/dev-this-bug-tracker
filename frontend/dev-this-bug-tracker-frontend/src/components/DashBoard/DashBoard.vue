@@ -59,13 +59,14 @@
     
     const currentPageDataInfo = computed(() => {
         console.log(currentPage.value)
+        // filterTableData();
         // paginationButton();
         // filterTableData();
         const startIndex = (currentPage.value - 1) * rowsPerPage;
         const endIndex = startIndex + rowsPerPage;
-        console.log('Start Index, ', startIndex)
-        console.log('End Index, ', endIndex)
-        console.log(filteredTableData.value.slice(startIndex, endIndex))
+        // console.log('Start Index, ', startIndex)
+        // console.log('End Index, ', endIndex)
+        // console.log(filteredTableData.value.slice(startIndex, endIndex))
         return filteredTableData.value.slice(startIndex, endIndex);
         
     })
@@ -83,9 +84,9 @@
     // };
 
     function filterTableData() {
-        console.log('Calling Filter Table Data Function')
         let tempFilteredTableData = [];
-        currentPage.value = 1;
+        console.log(currentPage.value)
+        
         for(let i = 0; i < tableData.value.length; i++) {
             // can this all be condensed to switch case or create additional if statements?
             if (
@@ -96,41 +97,39 @@
                     tempFilteredTableData.push(tableData.value[i]);
                 }
         }
-        filteredTableData.value = tempFilteredTableData;
+
+        // if (currentPage.value != 1) {
+        //     currentPage.value = 1;
+        // }
+            filteredTableData.value = tempFilteredTableData;
+            currentPageDataInfo;
     }
     
 
     function showModal(modalType, ticketData) {
         switch(modalType) {
             case 'createTicket':
-                // console.log('Opening Create ticket modal!');
                 createVisable.value = true;
                 singleTicketVisable.value = false;
                 editVisable.value = false;
                 break;
             case 'singleTicket':
-                // console.log("Opening single ticket modal!");
                 modalData.value = ticketData;
                 singleTicketVisable.value = true;
                 createVisable.value = false;
                 editVisable.value = false;
                 break;
             case 'editTicket':
-                // console.log('Opening Edit ticket modal!');
                 modalData.value = ticketData;
                 editVisable.value = true;
                 createVisable.value = false;
                 singleTicketVisable.value = false;
                 break;
             case 'userForm':
-                // console.log('Opening User Form modal!');
-                // this.modalData = ticketData;
                 userFormVisable.value = true;
                 userProfileVisable.value = false;
                 break;
             case 'userProfile':
-                // console.log('Opening User Profile modal!');
-                // this.modalData = userData;
                 userProfileVisable.value = true;
                 userFormVisable.value = false;
                 break;
@@ -141,51 +140,33 @@
     function closeModal(modalType) {
         switch(modalType) {
             case 'createTicket':
-                // console.log('Closing Create ticket modal!');
                 createVisable.value = false;
                 break;
             case 'singleTicket':
-                // console.log("Closing single ticket modal!");
                 singleTicketVisable.value = false;
                 break;
             case 'editTicket':
-                // console.log('Closing Edit ticket modal!');
                 editVisable.value = false;
                 break;
             case 'userForm':
-                // console.log('Opening User Form modal!');
-                // this.modalData = ticketData;
                 userFormVisable.value = false;
             case 'userProfile':
-                // console.log('Closing User Profile modal!');
-                // this.modalData = userData;
                 userProfileVisable.value = false;
                 break;
         }
     }
-            // PAGINATION
+
     function paginationButton() {
-        console.log('Calling Pagination Buttons Function');
-        // console.log(currentPage.value - Math.floor(maxPaginationButtons /2))
         let maxLeft = (currentPage.value - Math.floor(maxPaginationButtons /2));
         let maxRight = (currentPage.value + Math.floor(maxPaginationButtons /2));
-        // console.log(maxLeft)
-        // console.log(maxRight)
         if (maxLeft < 1) {
-            // console.log('test one')
             maxLeft = 1;
             maxRight = maxPaginationButtons
-            // console.log(maxLeft)
-            // console.log(maxRight)
         }
-        console.log(maxRight > totalPages())
-        console.log('test 2')
         if (maxRight > totalPages()) {
-            console.log('test 3')
             maxLeft = totalPages() - (maxPaginationButtons - 1);
             maxRight = totalPages()
             if (maxLeft < 1) {
-                console.log('test four')
                 maxLeft = 1;
             }
         }
@@ -193,7 +174,6 @@
             maxLeft: maxLeft,
             maxRight: maxRight
         }
-        console.log(paginationRange.value)
     }
 
     function range(start, end) {
@@ -202,34 +182,27 @@
 
     function prevPage() {
         if(currentPage.value > 1) {
-            console.log(currentPage.value)
             currentPage.value--;
-            console.log(currentPage.value)
-            paginationButton()
-            currentPageDataInfo
-            // currentPageDisplayData.value = currentPageData();
+            paginationButton();
+            filterTableData();
+            // currentPageDataInfo;
         }
     }
 
     function nextPage() {
         if (currentPage.value < totalPages()) {
-            console.log(currentPage.value)
             currentPage.value++;
-            console.log(currentPage.value)
-            paginationButton()
-            currentPageDataInfo
-            // currentPageDisplayData.value = currentPageData();
+            paginationButton();
+            filterTableData();
+            // currentPageDataInfo;
         }
     }
             
     function gotoPage(pageNumber) {
-        // console.log(currentPage.value)
-        // currentPageDisplayData.value = currentPageData();
-        console.log(currentPage.value)
         currentPage.value = pageNumber;
-        console.log(currentPage.value)
-        paginationButton()
-        currentPageDataInfo
+        paginationButton();
+        filterTableData();
+        // currentPageDataInfo;
     }
 
     // CLOSE MODAL
@@ -237,15 +210,6 @@
     // uses Options API to emit a custom event
         this.$emit('close');
     }
-        
-    //Temp Function
-    
-              
-    // onMounted(() => 
-    //     currentPageDisplayData.value = currentPageDataInfo,
-    //     console.log(currentPageDataInfo)
-    // )
-
     
 </script>
 
