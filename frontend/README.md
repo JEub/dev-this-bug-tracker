@@ -1,17 +1,3 @@
-two pages one for view tickets one for working on tickets
-wireframe
-viewing tickets
--Charles
-working on tickets
-login system
-existing library to drag and drop tickets or cards
-Getting started
-land page not reg guest
-Create a ticket protected route with registered email
-update wireframe to add admin and group management
-add admin page - user management / group management
-FIGURE OUT
-pagination for total tickets per query, 30 tickets per page example
 # Frontend Readme 
 
 This readme is specific to the frontend. Please see the following for help on: 
@@ -23,12 +9,13 @@ This readme is specific to the frontend. Please see the following for help on:
 * [Issues](#issues)
 
 ## Frontend Requirements 
-
+* [Back to index](#frontend-readme) 
 Your choices for frontend frameworks are limited to "not React". This is done intentionally to get some/most/all of you out to view other JS frameworks. Alternatively, you can choose to build this applicaiton using no framework. 
  
 In any case, you will need to document in the `./frontend` directory the steps needed to deploy the frontend locally. 
  
 ## Client Requirements 
+* [Back to index](#frontend-readme) 
 The functionality they have requested is as follows: 
 
 * The application must authenticate users with a local database. 
@@ -47,7 +34,8 @@ The functionality they have requested is as follows:
 * Tickets should be able to be assigned to users.
 * Ticket owners/workers should be able to move ticket status. 
 
-## Additional Needs
+## Additional Needs 
+* [Back to index](#frontend-readme) 
 
 * Sorting and filter by assigned user.
 * Ticket Details! 
@@ -81,6 +69,7 @@ The functionality they have requested is as follows:
 * Allow guests (with valid email addresses) to create tickets in a "guest" group/queue.
 
 ## Getting Started 
+* [Back to index](#frontend-readme) 
 Navigate in terminal to dev-this-bug-tracker-frontend directory: 
 `cd ./frontend/dev-this-bug-tracker-frontend` 
 Run: 
@@ -89,9 +78,11 @@ Copy url into browser to view application:
 `http://localhost:5173/` 
 
 ## Troubleshooting 
+* [Back to index](#frontend-readme) 
 * Troubleshooting help here 
 
 ## Issues 
+* [Back to index](#frontend-readme) 
 * Known issues here 
 
 
