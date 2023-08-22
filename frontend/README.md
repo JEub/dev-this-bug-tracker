@@ -89,7 +89,9 @@ Copy url into browser to view application:
 `http://localhost:5173/` 
 
 ## Troublehsooting 
-* Troubleshooting help here
+* Troubleshooting help here 
+
 ## Issues 
-* Known issues here
+* Known issues here 
+
 
