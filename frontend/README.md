@@ -19,7 +19,7 @@ This readme is specific to the frontend. Please see the following for help on:
 * [Frontend Requirements](#frontend-requirements) 
 * [Client Requirements](#client-requirements)
 * [Additional Needs](#additional-needs)
-* [Troubleshooting](#trouble-shooting)
+* [Troubleshooting](#)
 * [Issues](#issues)
 
 ## Frontend Requirements 
@@ -88,7 +88,7 @@ Run:
 Copy url into browser to view application: 
 `http://localhost:5173/` 
 
-## Troublehsooting 
+## Troubleshooting 
 * Troubleshooting help here 
 
 ## Issues 
