@@ -73,12 +73,12 @@ The functionality they have requested is as follows:
 
 ## Getting Started 
 [Back to index](#frontend-readme)  
-Navigate in terminal to dev-this-bug-tracker-frontend directory: 
-`cd ./frontend/dev-this-bug-tracker-frontend` 
-Run: 
-`npm run dev`
-Copy url into browser to view application: 
-`http://localhost:5173/` 
+Navigate in terminal to dev-this-bug-tracker-frontend directory:  
+`cd ./frontend/dev-this-bug-tracker-frontend`  
+Run:  
+`npm run dev`  
+Copy url into browser to view application:  
+`http://localhost:5173/`  
 
 ## Troubleshooting 
 [Back to index](#frontend-readme)  
