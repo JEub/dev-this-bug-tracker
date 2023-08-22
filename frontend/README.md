@@ -9,13 +9,13 @@ This readme is specific to the frontend. Please see the following for help on:
 * [Issues](#issues)
 
 ## Frontend Requirements 
-* [Back to index](#frontend-readme) 
+* [Back to index](#frontend-readme)
 Your choices for frontend frameworks are limited to "not React". This is done intentionally to get some/most/all of you out to view other JS frameworks. Alternatively, you can choose to build this applicaiton using no framework. 
  
 In any case, you will need to document in the `./frontend` directory the steps needed to deploy the frontend locally. 
  
 ## Client Requirements 
-* [Back to index](#frontend-readme)  
+* [Back to index](#frontend-readme)
 
 The functionality they have requested is as follows: 
 
