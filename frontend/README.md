@@ -38,7 +38,7 @@ The functionality they have requested is as follows:
 * Ticket owners/workers should be able to move ticket status. 
 
 ## Additional Needs 
-* [Back to index](#frontend-readme) 
+[Back to index](#frontend-readme)  
 
 * Sorting and filter by assigned user.
 * Ticket Details! 
@@ -72,7 +72,7 @@ The functionality they have requested is as follows:
 * Allow guests (with valid email addresses) to create tickets in a "guest" group/queue.
 
 ## Getting Started 
-* [Back to index](#frontend-readme) 
+[Back to index](#frontend-readme)  
 Navigate in terminal to dev-this-bug-tracker-frontend directory: 
 `cd ./frontend/dev-this-bug-tracker-frontend` 
 Run: 
@@ -81,11 +81,11 @@ Copy url into browser to view application:
 `http://localhost:5173/` 
 
 ## Troubleshooting 
-* [Back to index](#frontend-readme) 
+[Back to index](#frontend-readme)  
 * Troubleshooting help here 
 
 ## Issues 
-* [Back to index](#frontend-readme) 
+[Back to index](#frontend-readme)  
 * Known issues here 
 
 
