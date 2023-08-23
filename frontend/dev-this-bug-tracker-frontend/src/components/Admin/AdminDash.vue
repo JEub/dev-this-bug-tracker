@@ -9,6 +9,7 @@
     const userProfileVisable = ref(false);
     const errors = ref(false);
 
+    // submit should open user profile
     function showModal(modalType) {
         switch(modalType) {
             case 'userForm':
