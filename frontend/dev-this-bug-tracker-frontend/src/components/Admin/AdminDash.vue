@@ -34,7 +34,7 @@
                 break;
         }
     }
-    function getAllUsers(){
+    function getAllUsers() {
         axios
             .get('http://127.0.0.1:8000/user/')
             .then(response => {
@@ -49,6 +49,11 @@
                 console.log('Try again');
                 this.error = true;
             })
+    }
+    // CLOSE MODAL
+    function close() {
+    // uses Options API to emit a custom event
+        this.$emit('close');
     }
 
 </script>
