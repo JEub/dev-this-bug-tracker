@@ -1,0 +1,9 @@
+version: "3.1" 
+services:
+  bug-tracker-frontend:
+    build: ./frontend/dev-this-bug-tracker-frontend
+    ports:
+      - 3001:3000
+    restart: always
+    # depends_on:
+    #   - "bug-tracker-backend"
