@@ -6,6 +6,7 @@
     import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
     import CreateEditUser from '../Users/CreateEditUser.vue';
     import UserProfile from '../Users/UserProfile.vue';
+    import LoginForm from '../LoginForm/LoginForm.vue';
 
     const modalData = ref();
     const searchTerm = ref('');
@@ -15,6 +16,8 @@
     const editVisable = ref(false);
     const userFormVisable = ref(false);
     const userProfileVisable = ref(false);
+    const loginFormVisable = ref(false);
+    const user = ref('Guest');
     const tableData = ref(tickets);
     const filteredTableData = ref(tickets);
     const rowsPerPage = 5;
@@ -114,6 +117,9 @@
                 userProfileVisable.value = true;
                 userFormVisable.value = false;
                 break;
+            case 'loginForm':
+                loginFormVisable.value = true;
+                break;
         }
                     
     }
@@ -185,17 +191,33 @@
     // uses Options API to emit a custom event
         this.$emit('close');
     }
+    function receiveEmit(user){
+        alert('Loged in user is:' + user);
+    }
     
 </script>
 
 <template>
+    <LoginForm
+        v-if="loginFormVisable"
+        @close="closeModal('loginForm')"
+        @user="receiveEmit"
+    />
     <div id="container">
         <div id="nav">
-            <h2>Welcome, User</h2>
+            
+            <div v-if="user">
+                <h2>Welcome, {{user}}</h2>
+            </div>
+            <!-- <div v-if="user">
+                <h2>Welcome, {{ this.$parent.$ref.user.username }}</h2>
+            </div>-->
+            
             <div>
                 <img src="../../assets/userProfile.svg"/> 
                 <a>Logout</a>
             </div>
+            <button @click="showModal('loginForm')" class="btn btn-success">Login</button>
             <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
             <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
             <button @click="showModal('userProfile')"
@@ -280,6 +302,7 @@
             @close="closeModal('userProfile')"
             :openEditUser="showModal"
         />
+        
     </template>
 
 <style>

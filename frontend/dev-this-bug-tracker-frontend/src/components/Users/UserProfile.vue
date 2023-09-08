@@ -11,7 +11,7 @@
         id: 5, name: 'securityQuestion',
         id: 6, name: 'securityAnswer',
     })
-// edit profile should open user edit
+// edit profile should open user edit maybe add emit use here? 
     function showModal(modalType) {
         switch(modalType) {
             case 'userForm':
