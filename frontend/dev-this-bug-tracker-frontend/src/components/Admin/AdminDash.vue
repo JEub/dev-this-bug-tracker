@@ -9,7 +9,7 @@
     const userProfileVisable = ref(false);
     const errors = ref(false);
 
-    // submit should open user profile
+    // submit should open user profile maybe add emit use here?
     function showModal(modalType) {
         switch(modalType) {
             case 'userForm':
