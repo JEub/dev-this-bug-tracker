@@ -70,8 +70,8 @@ img{
 }
 
 .dashboard-header {
-    width: 90%;
     display: flex;
+    margin-right: 5%;
     flex-direction: row;
     justify-content: flex-end;
 }

@@ -257,7 +257,10 @@
         this.$emit('close');
     }
 
-    import { Dropdown } from 'bootstrap';
+    function changeVariables(filterTermChange) {
+        filterTerm.value = filterTermChange;
+        searchTerm.value = ''
+    }
 
 </script>
 
@@ -285,11 +288,12 @@
                         {{filterTerm}}
                     </button>
                     <ul class="dropdown-menu">
-                        <li @click="() => filterTerm = 'Id'">Id</li>
-                        <li @click="() => filterTerm = 'Title'">Title</li>
-                        <li @click="() => filterTerm = 'Assigned User'">Assigned User</li>
-                        <li @click="() => filterTerm = 'Status'">Status</li>
-                        <li @click="() => filterTerm = 'Creation Date'">Creation Date</li>
+                        <li @click="changeVariables('Id')">Id</li>
+                        <li @click="changeVariables('Title')">Title</li>
+                        <li @click="changeVariables('Assigned User')">Assigned User</li>
+                        <li @click="changeVariables('Status')">Status</li>
+                        <li @click="changeVariables('Creation Date')">Creation Date</li>
+                        <li @click="changeVariables('Filter')">Remove Filter</li>
                     </ul>
                 </div>
             </div>
