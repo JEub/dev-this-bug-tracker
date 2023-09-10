@@ -68,9 +68,11 @@ img{
     display: flex;
     justify-content: center;
 }
-.dashboard-header div {
+
+.dashboard-header {
     width: 90%;
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
 }
 

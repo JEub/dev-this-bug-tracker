@@ -26,6 +26,8 @@
         maxLeft : 1,
         maxRight : 5
     })
+    const filterTerm = ref('Filter');
+
     const dummyData = {
                     id: null,
                     title: null,
@@ -85,19 +87,77 @@
     function filterTableData() {
         let tempFilteredTableData = [];
         currentPage.value = 1;
-        for(let i = 0; i < tableData.value.length; i++) {
-            // can this all be condensed to switch case or create additional if statements?
-            if (
-                tableData.value[i].id.includes(searchTerm.value) || 
-                tableData.value[i].title.includes(searchTerm.value) || 
-                tableData.value[i].assigned_user.username.includes(searchTerm.value) || 
-                tableData.value[i].created_date.includes(searchTerm.value)) {
-                    tempFilteredTableData.push(tableData.value[i]);
-
+        console.log(filterTerm.value)
+        switch (filterTerm.value) {
+            case 'Filter':
+                break;
+            case 'Id':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].id.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+        
+                    }
                 }
+                
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData; 
+            case 'Title':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].title.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;   
+
+            case 'Assigned User':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].assigned_user.username.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;  
+
+            case 'Status':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].status_id == (searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;  
+
+            case 'Creation Date':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].created_date.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData; 
+                    
         }
-        searchTermCheck.value = searchTerm.value
-        filteredTableData.value = tempFilteredTableData;
+
     }
     
 
@@ -219,20 +279,18 @@
         </div>
         <div class="dashboard">
             <div class="dashboard-header">
-                <div>
-                    <input type='text' placeholder="Search" v-model="searchTerm"/>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            Filter
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>Id</li>
-                            <li>Title</li>
-                            <li>Assigned User</li>
-                            <li>Status</li>
-                            <li>Creation Date</li>
-                        </ul>
-                    </div>
+                <input type='text' placeholder="Search" v-model="searchTerm"/>
+                <div class="dropdown">
+                    <button id="filter-button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        {{filterTerm}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li @click="() => filterTerm = 'Id'">Id</li>
+                        <li @click="() => filterTerm = 'Title'">Title</li>
+                        <li @click="() => filterTerm = 'Assigned User'">Assigned User</li>
+                        <li @click="() => filterTerm = 'Status'">Status</li>
+                        <li @click="() => filterTerm = 'Creation Date'">Creation Date</li>
+                    </ul>
                 </div>
             </div>
             <div class="table-data-container">
