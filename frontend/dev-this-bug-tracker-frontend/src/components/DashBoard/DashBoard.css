@@ -60,6 +60,10 @@ img{
     height: 75vh;
 }
 
+.dashboard-table tr {
+    height: 20%;
+}
+
 .dashboard-header {
     display: flex;
     justify-content: center;

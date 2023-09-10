@@ -6,6 +6,7 @@
     import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
     import CreateEditUser from '../Users/CreateEditUser.vue';
     import UserProfile from '../Users/UserProfile.vue';
+    import axios from 'axios';
 
     const modalData = ref();
     const searchTerm = ref('');
@@ -44,7 +45,20 @@
                     }, 
                     created_date: null,
                     last_update: null
-                }    
+                } 
+                
+    const getTickets = async () => {
+        try {
+            let response = await axios.get(
+                `http://127.0.0.1:8000/user/`
+            );
+            console.log(response.data);
+            // modalData == response.data;
+            // console.log(modalData);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    }
 
     function totalRows() {
         if(searchTerm.value != '') {
@@ -164,20 +178,17 @@
     function prevPage() {
         if(currentPage.value > 1) {
             currentPage.value--;
-            // currentPageDataInfo;
         }
     }
 
     function nextPage() {
         if (currentPage.value < totalPages()) {
             currentPage.value++;
-            // currentPageDataInfo;
         }
     }
             
     function gotoPage(pageNumber) {
         currentPage.value = pageNumber;
-        // currentPageDataInfo;
     }
 
     // CLOSE MODAL
@@ -185,12 +196,16 @@
     // uses Options API to emit a custom event
         this.$emit('close');
     }
-    
+
+    import { Dropdown } from 'bootstrap';
+
 </script>
 
 <template>
     <div id="container">
         <div id="nav">
+            <!-- Test Button -->
+            <button @click="getTickets()">Test</button>
             <h2>Welcome, User</h2>
             <div>
                 <img src="../../assets/userProfile.svg"/> 
@@ -206,7 +221,18 @@
             <div class="dashboard-header">
                 <div>
                     <input type='text' placeholder="Search" v-model="searchTerm"/>
-                    <button>Filter</button>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                            Filter
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>Id</li>
+                            <li>Title</li>
+                            <li>Assigned User</li>
+                            <li>Status</li>
+                            <li>Creation Date</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="table-data-container">
