@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
-from database import Base
+from config.database import Base
 
 
 class Group(Base):
