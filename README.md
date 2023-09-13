@@ -4,13 +4,35 @@ This project is aimed at developing an internal bug tracking system for a client
 
 ## Backend
 
-For the backend, we will use FastAPI and SQLite (accessed via SQLAlchemy). This API and instructions to deploy the API locally will be found in the `./backend` directory. 
+For the backend, we will use dockerized FastAPI and PostgreSQL (accessed via SQLAlchemy). This API and instructions to deploy the API locally will be found in the `./backend` directory.
+
+### Prerequisites
+- Docker
+
+### Installation
+1. Clone the repository
+2. Go to backend directory
+3. Build docker container and migrate database
+  - build docker container
+  ```
+  docker-compose build
+  ```
+  - migrate database
+  ```
+  docker-compose run web alembic revision --autogenerate
+  ```
+4. Run docker container
+  ```
+  docker-compose up -d
+  ```
+5. The application url is localhost:8000
 
 ## Frontend
 
 Your choices for frontend frameworks are limited to "not React". This is done intentionally to get some/most/all of you out to view other JS frameworks. Alternatively, you can choose to build this applicaiton using no framework. 
 
-In any case, you will need to document in the `./frontend` directory the steps needed to deploy the frontend locally. 
+In any case, you will need to document in the `./frontend` directory the steps needed to deploy the frontend locally.
+
 
 ## Client Requirements
 
@@ -64,3 +86,5 @@ The client has given us great liberties for the UI portion of this project. The 
   * Groups
 * Temp password created on user creation
 * Allow guests (with valid email addresses) to create tickets in a "guest" group/queue.
+
+

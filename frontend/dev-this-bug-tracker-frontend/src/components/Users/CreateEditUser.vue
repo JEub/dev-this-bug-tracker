@@ -1,58 +1,78 @@
 <script setup>
     import { ref, onMounted } from 'vue';
-    const groups = ref(['Retail'])
-    const securityQuestion = ref('Please make a selection')
+    const groups = ref(['Retail']);
+    const securityQuestion = ref('Please make a selection');
+    const userFormVisable = ref(false);
+    const userProfileVisable = ref(false);
+    const userData = ref({
+        id: 1, name: 'email',
+        id: 2, name: 'password',
+        id: 3, name: 'username',
+        id: 4, name: 'groups',
+        id: 5, name: 'securityQuestion',
+        id: 6, name: 'securityAnswer',
+        });
+
+    const emit = defineEmits(['close'])
     onMounted(() => console.log(securityQuestion.value))
-</script>
-<script>
-    export default {
-        name: 'User Form',
-        props: {    
-            userData: {
-                "email": String,
-                "password": String,
-                "username": String,
-                "groups": String,
-                "security_question": String,
-                "security_answer": String,
-            },
-            openUserProfile: {
-                type: Function
-            },
-        },
-        methods: {
-            // uses Options API to emit a custom event
-            close() {
-                this.$emit('close');
-            },
-            // onSubmit(event) {
-            //     event.preventDefault()
-            //     alert(JSON.stringify(this.form))
-            //  save ticket data to ref or state here
-            // },
-            // onReset(event) {
-            //     event.preventDefault()
-            //     // Reset our form values
-            //     this.form.email = ''
-            //     this.form.name = ''
-            //     this.form.food = null
-            //     this.form.checked = []
-            //     // Trick to reset/clear native browser form validation state
-            //     this.show = false
-            //     this.$nextTick(() => {
-            //     this.show = true
-            //     })
-            // },
-        },
-    };
+    // consider removing the switch case and make the show modal open the userProfile only
+    function showModal(modalType) {
+        switch(modalType) {
+            case 'userForm':
+                // modalData.value = userData;
+                userFormVisable.value = true;
+                userProfileVisable.value = false;
+                break;
+            case 'userProfile':
+                // modalData.value = userData;
+                userProfileVisable.value = true;
+                userFormVisable.value = false;
+                break;
+        }
+    }
+    function closeModal(modalType){
+        switch(modalType) {
+            case 'userForm':
+                // modalData.value = userData;
+                userFormVisable.value = false;
+            case 'userProfile':
+                // modalData.value = userData;
+                userProfileVisable.value = false;
+                break;
+        }
+    }
+     // CLOSE MODAL
+    function closeClick() {
+        emit('close');
+    }
+    // onSubmit(event) {
+        //     event.preventDefault()
+        //     alert(JSON.stringify(this.form))
+        //  save ticket data to ref or state here
+    // },
+    // onReset(event) {
+    //     event.preventDefault()
+    //     // Reset our form values
+    //     this.form.email = ''
+    //     this.form.name = ''
+    //     this.form.food = null
+    //     this.form.checked = []
+    //     // Trick to reset/clear native browser form validation state
+    //     this.show = false
+    //     this.$nextTick(() => {
+    //     this.show = true
+    //     })
+    // },
 </script>
 <template>
     <div id="modal-dialog" >
         <div class="modal-content">
-            <form action="http://127.0.0.1:8000/user/create" class="modal-row">
+            <!--http://127.0.0.1:8000/user/create-->
+            <form action="" class="modal-row">
                 <div class="header-row">
                     <h3>Create / Edit User</h3>
-                    <button type="button" class="btn btn-danger" @click="close">Close</button>
+                    <button type="button" class="btn btn-danger" 
+                    @click="$emit('close')">Close</button>
                 </div>
                 <div class="row">
                     <label for="">Email: </label>
@@ -103,8 +123,8 @@
                 <div class="dismiss-row">
                     <!--Submit button should save data. close edit user modal and open user profile modal-->
                     <button  type="submit" class="btn btn-success"
-                    @click="openUserProfile('userProfile')">Submit!</button>
-                    <button type="button" class="btn btn-danger" @click="close">Close</button>
+                    @click="showModal('userProfile')">Submit!</button>
+                    <button type="button" class="btn btn-danger" @click="$emit('close')">Close</button>
                 </div>
             </form>
         </div>

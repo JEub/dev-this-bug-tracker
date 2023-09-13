@@ -1,78 +1,62 @@
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
-import CreateEditUser from '../Users/CreateEditUser.vue';
-import UserProfile from '../Users/UserProfile.vue';
-// const users = ref([null]);
-</script>
-<script>
-    
-    export default {
-        name: 'AdminDashboard',
-        components: {
-            CreateEditUser,
-            UserProfile
-        },
-        data () {
-            return {
-                userFormVisable: false,
-                userProfileVisable:false,
-                users: [],
-                error: false,
-            }
-        },
-        methods: {
-            showModal(modalType) {
-                switch(modalType) {
-                    case 'userForm':
-                        // console.log('Opening User Form modal!');
-                        // this.modalData = ticketData;
-                        this.userFormVisable = true;
-                        this.userProfileVisable = false;
-                        break;
-                    case 'userProfile':
-                        // console.log('Opening User Profile modal!');
-                        // this.modalData = userData;
-                        this.userProfileVisable = true;
-                        this.userFormVisable = false;
-                        break;
-                }
-            },
-            closeModal(modalType) {
-                switch(modalType) {
-                    case 'userForm':
-                        // console.log('Opening User Form modal!');
-                        // this.modalData = ticketData;
-                        this.userFormVisable = false;
-                    case 'userProfile':
-                        // console.log('Closing User Profile modal!');
-                        // this.modalData = userData;
-                        this.userProfileVisable = false;
-                        break;
-                }
-            },
-            getAllUsers() {
-                axios
-                    .get('http://127.0.0.1:8000/user/')
-                    .then(response => {
-                        console.log(response);
-                        const usersData = response.data;
-                        console.log(usersData);
-                        this.users = usersData;
-                        console.log("Success!" + this.users);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        console.log('Try again');
-                        this.error = true;
-                    })
+    import { ref } from 'vue';
+    import axios from 'axios';
+    import CreateEditUser from '../Users/CreateEditUser.vue';
+    import UserProfile from '../Users/UserProfile.vue';
 
-            }
-        },
-        // created: () => {
-        //     this.getAllUsers();
-        //     }
-    };
+    const users = ref([]);
+    const userFormVisable =  ref(false);
+    const userProfileVisable = ref(false);
+    const errors = ref(false);
+
+    // submit should open user profile maybe add emit use here?
+    function showModal(modalType) {
+        switch(modalType) {
+            case 'userForm':
+                // modalData.value = userData;
+                userFormVisable.value = true;
+                userProfileVisable.value = false;
+                break;
+            case 'userProfile':
+                // modalData.value = userData;
+                userProfileVisable.value = true;
+                userFormVisable.value = false;
+                break;
+        }
+    }
+    function closeModal(modalType){
+        switch(modalType) {
+            case 'userForm':
+                // modalData.value = userData;
+                userFormVisable.value = false;
+            case 'userProfile':
+                // modalData.value = userData;
+                userProfileVisable.value = false;
+                break;
+        }
+    }
+    function getAllUsers() {
+        axios
+            .get('http://127.0.0.1:8000/user/')
+            .then(response => {
+                console.log(response);
+                const usersData = response.data;
+                console.log(usersData);
+                this.users = usersData;
+                console.log("Success!" + this.users);
+            })
+            .catch(error => {
+                console.log(error);
+                console.log('Try again');
+                this.error = true;
+            })
+    }
+    // CLOSE MODAL
+    function close() {
+    // uses Options API to emit a custom event
+        this.$emit('close');
+    }
+
 </script>
 <template>
     <div id="container">
