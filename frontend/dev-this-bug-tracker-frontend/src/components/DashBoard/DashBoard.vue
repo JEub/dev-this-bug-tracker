@@ -6,7 +6,9 @@
     import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
     import CreateEditUser from '../Users/CreateEditUser.vue';
     import UserProfile from '../Users/UserProfile.vue';
+    import axios from 'axios';
     import LoginForm from '../LoginForm/LoginForm.vue';
+
 
     const modalData = ref();
     const searchTerm = ref('');
@@ -28,6 +30,8 @@
         maxLeft : 1,
         maxRight : 5
     })
+    const filterTerm = ref('Filter');
+
     const dummyData = {
                     id: null,
                     title: null,
@@ -47,7 +51,20 @@
                     }, 
                     created_date: null,
                     last_update: null
-                }    
+                } 
+                
+    const getTickets = async () => {
+        try {
+            let response = await axios.get(
+                `http://127.0.0.1:8000/user/`
+            );
+            console.log(response.data);
+            // modalData == response.data;
+            // console.log(modalData);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    }
 
     function totalRows() {
         if(searchTerm.value != '') {
@@ -74,19 +91,77 @@
     function filterTableData() {
         let tempFilteredTableData = [];
         currentPage.value = 1;
-        for(let i = 0; i < tableData.value.length; i++) {
-            // can this all be condensed to switch case or create additional if statements?
-            if (
-                tableData.value[i].id.includes(searchTerm.value) || 
-                tableData.value[i].title.includes(searchTerm.value) || 
-                tableData.value[i].assigned_user.username.includes(searchTerm.value) || 
-                tableData.value[i].created_date.includes(searchTerm.value)) {
-                    tempFilteredTableData.push(tableData.value[i]);
-
+        console.log(filterTerm.value)
+        switch (filterTerm.value) {
+            case 'Filter':
+                break;
+            case 'Id':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].id.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+        
+                    }
                 }
+                
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData; 
+            case 'Title':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].title.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;   
+
+            case 'Assigned User':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].assigned_user.username.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;  
+
+            case 'Status':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].status_id == (searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;  
+
+            case 'Creation Date':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].created_date.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData; 
+                    
         }
-        searchTermCheck.value = searchTerm.value
-        filteredTableData.value = tempFilteredTableData;
+
     }
     
 
@@ -170,20 +245,17 @@
     function prevPage() {
         if(currentPage.value > 1) {
             currentPage.value--;
-            // currentPageDataInfo;
         }
     }
 
     function nextPage() {
         if (currentPage.value < totalPages()) {
             currentPage.value++;
-            // currentPageDataInfo;
         }
     }
             
     function gotoPage(pageNumber) {
         currentPage.value = pageNumber;
-        // currentPageDataInfo;
     }
 
     // CLOSE MODAL
@@ -191,10 +263,15 @@
     // uses Options API to emit a custom event
         this.$emit('close');
     }
+
+    function changeVariables(filterTermChange) {
+        filterTerm.value = filterTermChange;
+        searchTerm.value = ''
+    }
+
     function receiveEmit(user){
         alert('Loged in user is:' + user);
     }
-    
 </script>
 
 <template>
@@ -205,6 +282,9 @@
     />
     <div id="container">
         <div id="nav">
+            <!-- Test Button -->
+            <button @click="getTickets()">Test</button>
+            <h2>Welcome, User</h2>
             
             <div v-if="user">
                 <h2>Welcome, {{user}}</h2>
@@ -226,9 +306,19 @@
         </div>
         <div class="dashboard">
             <div class="dashboard-header">
-                <div>
-                    <input type='text' placeholder="Search" v-model="searchTerm"/>
-                    <button>Filter</button>
+                <input type='text' placeholder="Search" v-model="searchTerm"/>
+                <div class="dropdown">
+                    <button id="filter-button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        {{filterTerm}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li @click="changeVariables('Id')">Id</li>
+                        <li @click="changeVariables('Title')">Title</li>
+                        <li @click="changeVariables('Assigned User')">Assigned User</li>
+                        <li @click="changeVariables('Status')">Status</li>
+                        <li @click="changeVariables('Creation Date')">Creation Date</li>
+                        <li @click="changeVariables('Filter')">Remove Filter</li>
+                    </ul>
                 </div>
             </div>
             <div class="table-data-container">
