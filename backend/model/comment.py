@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
-from database import Base
+from config.database import Base
 
 
 class Comment(Base):
@@ -11,6 +11,6 @@ class Comment(Base):
     body = Column(String, nullable=False)
     creator = Column(Integer, ForeignKey("user.id"))
     created_date = Column(DateTime)
-    visible = Column(bool)
+    visible = Column(Integer)
     last_update = Column(DateTime)
     publish_date = Column(DateTime)
