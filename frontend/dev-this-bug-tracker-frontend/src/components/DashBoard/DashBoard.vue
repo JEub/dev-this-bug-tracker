@@ -19,7 +19,7 @@
     const userFormVisable = ref(false);
     const userProfileVisable = ref(false);
     const loginFormVisable = ref(false);
-    const user = ref('Guest');
+    const loggedUser = ref('Guest');
     const tableData = ref(tickets);
     const filteredTableData = ref(tickets);
     const rowsPerPage = 5;
@@ -215,6 +215,9 @@
             case 'userProfile':
                 userProfileVisable.value = false;
                 break;
+            case 'loginForm':
+                loginFormVisable.value = false;
+                break;
         }
     }
 
@@ -275,25 +278,27 @@
 </script>
 
 <template>
+    <!-- check ticketdata"row" for example of how data is passed up through props -->
     <LoginForm
         v-if="loginFormVisable"
         @close="closeModal('loginForm')"
         @user="receiveEmit"
+        :loggedUser="user"
     />
     <div id="container">
         <div id="nav">
-            <!-- Test Button -->
+            <!-- Test Button 
             <button @click="getTickets()">Test</button>
-            <h2>Welcome, User</h2>
+            <h2>Welcome, User</h2>-->
             
-            <div v-if="user">
-                <h2>Welcome, {{user}}</h2>
+            <div v-if="loggedUser">
+                <h2>Welcome, {{ loggedUser }}</h2>
             </div>
             <!-- <div v-if="user">
                 <h2>Welcome, {{ this.$parent.$ref.user.username }}</h2>
             </div>-->
             
-            <div>
+            <div v-if="user">
                 <img src="../../assets/userProfile.svg"/> 
                 <a>Logout</a>
             </div>
