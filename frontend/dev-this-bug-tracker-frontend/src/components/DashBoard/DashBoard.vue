@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, reactive, onMounted, computed } from 'vue';
+    import { ref, computed} from 'vue';
     import tickets from './tickets.json';
     import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
     import SingleTicket from '../Tickets/SingleTicket.vue';
@@ -7,9 +7,10 @@
     import CreateEditUser from '../Users/CreateEditUser.vue';
     import UserProfile from '../Users/UserProfile.vue';
     import axios from 'axios';
-    import LoginForm from '../LoginForm/LoginForm.vue';
-
-
+    import  LoginForm from '../LoginForm/LoginForm.vue';
+    import { loggedUser } from '../LoginForm/loginUser.js';
+    
+    
     const modalData = ref();
     const searchTerm = ref('');
     const searchTermCheck = ref('');
@@ -19,7 +20,10 @@
     const userFormVisable = ref(false);
     const userProfileVisable = ref(false);
     const loginFormVisable = ref(false);
-    const loggedUser = ref('Guest');
+
+    const loggedInUser = loggedUser;
+    const guest = ref('Guest');
+
     const tableData = ref(tickets);
     const filteredTableData = ref(tickets);
     const rowsPerPage = 5;
@@ -52,7 +56,7 @@
                     created_date: null,
                     last_update: null
                 } 
-                
+    
     const getTickets = async () => {
         try {
             let response = await axios.get(
@@ -164,6 +168,9 @@
 
     }
     
+    // function logout(){
+    //     this.$store.commit('logout')
+    // }
 
     function showModal(modalType, ticketData) {
         switch(modalType) {
@@ -282,8 +289,8 @@
     <LoginForm
         v-if="loginFormVisable"
         @close="closeModal('loginForm')"
-        @user="receiveEmit"
-        :loggedUser="user"
+        :loggedUser="loggedUser.username"
+        
     />
     <div id="container">
         <div id="nav">
@@ -291,17 +298,25 @@
             <button @click="getTickets()">Test</button>
             <h2>Welcome, User</h2>-->
             
-            <div v-if="loggedUser">
-                <h2>Welcome, {{ loggedUser }}</h2>
-            </div>
-            <!-- <div v-if="user">
-                <h2>Welcome, {{ this.$parent.$ref.user.username }}</h2>
+            <!--<div v-if="loggedInUser">
+                <h2> Welcome, {{ user.username }} </h2>
             </div>-->
+            <!---->
+            <div v-if="loggedInUser">
+                <h2> Welcome, {{ loggedUser.username }} </h2>
+            </div> 
+            <div v-else="guest">
+                <h2> Welcome, {{ guest }} </h2>
+            </div>
             
-            <div v-if="user">
+            
+            <div >
                 <img src="../../assets/userProfile.svg"/> 
                 <a>Logout</a>
             </div>
+            
+            <!--<router-link v-if="$store.state.email" to="/login">Login Page</router-link>
+            <a v-if="$store.state.email" @click="logout">Logout link</a>-->
             <button @click="showModal('loginForm')" class="btn btn-success">Login</button>
             <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
             <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
