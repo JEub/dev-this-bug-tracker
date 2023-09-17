@@ -1,5 +1,15 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script >
+import {RouterView} from 'vue-router';
+export default {
+  mounted(){
+    try{
+      this.$store.commit('initialiseStore');
+    }catch(e){
+      console.log(e);
+    }
+    
+  }
+}
 </script>
 
 <template>
