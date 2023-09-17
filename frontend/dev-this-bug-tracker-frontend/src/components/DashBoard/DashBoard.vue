@@ -9,6 +9,7 @@
     import axios from 'axios';
     import  LoginForm from '../LoginForm/LoginForm.vue';
     import { loggedUser } from '../LoginForm/loginUser.js';
+    // import {store} from '../../store/index.js';
     
     
     const modalData = ref();
@@ -168,9 +169,9 @@
 
     }
     
-    // function logout(){
-    //     this.$store.commit('logout')
-    // }
+    function logout(){
+        this.$store.commit('logout')
+    }
 
     function showModal(modalType, ticketData) {
         switch(modalType) {
