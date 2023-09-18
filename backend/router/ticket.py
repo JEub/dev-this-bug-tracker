@@ -12,7 +12,6 @@ import logging
 
 router = APIRouter()
 
-## postgreSQL로 변경할것
 class RequestBody(BaseModel):
     title: str
     description: Optional[str]
