@@ -1,5 +1,5 @@
 <script setup>
-import DashBoard from '../components/DashBoard/DashBoard.vue'
+import DashBoard from '../components/DashBoard/DashBoard.vue';
 </script>
 
 

@@ -60,13 +60,19 @@ img{
     height: 75vh;
 }
 
+.dashboard-table tr {
+    height: 20%;
+}
+
 .dashboard-header {
     display: flex;
     justify-content: center;
 }
-.dashboard-header div {
-    width: 90%;
+
+.dashboard-header {
     display: flex;
+    margin-right: 5%;
+    flex-direction: row;
     justify-content: flex-end;
 }
 

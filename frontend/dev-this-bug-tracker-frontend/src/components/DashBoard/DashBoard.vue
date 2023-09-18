@@ -1,12 +1,17 @@
 <script setup>
-    import { ref, reactive, onMounted, computed } from 'vue';
+    import { ref, computed} from 'vue';
     import tickets from './tickets.json';
     import CreateEditTicket from '../Tickets/CreateEditTicket.vue';
     import SingleTicket from '../Tickets/SingleTicket.vue';
     import DashBoard_Table_Row from './DashBoard_Table_Row/DashBoard_Table_Row.vue';
     import CreateEditUser from '../Users/CreateEditUser.vue';
     import UserProfile from '../Users/UserProfile.vue';
-
+    import axios from 'axios';
+    import  LoginForm from '../LoginForm/LoginForm.vue';
+    import { loggedUser } from '../LoginForm/loginUser.js';
+    // import {store} from '../../store/index.js';
+    
+    
     const modalData = ref();
     const searchTerm = ref('');
     const searchTermCheck = ref('');
@@ -15,6 +20,11 @@
     const editVisable = ref(false);
     const userFormVisable = ref(false);
     const userProfileVisable = ref(false);
+    const loginFormVisable = ref(false);
+
+    const loggedInUser = loggedUser;
+    const guest = ref('Guest');
+
     const tableData = ref(tickets);
     const filteredTableData = ref(tickets);
     const rowsPerPage = 5;
@@ -25,6 +35,8 @@
         maxLeft : 1,
         maxRight : 5
     })
+    const filterTerm = ref('Filter');
+
     const dummyData = {
                     id: null,
                     title: null,
@@ -44,7 +56,20 @@
                     }, 
                     created_date: null,
                     last_update: null
-                }    
+                } 
+    
+    const getTickets = async () => {
+        try {
+            let response = await axios.get(
+                `http://127.0.0.1:8000/user/`
+            );
+            console.log(response.data);
+            // modalData == response.data;
+            // console.log(modalData);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    }
 
     function totalRows() {
         if(searchTerm.value != '') {
@@ -71,21 +96,82 @@
     function filterTableData() {
         let tempFilteredTableData = [];
         currentPage.value = 1;
-        for(let i = 0; i < tableData.value.length; i++) {
-            // can this all be condensed to switch case or create additional if statements?
-            if (
-                tableData.value[i].id.includes(searchTerm.value) || 
-                tableData.value[i].title.includes(searchTerm.value) || 
-                tableData.value[i].assigned_user.username.includes(searchTerm.value) || 
-                tableData.value[i].created_date.includes(searchTerm.value)) {
-                    tempFilteredTableData.push(tableData.value[i]);
-
+        console.log(filterTerm.value)
+        switch (filterTerm.value) {
+            case 'Filter':
+                break;
+            case 'Id':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].id.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+        
+                    }
                 }
+                
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData; 
+            case 'Title':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].title.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;   
+
+            case 'Assigned User':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].assigned_user.username.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;  
+
+            case 'Status':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].status_id == (searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData;  
+
+            case 'Creation Date':
+                for(let i = 0; i < tableData.value.length; i++) {
+                    // can this all be condensed to switch case or create additional if statements?
+                    if (
+                        tableData.value[i].created_date.includes(searchTerm.value)
+                    ) {
+                        tempFilteredTableData.push(tableData.value[i]);
+                    }
+                }
+
+                searchTermCheck.value = searchTerm.value
+                filteredTableData.value = tempFilteredTableData; 
+                    
         }
-        searchTermCheck.value = searchTerm.value
-        filteredTableData.value = tempFilteredTableData;
+
     }
     
+    function logout(){
+        this.$store.commit('logout')
+    }
 
     function showModal(modalType, ticketData) {
         switch(modalType) {
@@ -114,6 +200,9 @@
                 userProfileVisable.value = true;
                 userFormVisable.value = false;
                 break;
+            case 'loginForm':
+                loginFormVisable.value = true;
+                break;
         }
                     
     }
@@ -133,6 +222,9 @@
                 userFormVisable.value = false;
             case 'userProfile':
                 userProfileVisable.value = false;
+                break;
+            case 'loginForm':
+                loginFormVisable.value = false;
                 break;
         }
     }
@@ -164,20 +256,17 @@
     function prevPage() {
         if(currentPage.value > 1) {
             currentPage.value--;
-            // currentPageDataInfo;
         }
     }
 
     function nextPage() {
         if (currentPage.value < totalPages()) {
             currentPage.value++;
-            // currentPageDataInfo;
         }
     }
             
     function gotoPage(pageNumber) {
         currentPage.value = pageNumber;
-        // currentPageDataInfo;
     }
 
     // CLOSE MODAL
@@ -185,17 +274,52 @@
     // uses Options API to emit a custom event
         this.$emit('close');
     }
-    
+
+    function changeVariables(filterTermChange) {
+        filterTerm.value = filterTermChange;
+        searchTerm.value = ''
+    }
+
+    function receiveEmit(user){
+        alert('Loged in user is:' + user);
+    }
 </script>
 
 <template>
+    <!-- check ticketdata"row" for example of how data is passed up through props -->
+    <LoginForm
+        v-if="loginFormVisable"
+        @close="closeModal('loginForm')"
+        :loggedUser="loggedUser.username"
+        :openEditUser="showModal"
+        
+    />
     <div id="container">
         <div id="nav">
-            <h2>Welcome, User</h2>
-            <div>
+            <!-- Test Button 
+            <button @click="getTickets()">Test</button>
+            <h2>Welcome, User</h2>-->
+            
+            <!--<div v-if="loggedInUser">
+                <h2> Welcome, {{ user.username }} </h2>
+            </div>-->
+            <!---->
+            <div v-if="loggedInUser">
+                <h2> Welcome, {{ loggedUser.username }} </h2>
+            </div> 
+            <div v-else="guest">
+                <h2> Welcome, {{ guest }} </h2>
+            </div>
+            
+            
+            <div >
                 <img src="../../assets/userProfile.svg"/> 
                 <a>Logout</a>
             </div>
+            
+            <!--<router-link v-if="$store.state.email" to="/login">Login Page</router-link>
+            <a v-if="$store.state.email" @click="logout">Logout link</a>-->
+            <button @click="showModal('loginForm')" class="btn btn-success">Login</button>
             <button @click="showModal('createTicket')" class="btn btn-primary">Create Ticket</button>
             <button @click="showModal('userForm')" class="btn btn-outline-secondary">Create User</button>
             <button @click="showModal('userProfile')"
@@ -204,9 +328,19 @@
         </div>
         <div class="dashboard">
             <div class="dashboard-header">
-                <div>
-                    <input type='text' placeholder="Search" v-model="searchTerm"/>
-                    <button>Filter</button>
+                <input type='text' placeholder="Search" v-model="searchTerm"/>
+                <div class="dropdown">
+                    <button id="filter-button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        {{filterTerm}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li @click="changeVariables('Id')">Id</li>
+                        <li @click="changeVariables('Title')">Title</li>
+                        <li @click="changeVariables('Assigned User')">Assigned User</li>
+                        <li @click="changeVariables('Status')">Status</li>
+                        <li @click="changeVariables('Creation Date')">Creation Date</li>
+                        <li @click="changeVariables('Filter')">Remove Filter</li>
+                    </ul>
                 </div>
             </div>
             <div class="table-data-container">
@@ -279,7 +413,9 @@
             v-if="userProfileVisable"
             @close="closeModal('userProfile')"
             :openEditUser="showModal"
+            :existingUser="true"
         />
+        
     </template>
 
 <style>
