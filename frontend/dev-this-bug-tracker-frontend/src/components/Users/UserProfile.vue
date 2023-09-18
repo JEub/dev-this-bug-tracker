@@ -3,6 +3,7 @@
     const userActive = ref(true)
     const userFormVisable = ref(false);
     const userProfileVisable = ref(false);
+    const existingUser = ref(false);
     const userData = ref({
         id: 1, name: 'username',
         id: 2, name: 'email',
@@ -18,6 +19,7 @@
                 // modalData.value = userData;
                 userFormVisable.value = true;
                 userProfileVisable.value = false;
+                existingUser.value = true;
                 break;
             case 'userProfile':
                 // modalData.value = userData;
@@ -88,7 +90,7 @@
                     <button type="button" class="btn btn-danger" 
                     @click="$emit('close')">Close</button>
                     <!--Add function above to deactivaet user here-->
-                    <button type="button" class="btn outline-danger">Deactivate Account</button>
+                    <button action="/user/delete/{id}" type="button" class="btn outline-danger">Deactivate Account</button>
                 </div>
             </div>
         </div>

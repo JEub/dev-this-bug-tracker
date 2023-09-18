@@ -2,15 +2,16 @@
     import { ref, onMounted } from 'vue';
     import tickets from '../DashBoard/tickets.json';
 
-    const title = ref('Title')
-    const description = ref('Description')
-    const storyPoints = ref('Story Points')
-    const ticketStatus = ref('Open')
-    const groups = ref(['Retail'])
-    const assignedUser = ref(['Jack'])
-    const parentLinks = ref('Parent Links')
-    const ticketTags = ref('Ticket Tags')
-    const ticketComments = ref('Ticket Comments')
+    const title = ref('Title');
+    const description = ref('Description');
+    const storyPoints = ref('Story Points');
+    const ticketStatus = ref('Open');
+    const groups = ref(['Retail']);
+    const assignedUser = ref(['Jack']);
+    const parentLinks = ref('Parent Links');
+    const ticketTags = ref('Ticket Tags');
+    const ticketComments = ref('Ticket Comments');
+    const existingTicket = ref(true);
 </script>
 <script>
     export default {
@@ -98,6 +99,7 @@
             </div>
             <div class="dismiss-row">
                 <button class="btn btn-success" @click="openEditTicket('editTicket', ticketData)">Edit Ticket</button>
+                <button class="btn btn-warn" action="/ticket/delete/{id}">Delete Ticket</button>
                 <button type="button" class="btn btn-danger" @click="close">Close</button>
             </div>
             
