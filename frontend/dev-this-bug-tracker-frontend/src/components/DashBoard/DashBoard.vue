@@ -291,6 +291,7 @@
         v-if="loginFormVisable"
         @close="closeModal('loginForm')"
         :loggedUser="loggedUser.username"
+        :openEditUser="showModal"
         
     />
     <div id="container">
@@ -412,6 +413,7 @@
             v-if="userProfileVisable"
             @close="closeModal('userProfile')"
             :openEditUser="showModal"
+            :existingUser="true"
         />
         
     </template>

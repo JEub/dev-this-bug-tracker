@@ -12,6 +12,9 @@
         id: 5, name: 'securityQuestion',
         id: 6, name: 'securityAnswer',
         });
+        
+    const existingUser = ref(false);
+    const newUser = ref(true);
 
     const emit = defineEmits(['close'])
     onMounted(() => console.log(securityQuestion.value))
@@ -68,7 +71,68 @@
     <div id="modal-dialog" >
         <div class="modal-content">
             <!--http://127.0.0.1:8000/user/create-->
-            <form action="" class="modal-row">
+            <!--v-if to conditionaly redener edit form if state of exisiting user is true?
+            route to edit is put method /users/update/{id}-->
+            <form v-if="newUser" action="/user/create" method="post" class="modal-row">
+                <div class="header-row">
+                    <h3>Create / Edit User</h3>
+                    <button type="button" class="btn btn-danger" 
+                    @click="$emit('close')">Close</button>
+                </div>
+                <div class="row">
+                    <label for="">Email: </label>
+                    <input  type="text">
+                </div>
+                <div class="row">
+                    <label for="">UserName</label>
+                    <input  type="text">
+                </div>
+                <div class="row">
+                    <label for="">Password: </label>
+                    <input  type="password"> 
+                </div>
+                <div class="row">
+                    <label for="">Confirm Password: </label>
+                    <input  type="password">
+                </div>
+                <div class="box">
+                    <div >
+                        <label for="">Groups</label>
+                        <input type="checkbox" id="retail" value="Retail" >
+                        <label for="retail">Retail </label>
+                        <input type="checkbox" id="office" value="Office" >
+                        <label for="office">Office </label>
+                        <input type="checkbox" id="field" value="Field" >
+                        <label for="field">Field </label>
+                    </div>
+                    <div>
+                        <p>Current Groups: <pre>{{ groups }}</pre></p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div>
+                        <label for="">Security Question</label>
+                        <select   >
+                        <!--<option>Please make a selection</option>-->
+                            <option>What was your first pet?</option>
+                            <option>Where is your hometown?</option>
+                            <option>What is your favorite food?</option>
+                        </select>
+                    </div>
+                    <p >Selected Question: <pre>{{ securityQuestion }}</pre></p>
+                </div>
+                <div class="row">
+                    <label for="">Security Answer</label>
+                    <input  type="text">
+                </div>
+                <div class="dismiss-row">
+                    <!--Submit button should save data. close edit user modal and open user profile modal-->
+                    <button  type="submit" class="btn btn-success"
+                    @click="showModal('userProfile')">Submit!</button>
+                    <button type="button" class="btn btn-danger" @click="$emit('close')">Close</button>
+                </div>
+            </form>
+            <form v-else="existingUser" action="/user/update/{id}" method="put" class="modal-row">
                 <div class="header-row">
                     <h3>Create / Edit User</h3>
                     <button type="button" class="btn btn-danger" 
